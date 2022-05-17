@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Math</string>
+
+    // Bottom Bar
+    <string name="game_action">Game</string>
+    <string name="history_action">History</string>
+    <string name="settings_action">Settings</string>
+</resources>
