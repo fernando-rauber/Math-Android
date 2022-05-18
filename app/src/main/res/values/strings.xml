@@ -5,4 +5,18 @@
     <string name="game_action">Game</string>
     <string name="history_action">History</string>
     <string name="settings_action">Settings</string>
+
+    // Difficulty
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+
+    // Quantity
+    <string name="quantity_1">5</string>
+    <string name="quantity_2">10</string>
+    <string name="quantity_3">20</string>
+
+    // Answer Choices
+    <string name="open_answer">Open Answer</string>
+    <string name="multiple_choices">Multiple Choices</string>
 </resources>

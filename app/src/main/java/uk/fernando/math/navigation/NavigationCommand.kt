@@ -16,6 +16,13 @@ object Directions {
             get() = emptyList()
     }
 
+    val createGame = object : NavigationCommand {
+        override val name: String
+            get() = "create_game"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
     val game = object : NavigationCommand {
         override val name: String
             get() = "game"

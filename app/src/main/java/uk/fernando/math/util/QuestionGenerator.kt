@@ -4,7 +4,7 @@ import uk.fernando.math.model.Question
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
 
-class CreateQuestions {
+object QuestionGenerator {
 
     private var operatorList = listOf<Int>()
     private var quantity = 10

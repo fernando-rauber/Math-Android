@@ -15,7 +15,7 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.name) {
 
     }
-    composable(Directions.game.name) {
+    composable(Directions.createGame.name) {
         CreateGamePage(navController)
     }
     composable(Directions.history.name) {
