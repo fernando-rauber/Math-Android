@@ -3,10 +3,11 @@ package uk.fernando.math.viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.math.model.Question
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 
 
-class GameViewModel : BaseViewModel() {
+class GameViewModel(val rep: HistoryRepository) : BaseViewModel() {
 
     private var correctCount = 0
     private var incorrectCount = 0
