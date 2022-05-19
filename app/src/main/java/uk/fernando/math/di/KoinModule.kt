@@ -5,6 +5,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import uk.fernando.math.viewmodel.CreateGameViewModel
+import uk.fernando.math.viewmodel.GameViewModel
 import uk.fernando.math.viewmodel.SettingsViewModel
 
 object KoinModule {
@@ -21,6 +22,7 @@ object KoinModule {
         get() = module {
 
             viewModel { CreateGameViewModel() }
+            viewModel { GameViewModel() }
             viewModel { SettingsViewModel() }
 
         }

@@ -122,7 +122,7 @@ object QuestionGenerator {
             multipleChoice.add(createFakeAnswer(answer, multipleChoice))
         }
 
-        return multipleChoice
+        return multipleChoice.shuffled()
     }
 
     /**
