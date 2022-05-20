@@ -22,6 +22,6 @@ interface HistoryDao {
     fun insertQuestion(item: QuestionEntity)
 
     @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE id = :historyId")
-    fun getQuestionsByHistory(historyId: Long): List<HistoryWithQuestions>
+    fun getQuestionsByHistory(historyId: Int): HistoryWithQuestions
 
 }

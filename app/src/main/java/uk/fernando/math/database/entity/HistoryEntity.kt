@@ -11,6 +11,7 @@ data class HistoryEntity(
     val id: Long? = null,
 
     val date: Date = Date(),
+    val timer: Int = 0,
     var difficulty: Int = 0,
     var correct: Int = 0,
     var incorrect: Int = 0

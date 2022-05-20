@@ -12,7 +12,7 @@ import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 
 
-class GameViewModel(val rep: HistoryRepository) : BaseViewModel() {
+class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
 
     private var history = HistoryEntity()
     private val historyQuestion = mutableListOf<QuestionEntity>()
@@ -20,6 +20,7 @@ class GameViewModel(val rep: HistoryRepository) : BaseViewModel() {
     private var nextQuestion = 0
 
     val currentQuestion: MutableState<Question?> = mutableStateOf(null)
+    val historyId = mutableStateOf(0)
 
     init {
         QuestionGenerator.generateQuestions(listOf(1, 2), 3, 2, 1)
@@ -29,13 +30,16 @@ class GameViewModel(val rep: HistoryRepository) : BaseViewModel() {
         nextQuestion()
     }
 
-    fun checkAnswer(answer: Int) = flow {
+    fun checkAnswer(answer: Int) {
+        if (historyId.value != 0) // Test ended
+            return
+
         if (answer == currentQuestion.value?.answer) {
             history.correct++
 
             createHistoryQuestion(answer)
 
-            emit(nextQuestion())
+            nextQuestion()
         } else {
             if (historyQuestion.size < nextQuestion) {
                 createHistoryQuestion(answer)
@@ -44,17 +48,15 @@ class GameViewModel(val rep: HistoryRepository) : BaseViewModel() {
         }
     }
 
-    private fun nextQuestion(): Boolean {
-        return if (QuestionGenerator.getQuestionList().size > nextQuestion) {
+    private fun nextQuestion() {
+        if (QuestionGenerator.getQuestionList().size > nextQuestion) {
             currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion]
             nextQuestion++
-            false
         } else {
             launchDefault {
-                rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
+                historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
                 QuestionGenerator.clean()
             }
-            true
         }
     }
 

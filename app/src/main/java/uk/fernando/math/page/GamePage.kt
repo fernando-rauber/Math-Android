@@ -55,18 +55,30 @@ fun GamePage(
             Question(question)
 
             if (question.multipleChoices != null) {
-                MultipleChoice(correctAnswer = question.answer, answerList = question.multipleChoices) { answer ->
-                    coroutine.launch {
-                        viewModel.checkAnswer(answer).collect { navToHistory ->
-                            if (navToHistory) navController.safeNav(Directions.summary.name)
-                        }
-                    }
-                }
+                MultipleChoice(
+                    correctAnswer = question.answer,
+                    answerList = question.multipleChoices,
+                    onClick = { answer -> viewModel.checkAnswer(answer) }
+                )
             } else {
                 OpenAnswer(correctAnswer = question.answer)
             }
 
         }
+
+        if (viewModel.historyId.value != 0)
+            MyButton(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 50.dp),
+                onClick = {
+                    coroutine.launch {
+                        navController.safeNav("${Directions.summary.name}/${viewModel.historyId.value}")
+                    }
+                },
+                text = "Result"
+            )
     }
 
 }

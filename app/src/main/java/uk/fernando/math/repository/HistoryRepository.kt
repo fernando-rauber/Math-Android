@@ -14,13 +14,14 @@ class HistoryRepository(private val dao: HistoryDao) {
             question.historyId = historyID
             dao.insertQuestion(question)
         }
+        historyID.toInt()
     }
 
     suspend fun getAllHistory() = withContext(Dispatchers.IO) {
         dao.getHistory()
     }
 
-    suspend fun getQuestionByHistory(id: Long) = withContext(Dispatchers.IO) {
+    suspend fun getQuestionByHistory(id: Int) = withContext(Dispatchers.IO) {
         dao.getQuestionsByHistory(id)
     }
 

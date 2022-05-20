@@ -12,6 +12,7 @@ import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.viewmodel.CreateGameViewModel
 import uk.fernando.math.viewmodel.GameViewModel
 import uk.fernando.math.viewmodel.SettingsViewModel
+import uk.fernando.math.viewmodel.SummaryViewModel
 
 object KoinModule {
 
@@ -48,6 +49,7 @@ object KoinModule {
 
             viewModel { CreateGameViewModel() }
             viewModel { GameViewModel(get()) }
+            viewModel { SummaryViewModel(get()) }
             viewModel { SettingsViewModel() }
 
         }

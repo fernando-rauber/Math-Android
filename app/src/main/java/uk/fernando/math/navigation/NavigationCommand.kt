@@ -1,6 +1,8 @@
 package uk.fernando.math.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 interface NavigationCommand {
     val name: String
@@ -41,7 +43,9 @@ object Directions {
         override val name: String
             get() = "summary"
         override val arguments: List<NamedNavArgument>
-            get() = emptyList()
+            get() = listOf(
+                navArgument(HISTORY_ID) { type = NavType.IntType }
+            )
     }
 
     val settings = object : NavigationCommand {
@@ -50,6 +54,8 @@ object Directions {
         override val arguments: List<NamedNavArgument>
             get() = emptyList()
     }
+
+    const val HISTORY_ID = "history_id"
 }
 
 
