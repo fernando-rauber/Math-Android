@@ -6,10 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import uk.fernando.math.navigation.Directions.HISTORY_ID
-import uk.fernando.math.page.CreateGamePage
-import uk.fernando.math.page.GamePage
-import uk.fernando.math.page.SettingsPage
-import uk.fernando.math.page.SummaryPage
+import uk.fernando.math.page.*
 
 
 @ExperimentalAnimationApi
@@ -25,13 +22,14 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         GamePage(navController)
     }
     composable(Directions.summary.name.plus("/{$HISTORY_ID}")) {
-        val historyID = it.arguments?.getInt(HISTORY_ID)
+        val historyID = it.arguments?.getString(HISTORY_ID)
         if (historyID == null)
             navController.popBackStack()
         else
-            SummaryPage(navController, historyID)
+            SummaryPage(navController, historyID.toInt())
     }
     composable(Directions.history.name) {
+        HistoryPage(navController)
     }
     composable(Directions.settings.name) {
         SettingsPage()

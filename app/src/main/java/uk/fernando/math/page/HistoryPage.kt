@@ -1,0 +1,76 @@
+package uk.fernando.math.page
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
+import uk.fernando.math.component.MyButton
+import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.ext.safeNav
+import uk.fernando.math.navigation.Directions
+import uk.fernando.math.viewmodel.HistoryViewModel
+
+@ExperimentalMaterialApi
+@Composable
+fun HistoryPage(
+    navController: NavController = NavController(LocalContext.current),
+    viewModel: HistoryViewModel = getViewModel()
+) {
+    val coroutine = rememberCoroutineScope()
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+
+        TopNavigationBar(title = "History")
+
+        MyButton(
+            modifier = Modifier
+                .padding( 16.dp)
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 50.dp),
+            onClick = { navController.safeNav(Directions.createGame.name) },
+            text = "New Game"
+        )
+
+        LazyColumn(
+            state = rememberLazyListState(),
+            modifier = Modifier.weight(0.9f)
+        ) {
+
+            items(viewModel.history.value) { history ->
+
+                HistoryCard(history) {
+                    coroutine.launch {
+                        navController.safeNav(Directions.summary.name.plus("/${history.id}"))
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@Composable
+private fun HistoryCard(history: HistoryEntity, onClick: () -> Unit) {
+    Column(Modifier.clickable { onClick() }) {
+        Text(text = "Total:" + (history.correct + history.incorrect))
+        Text(text = "Correct:" + history.correct)
+        Text(text = "Incorrect:" + history.incorrect)
+    }
+}

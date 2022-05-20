@@ -23,8 +23,6 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
     val historyId = mutableStateOf(0)
 
     init {
-        QuestionGenerator.generateQuestions(listOf(1, 2), 3, 2, 1)
-
         history.difficulty = QuestionGenerator.getDifficulty()
 
         nextQuestion()
@@ -35,16 +33,13 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
             return
 
         if (answer == currentQuestion.value?.answer) {
-            history.correct++
 
             createHistoryQuestion(answer)
 
             nextQuestion()
         } else {
-            if (historyQuestion.size < nextQuestion) {
+            if (historyQuestion.size < nextQuestion)
                 createHistoryQuestion(answer)
-                history.incorrect++
-            }
         }
     }
 
@@ -66,6 +61,12 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
             //this avoid to duplicate the question
             if (historyQuestion.size >= nextQuestion)
                 return
+
+            // counter
+            if (answer == q.answer)
+                history.correct++
+            else
+                history.incorrect++
 
             val question = QuestionEntity(
                 question = "${q.first} ${q.operator.mathOperator()} ${q.second}",

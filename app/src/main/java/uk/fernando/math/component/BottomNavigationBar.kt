@@ -48,10 +48,10 @@ fun BottomNavigationBar(navController: NavController) {
                         navController.safeNav(Directions.history.name)
                 }
 
-                NavigationItemCustom(currentRoute == Directions.createGame.name, R.drawable.ic_calculate, R.string.game_action) {
-                    if (currentRoute != Directions.createGame.name)
-                        navController.safeNav(Directions.createGame.name)
-                }
+//                NavigationItemCustom(currentRoute == Directions.createGame.name, R.drawable.ic_calculate, R.string.game_action) {
+//                    if (currentRoute != Directions.createGame.name)
+//                        navController.safeNav(Directions.createGame.name)
+//                }
 
                 NavigationItemCustom(currentRoute == Directions.settings.name, R.drawable.ic_calculate, R.string.settings_action) {
                     if (currentRoute != Directions.settings.name)

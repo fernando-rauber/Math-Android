@@ -44,7 +44,7 @@ object Directions {
             get() = "summary"
         override val arguments: List<NamedNavArgument>
             get() = listOf(
-                navArgument(HISTORY_ID) { type = NavType.IntType }
+                navArgument(HISTORY_ID) { type = NavType.StringType }
             )
     }
 

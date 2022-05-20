@@ -9,10 +9,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import uk.fernando.math.database.MyDatabase
 import uk.fernando.math.repository.HistoryRepository
-import uk.fernando.math.viewmodel.CreateGameViewModel
-import uk.fernando.math.viewmodel.GameViewModel
-import uk.fernando.math.viewmodel.SettingsViewModel
-import uk.fernando.math.viewmodel.SummaryViewModel
+import uk.fernando.math.viewmodel.*
 
 object KoinModule {
 
@@ -50,6 +47,7 @@ object KoinModule {
             viewModel { CreateGameViewModel() }
             viewModel { GameViewModel(get()) }
             viewModel { SummaryViewModel(get()) }
+            viewModel { HistoryViewModel(get()) }
             viewModel { SettingsViewModel() }
 
         }
