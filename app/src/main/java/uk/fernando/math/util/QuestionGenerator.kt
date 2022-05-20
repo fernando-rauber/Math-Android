@@ -8,20 +8,59 @@ object QuestionGenerator {
 
     private var operatorList = listOf<Int>()
     private var quantity = 10
+    private var difficulty = 1
     private var multipleChoice = true // Multiple choice
 
     private var minNumber = 1
     private var maxNumber = 999
 
-    fun setUp(operator: List<Int>, quantity: Int, typeAnswer: Int, difficulty: Int) {
+    private val questionList = mutableListOf<Question>()
+
+    fun generateQuestions(operator: List<Int>, quantity: Int, typeAnswer: Int, difficulty: Int) {
         this.operatorList = operator
         this.quantity = quantity
         this.multipleChoice = typeAnswer == 2
 
         setDifficulty(difficulty)
+
+        for (i in 1..quantity) {
+            val question = createQuestion(operatorList.random())
+
+            questionList.add(question)
+        }
+    }
+
+
+    /**
+     * Returns difficulty level 1(easy) 2(medium) 3(hard).
+     */
+    fun getDifficulty() = difficulty
+
+    /**
+     * Returns a list of Questions .
+     */
+    fun getQuestionList() = questionList
+
+    fun clean() {
+        questionList.clear()
+    }
+
+    /**
+     * Returns a question based on the math operator.
+     */
+    private fun createQuestion(operator: Int): Question {
+        return when (getByValue(operator)) {
+            ADDITION, SUBTRACTION -> getQuestionPlusMinus(operator)
+            DIVISION, MULTIPLICATION -> getQuestionDivTimes(operator)
+            PERCENTAGE -> getQuestionPlusMinus(operator)
+            SQUARE -> getQuestionPlusMinus(operator)
+            else -> getQuestionPlusMinus(operator) // FRACTION
+        }
     }
 
     private fun setDifficulty(difficulty: Int) {
+        this.difficulty = difficulty
+
         when (difficulty) {
             1 -> {
                 minNumber = 1
@@ -35,33 +74,6 @@ object QuestionGenerator {
                 minNumber = 100
                 maxNumber = 999
             }
-        }
-    }
-    /**
-     * Returns a list of Question based on the parameters on setUp function.
-     */
-    fun generateQuestions(): List<Question> {
-        val questionList = mutableListOf<Question>()
-
-        for (i in 1..quantity) {
-            val question = createQuestion(operatorList.random())
-
-            questionList.add(question)
-        }
-
-        return questionList
-    }
-
-    /**
-     * Returns a question based on the math operator.
-     */
-    private fun createQuestion(operator: Int): Question {
-        return when (getByValue(operator)) {
-            ADDITION, SUBTRACTION -> getQuestionPlusMinus(operator)
-            DIVISION, MULTIPLICATION -> getQuestionDivTimes(operator)
-            PERCENTAGE -> getQuestionPlusMinus(operator)
-            SQUARE -> getQuestionPlusMinus(operator)
-            else -> getQuestionPlusMinus(operator) // FRACTION
         }
     }
 

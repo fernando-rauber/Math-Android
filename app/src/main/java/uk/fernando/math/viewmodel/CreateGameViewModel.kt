@@ -33,7 +33,7 @@ class CreateGameViewModel() : BaseViewModel() {
 
     fun generateQuestion() = flow {
         // Loading
-        QuestionGenerator.setUp(operatorOptions, quantity, typeAnswer, difficulty)
+        QuestionGenerator.generateQuestions(operatorOptions, quantity, typeAnswer, difficulty)
 
         emit(true)
     }

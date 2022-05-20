@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import uk.fernando.math.page.CreateGamePage
 import uk.fernando.math.page.GamePage
 import uk.fernando.math.page.SettingsPage
+import uk.fernando.math.page.SummaryPage
 
 
 @ExperimentalAnimationApi
@@ -21,6 +22,9 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
     }
     composable(Directions.game.name) {
         GamePage(navController)
+    }
+    composable(Directions.summary.name) {
+        SummaryPage(navController)
     }
     composable(Directions.history.name) {
     }

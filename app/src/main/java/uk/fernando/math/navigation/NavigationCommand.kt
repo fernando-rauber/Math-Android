@@ -37,6 +37,13 @@ object Directions {
             get() = emptyList()
     }
 
+    val summary = object : NavigationCommand {
+        override val name: String
+            get() = "summary"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
     val settings = object : NavigationCommand {
         override val name: String
             get() = "settings"

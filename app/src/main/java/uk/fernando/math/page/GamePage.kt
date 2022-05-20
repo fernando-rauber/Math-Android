@@ -21,11 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
+import uk.fernando.math.ext.safeNav
 import uk.fernando.math.model.Question
+import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.*
 import uk.fernando.math.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
@@ -52,8 +55,12 @@ fun GamePage(
             Question(question)
 
             if (question.multipleChoices != null) {
-                MultipleChoice(correctAnswer = question.answer, answerList = question.multipleChoices) { isCorrect ->
-                    viewModel.checkQuestion(isCorrect)
+                MultipleChoice(correctAnswer = question.answer, answerList = question.multipleChoices) { answer ->
+                    coroutine.launch {
+                        viewModel.checkAnswer(answer).collect { navToHistory ->
+                            if (navToHistory) navController.safeNav(Directions.summary.name)
+                        }
+                    }
                 }
             } else {
                 OpenAnswer(correctAnswer = question.answer)
@@ -100,7 +107,7 @@ private fun ColumnScope.Question(question: Question) {
 }
 
 @Composable
-private fun MultipleChoice(correctAnswer: Int, answerList: List<Int>, onClick: (Boolean) -> Unit) {
+private fun MultipleChoice(correctAnswer: Int, answerList: List<Int>, onClick: (Int) -> Unit) {
     Column {
         Row {
             AnswerCard(correctAnswer, answerList[0], orange, onClick)
@@ -145,7 +152,7 @@ private fun OpenAnswer(correctAnswer: Int) {
 }
 
 @Composable
-private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: Color, onClick: (Boolean) -> Unit) {
+private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: Color, onClick: (Int) -> Unit) {
     var currentColor by remember { mutableStateOf(color) }
 
     Box(
@@ -155,7 +162,7 @@ private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: Color, o
             .clip(MaterialTheme.shapes.medium)
             .background(currentColor)
             .clickable {
-                onClick(correctAnswer == answer)
+                onClick(answer)
                 if (correctAnswer != answer)
                     currentColor = red
             },

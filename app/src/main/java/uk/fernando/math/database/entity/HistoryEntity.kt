@@ -10,10 +10,10 @@ data class HistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
-    val date: Date ,
-    val difficulty: Int,
-    val correct: Int,
-    val incorrect: Int
+    val date: Date = Date(),
+    var difficulty: Int = 0,
+    var correct: Int = 0,
+    var incorrect: Int = 0
 
 ) : Serializable {
 

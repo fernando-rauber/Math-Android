@@ -15,10 +15,10 @@ data class QuestionEntity(
     var id: Long? = null,
 
     val question: String,
-    val answer: String,
-    val correctAnswer: String,
+    val answer: Int,
+    val correctAnswer: Int,
     @ColumnInfo(name = "history_id", index = true)
-    var historyId: Long
+    var historyId: Long = 0
 
 ) : Serializable {
 

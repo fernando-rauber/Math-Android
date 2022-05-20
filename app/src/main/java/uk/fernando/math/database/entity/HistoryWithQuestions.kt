@@ -10,6 +10,6 @@ data class HistoryWithQuestions(
     @Embedded val history: HistoryEntity,
 
     @Relation(parentColumn = "id", entityColumn = "history_id", entity = QuestionEntity::class)
-    val questionList: List<QuestionEntity>
+    val questionList: MutableList<QuestionEntity> = mutableListOf()
 
 ) : Serializable
