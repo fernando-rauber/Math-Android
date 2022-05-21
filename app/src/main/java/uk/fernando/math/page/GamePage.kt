@@ -27,6 +27,7 @@ import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.ext.safeNav
+import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.*
@@ -93,9 +94,8 @@ private fun Timer() {
             seconds++
         }
     }
-    val minutes = seconds / 60
 
-    Text(text = "${minutes.toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}")
+    Text(text = seconds.timerFormat())
 }
 
 @Composable

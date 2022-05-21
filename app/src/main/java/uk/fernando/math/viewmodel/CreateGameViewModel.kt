@@ -1,5 +1,7 @@
 package uk.fernando.math.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import uk.fernando.math.util.QuestionGenerator
 
@@ -10,7 +12,7 @@ class CreateGameViewModel() : BaseViewModel() {
     private var quantity = 10
     private var typeAnswer = 2 // Multiple choice
     private var difficulty = 2 // Medium
-
+    val loading = mutableStateOf(false)
 
     fun setMathOptions(option: Int) {
         if (operatorOptions.contains(option))
@@ -33,8 +35,11 @@ class CreateGameViewModel() : BaseViewModel() {
 
     fun generateQuestion() = flow {
         // Loading
+        loading.value = true
         QuestionGenerator.generateQuestions(operatorOptions, quantity, typeAnswer, difficulty)
+        delay(2000L)
 
+        loading.value = false
         emit(true)
     }
 }

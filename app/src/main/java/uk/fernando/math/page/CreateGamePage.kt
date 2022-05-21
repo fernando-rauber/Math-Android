@@ -63,6 +63,7 @@ fun CreateGamePage(
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 50.dp),
             text = "Start",
+            isLoading = viewModel.loading.value,
             onClick = {
                 coroutine.launch {
                     viewModel.generateQuestion().collect {
@@ -137,9 +138,9 @@ private fun QuestionQuantity(onSelected: (Int) -> Unit) {
         Text(text = "How many question would you like")
 
         val quantity = listOf(
-            RadioButtonData(R.string.quantity_1, 1),
-            RadioButtonData(R.string.quantity_2, 2),
-            RadioButtonData(R.string.quantity_3, 3)
+            RadioButtonData(R.string.quantity_1, 5),
+            RadioButtonData(R.string.quantity_2, 10),
+            RadioButtonData(R.string.quantity_3, 20)
         )
 
         MyRadioButton(items = quantity,
