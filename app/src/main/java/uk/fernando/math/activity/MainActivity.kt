@@ -7,6 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
+import uk.fernando.math.ui.theme.orange
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
@@ -36,7 +38,8 @@ class MainActivity : ComponentActivity() {
                             Directions.history.name, Directions.settings.name ->
                                 BottomNavigationBar(controller)
                         }
-                    }
+                    },
+                    backgroundColor = MaterialTheme.colors.background.copy(0.2f)
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {

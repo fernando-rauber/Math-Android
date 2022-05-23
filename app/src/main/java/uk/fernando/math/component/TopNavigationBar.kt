@@ -5,10 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import uk.fernando.math.ui.theme.orange
 
 @Composable
 fun TopNavigationBar(
@@ -30,7 +28,7 @@ fun TopNavigationBar(
         Box(
             Modifier
                 .fillMaxWidth()
-                .background(Color.White)
+                .background(MaterialTheme.colors.background)
                 .padding(8.dp)
         ) {
 
@@ -45,8 +43,8 @@ fun TopNavigationBar(
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                color = Color.White,
+                style = MaterialTheme.typography.h4
             )
 
             if (rightIcon != null) {

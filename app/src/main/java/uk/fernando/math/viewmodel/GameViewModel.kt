@@ -1,5 +1,6 @@
 package uk.fernando.math.viewmodel
 
+import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.flow
@@ -21,11 +22,32 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
 
     val currentQuestion: MutableState<Question?> = mutableStateOf(null)
     val historyId = mutableStateOf(0)
+    val chronometerSeconds = mutableStateOf(0)
 
-    init {
+    private val chronometer = object : CountDownTimer(30000000, 1000) {
+
+        override fun onTick(millisUntilFinished: Long) {
+            chronometerSeconds.value++
+        }
+
+        override fun onFinish() {
+        }
+    }
+
+    fun startGame() {
+        clean()
+
         history.difficulty = QuestionGenerator.getDifficulty()
 
         nextQuestion()
+        chronometer.start()
+    }
+
+    private fun clean() {
+        history = HistoryEntity()
+        nextQuestion = 0
+        chronometerSeconds.value = 0
+        historyQuestion.clear()
     }
 
     fun checkAnswer(answer: Int) {
@@ -48,10 +70,16 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
             currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion]
             nextQuestion++
         } else {
-            launchDefault {
-                historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
-                QuestionGenerator.clean()
-            }
+            createHistory()
+        }
+    }
+
+    private fun createHistory() {
+        launchDefault {
+            chronometer.cancel()
+            history.timer = chronometerSeconds.value
+            historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
+            QuestionGenerator.clean()
         }
     }
 

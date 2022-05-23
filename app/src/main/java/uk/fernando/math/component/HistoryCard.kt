@@ -24,7 +24,7 @@ import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.pastel_red
 
 @Composable
-fun HistoryCard(modifier: Modifier = Modifier,history: HistoryEntity) {
+fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -95,13 +95,17 @@ fun HistoryCard(modifier: Modifier = Modifier,history: HistoryEntity) {
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(0.7f)
-                .background(history.difficulty.difficultyColor())
+                .background(
+                    history.difficulty
+                        .difficultyColor()
+                        .copy(0.5f)
+                )
         ) {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
                 color = Color.White,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.body1,
                 text = stringResource(id = history.difficulty.difficultyName())
             )
         }

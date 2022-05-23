@@ -30,7 +30,7 @@ fun BottomNavigationBar(navController: NavController) {
             modifier = Modifier
                 .shadow(5.dp)
                 .align(Alignment.BottomCenter),
-            elevation = 16.dp,
+            elevation = 5.dp,
             shape = MaterialTheme.shapes.medium.copy(
                 bottomEnd = CornerSize(0.dp),
                 bottomStart = CornerSize(0.dp)
@@ -39,7 +39,7 @@ fun BottomNavigationBar(navController: NavController) {
 
             BottomNavigation(
                 modifier = Modifier,
-//                backgroundColor = blue
+                backgroundColor = MaterialTheme.colors.background
             ) {
                 val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 

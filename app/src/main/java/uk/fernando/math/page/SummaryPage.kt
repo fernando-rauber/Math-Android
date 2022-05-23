@@ -3,6 +3,9 @@ package uk.fernando.math.page
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
@@ -54,15 +57,31 @@ fun SummaryPage(
 
             HistoryCard(Modifier.background(green_pastel), history = history.history)
 
-            LazyColumn(
-                modifier = Modifier.padding(10.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
+            //User grid
 
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(
+                    start = 12.dp,
+                    top = 16.dp,
+                    end = 12.dp,
+                    bottom = 16.dp
+                ),
+            ) {
                 items(history.questionList) { question ->
                     MathCard(question.question, question.answer, question.correctAnswer)
                 }
             }
+
+//            LazyColumn(
+//                modifier = Modifier.padding(10.dp),
+//                contentPadding = PaddingValues(16.dp)
+//            ) {
+//
+//                items(history.questionList) { question ->
+//                    MathCard(question.question, question.answer, question.correctAnswer)
+//                }
+//            }
         }
     }
 }

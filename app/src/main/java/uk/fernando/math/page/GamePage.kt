@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,6 +25,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
@@ -42,6 +45,10 @@ fun GamePage(
 ) {
     val coroutine = rememberCoroutineScope()
 
+    LaunchedEffect(Unit) {
+        viewModel.startGame()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +56,7 @@ fun GamePage(
     ) {
 
         // Timer
-        Timer()
+        Timer(viewModel.chronometerSeconds.value)
 
         viewModel.currentQuestion.value?.let { question ->
 
@@ -85,17 +92,20 @@ fun GamePage(
 }
 
 @Composable
-private fun Timer() {
-    var seconds by remember { mutableStateOf(0) }
+private fun Timer(seconds: Int) {
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1.seconds)
-            seconds++
-        }
+    Row() {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_timer),
+            contentDescription = null,
+        )
+        Text(
+            text = seconds.timerFormat(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
+
     }
-
-    Text(text = seconds.timerFormat())
 }
 
 @Composable

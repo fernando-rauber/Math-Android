@@ -3,20 +3,20 @@ package uk.fernando.math.page
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.MyButton
-import uk.fernando.math.component.MyCheckBox
-import uk.fernando.math.component.MyRadioButton
-import uk.fernando.math.component.RadioButtonData
+import uk.fernando.math.component.*
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.CreateGameViewModel
@@ -30,48 +30,53 @@ fun CreateGamePage(
 
     val coroutine = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    Column(Modifier.fillMaxSize()) {
 
-        BasicMathOptions(viewModel)
+        TopNavigationBar(
+            title = "Result",
+            leftIcon = R.drawable.ic_arrow_back,
+            onLeftIconClick = { navController.popBackStack() }
+        )
 
-        Divider()
+        Column(Modifier.padding(16.dp)) {
 
-        QuestionQuantity { quantity ->
-            viewModel.setQuantity(quantity)
-        }
+            BasicMathOptions(viewModel)
 
-        Divider()
+            Divider()
 
-        AnswerType { type ->
-            viewModel.setTypeAnswer(type)
-        }
+            QuestionQuantity { quantity ->
+                viewModel.setQuantity(quantity)
+            }
 
-        Divider()
+            Divider()
 
-        Difficulty { difficult ->
-            viewModel.setDifficulty(difficult)
-        }
+            AnswerType { type ->
+                viewModel.setTypeAnswer(type)
+            }
 
-        Spacer(Modifier.weight(1f))
+            Divider()
 
-        MyButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 50.dp),
-            text = "Start",
-            isLoading = viewModel.loading.value,
-            onClick = {
-                coroutine.launch {
-                    viewModel.generateQuestion().collect {
-                        if (it) navController.safeNav(Directions.game.name)
+            Difficulty { difficult ->
+                viewModel.setDifficulty(difficult)
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MyButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 50.dp),
+                text = "Start",
+                isLoading = viewModel.loading.value,
+                onClick = {
+                    coroutine.launch {
+                        viewModel.generateQuestion().collect {
+                            if (it) navController.safeNav(Directions.game.name)
+                        }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 
 }
