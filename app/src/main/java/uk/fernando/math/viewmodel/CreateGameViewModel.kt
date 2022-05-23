@@ -36,11 +36,10 @@ class CreateGameViewModel() : BaseViewModel() {
     fun generateQuestion() = flow {
         // Loading
         loading.value = true
-        QuestionGenerator.generateQuestions(operatorOptions, quantity, typeAnswer, difficulty)
-        delay(2000L)
+        val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, typeAnswer, difficulty)
 
-        loading.value = false
-        emit(true)
+        loading.value = !finished
+        emit(finished)
     }
 }
 

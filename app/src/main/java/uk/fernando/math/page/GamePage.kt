@@ -22,20 +22,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
-import uk.fernando.math.ext.safeNav
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.*
 import uk.fernando.math.viewmodel.GameViewModel
-import kotlin.time.Duration.Companion.seconds
 
 @ExperimentalMaterialApi
 @Composable
@@ -56,7 +53,7 @@ fun GamePage(
     ) {
 
         // Timer
-        Timer(viewModel.chronometerSeconds.value)
+        Timer(viewModel)
 
         viewModel.currentQuestion.value?.let { question ->
 
@@ -82,7 +79,10 @@ fun GamePage(
                     .defaultMinSize(minHeight = 50.dp),
                 onClick = {
                     coroutine.launch {
-                        navController.safeNav("${Directions.summary.name}/${viewModel.historyId.value}")
+                        navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
+                            popUpTo(Directions.game.name) { inclusive = true }
+                            popUpTo(Directions.createGame.name) { inclusive = true }
+                        }
                     }
                 },
                 text = "Result"
@@ -92,15 +92,15 @@ fun GamePage(
 }
 
 @Composable
-private fun Timer(seconds: Int) {
+private fun Timer(viewModel: GameViewModel) {
 
-    Row() {
+    Row(horizontalArrangement = Arrangement.Center) {
         Icon(
             painter = painterResource(id = R.drawable.ic_timer),
             contentDescription = null,
         )
         Text(
-            text = seconds.timerFormat(),
+            text = viewModel.chronometerSeconds.value.timerFormat(),
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp
         )
@@ -130,16 +130,29 @@ private fun ColumnScope.Question(question: Question) {
 
 @Composable
 private fun MultipleChoice(correctAnswer: Int, answerList: List<Int>, onClick: (Int) -> Unit) {
+    val color1 = remember { mutableStateOf(orange) }
+    val color2 = remember { mutableStateOf(green_pastel) }
+    val color3 = remember { mutableStateOf(pastel_red) }
+    val color4 = remember { mutableStateOf(purple) }
+
+    // To refresh all the multiple choices back to the original color
+    if (correctAnswer > 0) {
+        color1.value = orange
+        color2.value = green_pastel
+        color3.value = pastel_red
+        color4.value = purple
+    }
+
     Column {
         Row {
-            AnswerCard(correctAnswer, answerList[0], orange, onClick)
-            Spacer(modifier = Modifier.width(16.dp))
-            AnswerCard(correctAnswer, answerList[1], pastel_red, onClick)
+            AnswerCard(correctAnswer, answerList[0], color1, onClick)
+            Spacer(Modifier.width(16.dp))
+            AnswerCard(correctAnswer, answerList[1], color2, onClick)
         }
         Row(Modifier.padding(top = 16.dp)) {
-            AnswerCard(correctAnswer, answerList[2], green_pastel, onClick)
-            Spacer(modifier = Modifier.width(16.dp))
-            AnswerCard(correctAnswer, answerList[3], purple, onClick)
+            AnswerCard(correctAnswer, answerList[2], color3, onClick)
+            Spacer(Modifier.width(16.dp))
+            AnswerCard(correctAnswer, answerList[3], color4, onClick)
         }
     }
 }
@@ -174,19 +187,19 @@ private fun OpenAnswer(correctAnswer: Int) {
 }
 
 @Composable
-private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: Color, onClick: (Int) -> Unit) {
-    var currentColor by remember { mutableStateOf(color) }
+private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: MutableState<Color>, onClick: (Int) -> Unit) {
 
     Box(
         modifier = Modifier
             .weight(1f)
             .defaultMinSize(minHeight = 100.dp)
             .clip(MaterialTheme.shapes.medium)
-            .background(currentColor)
+            .background(color.value)
             .clickable {
                 onClick(answer)
-                if (correctAnswer != answer)
-                    currentColor = red
+                if (correctAnswer != answer) {
+                    color.value = red
+                }
             },
         contentAlignment = Alignment.Center
     ) {

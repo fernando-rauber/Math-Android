@@ -96,16 +96,15 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                 .fillMaxHeight()
                 .weight(0.7f)
                 .background(
-                    history.difficulty
-                        .difficultyColor()
-                        .copy(0.5f)
+                    Color.White.copy(0.2f)
                 )
         ) {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
-                color = Color.White,
+                color = history.difficulty.difficultyColor(),
                 style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.Bold,
                 text = stringResource(id = history.difficulty.difficultyName())
             )
         }

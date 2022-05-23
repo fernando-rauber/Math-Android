@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
@@ -11,6 +12,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -19,12 +22,14 @@ import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
 import uk.fernando.math.ui.theme.orange
+import uk.fernando.math.util.QuestionGenerator
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        QuestionGenerator.generateQuestions(listOf(1,2), 3, 2,1)
         setContent {
 
             val controller = rememberNavController()
@@ -33,19 +38,26 @@ class MainActivity : ComponentActivity() {
             MyMathTheme {
 
                 Scaffold(
+//                    modifier = Modifier.background(
+//                        Brush.verticalGradient(
+//                        colors = listOf(
+//                            MaterialTheme.colors.background.copy(0.9f),
+//                            MaterialTheme.colors.background.copy(0.4f)
+//                        )
+//                    )),
                     bottomBar = {
                         when (navBackStackEntry?.destination?.route) {
                             Directions.history.name, Directions.settings.name ->
                                 BottomNavigationBar(controller)
                         }
                     },
-                    backgroundColor = MaterialTheme.colors.background.copy(0.2f)
+                    backgroundColor = Color.Transparent
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.history.name
+                            startDestination = Directions.game.name
                         ) {
                             buildGraph(controller)
                         }

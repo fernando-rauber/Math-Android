@@ -118,20 +118,20 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
             })
         }
 
-        Row {
-            MyCheckBox(title = "Percentage", isChecked = percentage, onCheckedChange = {
-                percentage = it
-                viewModel.setMathOptions(5)
-            })
-            MyCheckBox(title = "Square", isChecked = square, onCheckedChange = {
-                square = it
-                viewModel.setMathOptions(6)
-            })
-            MyCheckBox(title = "Fraction", isChecked = fraction, onCheckedChange = {
-                fraction = it
-                viewModel.setMathOptions(7)
-            })
-        }
+//        Row {
+//            MyCheckBox(title = "Percentage", isChecked = percentage, onCheckedChange = {
+//                percentage = it
+//                viewModel.setMathOptions(5)
+//            })
+//            MyCheckBox(title = "Square", isChecked = square, onCheckedChange = {
+//                square = it
+//                viewModel.setMathOptions(6)
+//            })
+//            MyCheckBox(title = "Fraction", isChecked = fraction, onCheckedChange = {
+//                fraction = it
+//                viewModel.setMathOptions(7)
+//            })
+//        }
 
     }
 }

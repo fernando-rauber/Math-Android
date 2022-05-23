@@ -5,16 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import uk.fernando.math.ui.theme.orange
 
 @Composable
 fun TopNavigationBar(
@@ -24,33 +24,31 @@ fun TopNavigationBar(
     rightIcon: (@Composable () -> Unit)? = null
 ) {
 
-    Surface(elevation = 4.dp) {
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colors.background)
-                .padding(8.dp)
-        ) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent)
+            .padding(8.dp)
+    ) {
 
-            IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {
-                if (leftIcon != null)
-                    Icon(
-                        painter = painterResource(leftIcon),
-                        contentDescription = null
-                    )
-            }
+        IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {
+            if (leftIcon != null)
+                Icon(
+                    painter = painterResource(leftIcon),
+                    contentDescription = null
+                )
+        }
 
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = title,
-                color = Color.White,
-                style = MaterialTheme.typography.h4
-            )
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.h4
+        )
 
-            if (rightIcon != null) {
-                Box(Modifier.align(Alignment.CenterEnd)) {
-                    rightIcon()
-                }
+        if (rightIcon != null) {
+            Box(Modifier.align(Alignment.CenterEnd)) {
+                rightIcon()
             }
         }
     }

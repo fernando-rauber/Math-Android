@@ -16,7 +16,7 @@ object QuestionGenerator {
 
     private val questionList = mutableListOf<Question>()
 
-    fun generateQuestions(operator: List<Int>, quantity: Int, typeAnswer: Int, difficulty: Int) {
+    fun generateQuestions(operator: List<Int>, quantity: Int, typeAnswer: Int, difficulty: Int) : Boolean {
         this.operatorList = operator
         this.quantity = quantity
         this.multipleChoice = typeAnswer == 2
@@ -28,6 +28,8 @@ object QuestionGenerator {
 
             questionList.add(question)
         }
+
+        return true
     }
 
 

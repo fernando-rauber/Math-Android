@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -43,13 +44,15 @@ fun HistoryPage(
 
         MyButton(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 50.dp),
             color = green_pastel,
             onClick = { navController.safeNav(Directions.createGame.name) },
             text = "New Game"
         )
+
+        Divider(Modifier.padding(16.dp))
 
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -77,7 +80,7 @@ private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
             .padding(top = 10.dp)
             .clip(MaterialTheme.shapes.medium)
             .clickable { onClick() },
-        color = purple,
+        color = blueDark,
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
