@@ -3,7 +3,7 @@ package uk.fernando.math.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,13 +28,13 @@ fun MyButton(
     textModifier: Modifier = Modifier,
     borderStroke: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    elevation: ButtonElevation = ButtonDefaults.elevation(0.dp, 0.dp)
+    elevation: ButtonElevation = ButtonDefaults.buttonElevation(4.dp, 0.dp)
 ) {
     Button(
         border = borderStroke,
         modifier = modifier,
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(backgroundColor = color, disabledBackgroundColor = grey),
+        colors = ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = grey),
         elevation = elevation,
         contentPadding = contentPadding,
         onClick = { if (!isLoading) onClick() }

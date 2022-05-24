@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +42,7 @@ private fun CreateSnackBar(backgroundColor: Color, message: String) {
     Snackbar(
         modifier = Modifier.padding(0.dp),
         shape = RoundedCornerShape(0, 0, 10, 10),
-        backgroundColor = backgroundColor
+        containerColor = backgroundColor
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
 
@@ -57,8 +57,6 @@ private fun CreateSnackBar(backgroundColor: Color, message: String) {
                     .padding(vertical = 15.dp)
             )
         }
-
-
     }
 }
 

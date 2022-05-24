@@ -5,7 +5,12 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +35,7 @@ fun BottomNavigationBar(navController: NavController) {
             modifier = Modifier
                 .shadow(5.dp)
                 .align(Alignment.BottomCenter),
-            elevation = 5.dp,
+            tonalElevation = 5.dp,
             shape = MaterialTheme.shapes.medium.copy(
                 bottomEnd = CornerSize(0.dp),
                 bottomStart = CornerSize(0.dp)
@@ -39,7 +44,7 @@ fun BottomNavigationBar(navController: NavController) {
 
             BottomNavigation(
                 modifier = Modifier,
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colorScheme.background
             ) {
                 val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 

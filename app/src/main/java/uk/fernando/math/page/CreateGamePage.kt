@@ -1,18 +1,14 @@
 package uk.fernando.math.page
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
+import androidx.compose.material3.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.IconButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R

@@ -2,9 +2,9 @@ package uk.fernando.math.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.ext.difficultyColor
@@ -103,7 +102,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                 modifier = Modifier
                     .align(Alignment.Center),
                 color = history.difficulty.difficultyColor(),
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Bold,
                 text = stringResource(id = history.difficulty.difficultyName())
             )

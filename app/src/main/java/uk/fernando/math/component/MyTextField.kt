@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -57,8 +57,8 @@ fun MyTextField(
                 disabledBorderColor = Color.Transparent,
                 disabledTextColor = greyDark,
                 unfocusedBorderColor = greyDark.copy(ContentAlpha.disabled),
-                focusedBorderColor = MaterialTheme.colors.primary,
-                cursorColor = MaterialTheme.colors.primary,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
             ),
             readOnly = readOnly,
             enabled = enable,
@@ -68,8 +68,8 @@ fun MyTextField(
         if (isError && errorText.isNotEmpty()) {
             Text(
                 text = errorText,
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }

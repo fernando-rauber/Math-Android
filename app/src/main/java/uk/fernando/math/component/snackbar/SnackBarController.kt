@@ -1,8 +1,7 @@
 package uk.fernando.math.component.snackbar
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -15,7 +14,6 @@ import kotlinx.coroutines.launch
  * show one after another.
  *
  */
-@ExperimentalMaterialApi
 class SnackBarController
 constructor(private val scope: CoroutineScope) {
 
@@ -28,24 +26,24 @@ constructor(private val scope: CoroutineScope) {
     fun getScope() = scope
 
     fun showSnackBar(
-        scaffoldState: ScaffoldState,
+        scaffoldState: SnackbarHostState,
         message: String = "",
         longDuration: Boolean
     ) {
         if (snackBarJob == null) {
             snackBarJob = scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.showSnackbar(
                     message = message,
-                    duration = if(longDuration) SnackbarDuration.Long else SnackbarDuration.Short
+                    duration = if (longDuration) SnackbarDuration.Long else SnackbarDuration.Short
                 )
                 cancelActiveJob()
             }
         } else {
             cancelActiveJob()
             snackBarJob = scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.showSnackbar(
                     message = message,
-                    duration = if(longDuration) SnackbarDuration.Long else SnackbarDuration.Short
+                    duration = if (longDuration) SnackbarDuration.Long else SnackbarDuration.Short
                 )
                 cancelActiveJob()
             }
