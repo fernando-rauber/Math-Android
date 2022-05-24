@@ -1,10 +1,16 @@
 package uk.fernando.math.util
 
+import android.util.Log
 import uk.fernando.math.model.Question
+import uk.fernando.math.model.enum.Difficulty
+import uk.fernando.math.model.enum.Difficulty.*
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
+import java.lang.Math.pow
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 object QuestionGenerator {
 
@@ -27,7 +33,7 @@ object QuestionGenerator {
 
         for (i in 1..quantity) {
             val question = createQuestion(operatorList.random())
-
+            Log.e("*****", "${question.second} - ${question.answer} ")
             questionList.add(question)
         }
 
@@ -57,7 +63,7 @@ object QuestionGenerator {
             ADDITION, SUBTRACTION -> getQuestionPlusMinus(operator)
             DIVISION, MULTIPLICATION -> getQuestionDivTimes(operator)
             PERCENTAGE -> getQuestionPercentage()
-            SQUARE -> getQuestionPlusMinus(operator)
+            SQUARE -> getQuestionSquareRoot()
             else -> getQuestionPlusMinus(operator) // FRACTION
         }
     }
@@ -65,16 +71,16 @@ object QuestionGenerator {
     private fun setDifficulty(difficulty: Int) {
         this.difficulty = difficulty
 
-        when (difficulty) {
-            1 -> {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> {
                 minNumber = 1
                 maxNumber = 50
             }
-            2 -> {
+            MEDIUM -> {
                 minNumber = 10
                 maxNumber = 150
             }
-            3 -> {
+            HARD -> {
                 minNumber = 100
                 maxNumber = 999
             }
@@ -139,6 +145,25 @@ object QuestionGenerator {
         return Question(
             first = first.toString(),
             operator = 5,
+            second = second.toString(),
+            answer = answer.toInt(),
+            multipleChoices = if (multipleChoice) generateMultipleChoices(answer.toInt()) else null
+        )
+    }
+
+    // For Operators square root
+    private fun getQuestionSquareRoot(): Question {
+        val max = when (Difficulty.getByValue(difficulty)) {
+            EASY -> 27
+            MEDIUM -> 60
+            else -> 120
+        }
+        val second = (1..max).random()
+        val answer = second.toDouble().pow(2.0)
+
+        return Question(
+            first = "",
+            operator = 6,
             second = second.toString(),
             answer = answer.toInt(),
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer.toInt()) else null

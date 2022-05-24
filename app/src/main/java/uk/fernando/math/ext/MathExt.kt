@@ -14,7 +14,7 @@ fun Int.mathOperator(): String {
         MULTIPLICATION -> "x"
         DIVISION -> "/"
         PERCENTAGE -> "%"
-        SQUARE -> "Square"
+        SQUARE -> "Square of"
         else -> "FRACTION" // FRACTION
     }
 }
