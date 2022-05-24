@@ -42,8 +42,7 @@ fun TopNavigationBar(
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
 
         if (rightIcon != null) {

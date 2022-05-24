@@ -1,27 +1,31 @@
 package uk.fernando.math.page
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconToggleButton
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.*
+import uk.fernando.math.ext.TAG
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.CreateGameViewModel
+import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @Composable
@@ -35,7 +39,7 @@ fun CreateGamePage(
     Column(Modifier.fillMaxSize()) {
 
         TopNavigationBar(
-            title = "Result",
+            title = "Create Question",
             leftIcon = R.drawable.ic_arrow_back,
             onLeftIconClick = { navController.popBackStack() }
         )
@@ -44,19 +48,19 @@ fun CreateGamePage(
 
             BasicMathOptions(viewModel)
 
-            Divider()
+            Divider(Modifier.padding(vertical = 16.dp))
 
             QuestionQuantity { quantity ->
                 viewModel.setQuantity(quantity)
             }
 
-            Divider()
+            Divider(Modifier.padding(vertical = 16.dp))
 
-            AnswerType { type ->
-                viewModel.setTypeAnswer(type)
+            AnswerType { multipleChoice ->
+                viewModel.setTypeAnswer(multipleChoice)
             }
 
-            Divider()
+            Divider(Modifier.padding(vertical = 16.dp))
 
             Difficulty { difficult ->
                 viewModel.setDifficulty(difficult)
@@ -85,18 +89,8 @@ fun CreateGamePage(
 
 @Composable
 private fun BasicMathOptions(viewModel: CreateGameViewModel) {
-    var addition by remember { mutableStateOf(true) }
-    var subtraction by remember { mutableStateOf(true) }
-    var multiplication by remember { mutableStateOf(true) }
-    var division by remember { mutableStateOf(true) }
-
-    // Premium Users
-    var percentage by remember { mutableStateOf(true) }
-    var square by remember { mutableStateOf(true) }
-    var fraction by remember { mutableStateOf(true) }
-
     Column {
-        Text(text = "Math Options")
+        //Text(text = "Math Operator")
 
         Row(Modifier.padding(vertical = 10.dp)) {
             MathOperatorIcon(R.drawable.ic_math_addition) { viewModel.setMathOptions(1) }
@@ -108,7 +102,7 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
         Row {
             MathOperatorIcon(R.drawable.ic_math_percentage) { viewModel.setMathOptions(5) }
             MathOperatorIcon(R.drawable.ic_math_square_root) { viewModel.setMathOptions(6) }
-            
+
             Spacer(modifier = Modifier.weight(2f))
         }
 
@@ -122,56 +116,71 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
 
 @Composable
 private fun QuestionQuantity(onSelected: (Int) -> Unit) {
+    var quantity by remember { mutableStateOf(10f) }
 
     Column {
-        Text(text = "How many question would you like")
+        Text(text = "Quantity: ${quantity.toInt()}")
 
-        val quantity = listOf(
-            RadioButtonData(R.string.quantity_1, 5),
-            RadioButtonData(R.string.quantity_2, 10),
-            RadioButtonData(R.string.quantity_3, 20)
+        Slider(
+            modifier = Modifier.padding(vertical = 10.dp),
+            value = quantity,
+            onValueChange = {
+                quantity = it
+                onSelected(it.toInt())
+            },
+            steps = 4,
+            valueRange = 5f..30f,
         )
-
-        MyRadioButton(items = quantity,
-            itemSelected = quantity[1],
-            onClick = { onSelected(it.value as Int) }
-        )
-
     }
 }
 
 @Composable
-private fun AnswerType(onSelected: (Int) -> Unit) {
+private fun AnswerType(onChecked: (Boolean) -> Unit) {
     Column {
-        Text(text = "Type of answer")
+        var checked by remember { mutableStateOf(true) }
 
-        val quantity = listOf(
-            RadioButtonData(R.string.open_answer, 1),
-            RadioButtonData(R.string.multiple_choices, 2),
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Switch(checked = checked, onCheckedChange = {
+                onChecked(it)
+                checked = it
+            })
 
-        MyRadioButton(items = quantity,
-            itemSelected = quantity[1],
-            onClick = { onSelected(it.value as Int) }
-        )
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = stringResource(id = R.string.multiple_choices)
+            )
+        }
     }
 }
 
 
 @Composable
 private fun Difficulty(onSelected: (Int) -> Unit) {
+    var difficulty by remember { mutableStateOf(2f) }
+
     Column {
-        Text(text = "Choose your difficulty")
+//        Text(text = "Choose your difficulty $difficulty")
 
-        val difficulty = listOf(
-            RadioButtonData(R.string.easy, 1),
-            RadioButtonData(R.string.medium, 2),
-            RadioButtonData(R.string.hard, 3)
-        )
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+        ) {
+            Text(text = "Easy")
+            Spacer(Modifier.weight(1f))
+            Text(text = "Medium")
+            Spacer(Modifier.weight(1f))
+            Text(text = "Difficult")
+        }
 
-        MyRadioButton(items = difficulty,
-            itemSelected = difficulty[1],
-            onClick = { onSelected(it.value as Int) }
+        Slider(
+            value = difficulty,
+            onValueChange = {
+                difficulty = it
+                onSelected(it.toInt())
+            },
+            steps = 1,
+            valueRange = 1f..3f,
         )
     }
 }
