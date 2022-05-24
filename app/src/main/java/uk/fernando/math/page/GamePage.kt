@@ -8,6 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,7 +68,9 @@ fun GamePage(
                     onClick = { answer -> viewModel.checkAnswer(answer) }
                 )
             } else {
-                OpenAnswer(correctAnswer = question.answer)
+                OpenAnswer(correctAnswer = question.answer,
+                    onClick = { answer -> viewModel.checkAnswer(answer) }
+                )
             }
 
         }
@@ -94,7 +98,7 @@ fun GamePage(
 @Composable
 private fun Timer(viewModel: GameViewModel) {
 
-    Row(horizontalArrangement = Arrangement.Center) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             painter = painterResource(id = R.drawable.ic_timer),
             contentDescription = null,
@@ -158,20 +162,38 @@ private fun MultipleChoice(correctAnswer: Int, answerList: List<Int>, onClick: (
 }
 
 @Composable
-private fun OpenAnswer(correctAnswer: Int) {
+private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
     var textField by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxWidth()) {
 
         MyTextField(
             value = textField,
-            onValueChange = { textField = it },
+            onValueChange = {
+                textField = it
+                isError = false
+            },
+            trailingIcon = {
+                if (isError)
+                    Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error)
+            },
+            errorText = "Wrong Answer",
+            isError = isError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = { }
+                onDone = {
+                    onClick(textField.toInt())
+                    if (textField.toInt() != correctAnswer) {
+                        isError = true
+                    } else {
+                        isError = false
+                        textField = ""
+                    }
+                }
             )
         )
 
@@ -180,7 +202,16 @@ private fun OpenAnswer(correctAnswer: Int) {
                 .padding(top = 16.dp)
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 50.dp),
-            onClick = { }, text = "Check"
+            enabled = textField.isNotEmpty(),
+            onClick = {
+                onClick(textField.toInt())
+                if (textField.toInt() != correctAnswer) {
+                    isError = true
+                } else {
+                    isError = false
+                    textField = ""
+                }
+            }, text = "Check"
         )
     }
 
