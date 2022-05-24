@@ -3,6 +3,8 @@ package uk.fernando.math.util
 import uk.fernando.math.model.Question
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
+import kotlin.math.ceil
+import kotlin.math.floor
 
 object QuestionGenerator {
 
@@ -16,7 +18,7 @@ object QuestionGenerator {
 
     private val questionList = mutableListOf<Question>()
 
-    fun generateQuestions(operator: List<Int>, quantity: Int, isMultipleChoice: Boolean, difficulty: Int) : Boolean {
+    fun generateQuestions(operator: List<Int>, quantity: Int, isMultipleChoice: Boolean, difficulty: Int): Boolean {
         this.operatorList = operator
         this.quantity = quantity
         this.multipleChoice = isMultipleChoice
@@ -54,7 +56,7 @@ object QuestionGenerator {
         return when (getByValue(operator)) {
             ADDITION, SUBTRACTION -> getQuestionPlusMinus(operator)
             DIVISION, MULTIPLICATION -> getQuestionDivTimes(operator)
-            PERCENTAGE -> getQuestionPlusMinus(operator)
+            PERCENTAGE -> getQuestionPercentage()
             SQUARE -> getQuestionPlusMinus(operator)
             else -> getQuestionPlusMinus(operator) // FRACTION
         }
@@ -121,6 +123,25 @@ object QuestionGenerator {
             second = second.toString(),
             answer = answer,
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer) else null
+        )
+    }
+
+    // For Operators %
+    private fun getQuestionPercentage(): Question {
+        val first = (1..99).random()
+        val second = (minNumber..maxNumber).random()
+
+        val answer = (first.toDouble() / 100) * second
+
+        if (ceil(answer / 3) != floor(answer / 3)) // just for Int numbers
+            return getQuestionPercentage()
+
+        return Question(
+            first = first.toString(),
+            operator = 5,
+            second = second.toString(),
+            answer = answer.toInt(),
+            multipleChoices = if (multipleChoice) generateMultipleChoices(answer.toInt()) else null
         )
     }
 

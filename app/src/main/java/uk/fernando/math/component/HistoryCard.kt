@@ -43,7 +43,8 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
             )
             Text(
                 text = history.timer.timerFormat(),
-                color = Color.White
+                color = Color.White,
+                style = MaterialTheme.typography.bodySmall
             )
         }
 
@@ -70,6 +71,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                     modifier = Modifier.align(Alignment.Center),
                     text = "${history.correct}",
                     color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -84,6 +86,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                     modifier = Modifier.align(Alignment.Center),
                     text = "${history.incorrect}",
                     color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
                 )
             }

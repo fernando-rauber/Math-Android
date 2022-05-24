@@ -18,6 +18,7 @@ import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
+import uk.fernando.math.util.QuestionGenerator
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            QuestionGenerator.generateQuestions(listOf(5), 4, true, 3)
             val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
             MyMathTheme {
@@ -50,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.history.name
+                            startDestination = Directions.game.name
                         ) {
                             buildGraph(controller)
                         }
