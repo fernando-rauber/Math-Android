@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
@@ -37,6 +38,7 @@ import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.*
 import uk.fernando.math.viewmodel.GameViewModel
+import kotlin.time.Duration.Companion.seconds
 
 @ExperimentalMaterialApi
 @Composable
@@ -47,27 +49,26 @@ fun GamePage(
     val coroutine = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        viewModel.startGame()
+        viewModel.createGame()
     }
 
-    Box() {
+    Box {
 
         Column(
-            modifier = Modifier
+            Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-
-            // Timer
             Timer(viewModel)
 
             QuestionDisplay(viewModel)
-
         }
+
+        CountDownStart(viewModel)
 
         AnimatedVisibility(visible = viewModel.historyId.value != 0) {
             MyDialog {
-                ResultButton(viewModel) {
+                ResultButton {
                     coroutine.launch {
                         navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
                             popUpTo(Directions.game.name) { inclusive = true }
@@ -119,8 +120,7 @@ private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel) {
 }
 
 @Composable
-private fun ResultButton(viewModel: GameViewModel, onClick: () -> Unit) {
-
+private fun ResultButton(onClick: () -> Unit) {
     Box(Modifier.fillMaxHeight(0.7f)) {
         MyButton(
             modifier = Modifier
@@ -131,6 +131,37 @@ private fun ResultButton(viewModel: GameViewModel, onClick: () -> Unit) {
             onClick = onClick,
             text = "Results"
         )
+    }
+}
+
+@Composable
+private fun CountDownStart(viewModel: GameViewModel) {
+    var countDown by remember { mutableStateOf(3) }
+
+    LaunchedEffect(Unit) {
+        while (countDown >= 0) {
+            delay(1.seconds)
+            countDown--
+            if (countDown == -1)
+                viewModel.startChronometer()
+        }
+    }
+
+    AnimatedVisibility(countDown > 0) {
+        MyDialog {
+            Box(
+                Modifier
+                    .fillMaxHeight(0.7f)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = "$countDown",
+                    fontSize = 45.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     }
 }
 

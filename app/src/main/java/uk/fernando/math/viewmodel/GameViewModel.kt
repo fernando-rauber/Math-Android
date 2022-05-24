@@ -34,12 +34,15 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
         }
     }
 
-    fun startGame() {
+    fun createGame() {
         clean()
 
         history.difficulty = QuestionGenerator.getDifficulty()
 
         nextQuestion()
+    }
+
+    fun startChronometer(){
         chronometer.start()
     }
 
