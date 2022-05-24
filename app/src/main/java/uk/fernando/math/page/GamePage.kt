@@ -1,5 +1,6 @@
 package uk.fernando.math.page
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
+import uk.fernando.math.component.MyDialog
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.ext.timerFormat
@@ -48,51 +50,34 @@ fun GamePage(
         viewModel.startGame()
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    Box() {
 
-        // Timer
-        Timer(viewModel)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
 
-        viewModel.currentQuestion.value?.let { question ->
+            // Timer
+            Timer(viewModel)
 
-            Question(question)
-
-            if (question.multipleChoices != null) {
-                MultipleChoice(
-                    correctAnswer = question.answer,
-                    answerList = question.multipleChoices,
-                    onClick = { answer -> viewModel.checkAnswer(answer) }
-                )
-            } else {
-                OpenAnswer(correctAnswer = question.answer,
-                    onClick = { answer -> viewModel.checkAnswer(answer) }
-                )
-            }
+            QuestionDisplay(viewModel)
 
         }
 
-        if (viewModel.historyId.value != 0)
-            MyButton(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth()
-                    .defaultMinSize(minHeight = 50.dp),
-                onClick = {
+        AnimatedVisibility(visible = viewModel.historyId.value != 0) {
+            MyDialog {
+                ResultButton(viewModel) {
                     coroutine.launch {
                         navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
                             popUpTo(Directions.game.name) { inclusive = true }
                             popUpTo(Directions.createGame.name) { inclusive = true }
                         }
                     }
-                },
-                text = "Result"
-            )
+                }
+            }
+        }
     }
-
 }
 
 @Composable
@@ -109,6 +94,43 @@ private fun Timer(viewModel: GameViewModel) {
             fontSize = 22.sp
         )
 
+    }
+}
+
+@Composable
+private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel) {
+    viewModel.currentQuestion.value?.let { question ->
+
+        Question(question)
+
+        if (question.multipleChoices != null) {
+            MultipleChoice(
+                correctAnswer = question.answer,
+                answerList = question.multipleChoices,
+                onClick = { answer -> viewModel.checkAnswer(answer) }
+            )
+        } else {
+            OpenAnswer(correctAnswer = question.answer,
+                onClick = { answer -> viewModel.checkAnswer(answer) }
+            )
+        }
+
+    }
+}
+
+@Composable
+private fun ResultButton(viewModel: GameViewModel, onClick: () -> Unit) {
+
+    Box(Modifier.fillMaxHeight(0.7f)) {
+        MyButton(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+                .align(Alignment.Center)
+                .defaultMinSize(minHeight = 50.dp),
+            onClick = onClick,
+            text = "Results"
+        )
     }
 }
 
@@ -174,10 +196,7 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
                 textField = it
                 isError = false
             },
-            trailingIcon = {
-                if (isError)
-                    Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error)
-            },
+            trailingIcon = { if (isError) Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error) },
             errorText = "Wrong Answer",
             isError = isError,
             keyboardOptions = KeyboardOptions(
