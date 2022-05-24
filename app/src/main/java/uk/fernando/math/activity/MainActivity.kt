@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            QuestionGenerator.generateQuestions(listOf(5), 4, true, 3)
             val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
             MyMathTheme {
@@ -51,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.game.name
+                            startDestination = Directions.history.name
                         ) {
                             buildGraph(controller)
                         }
