@@ -23,11 +23,13 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
     val currentQuestion: MutableState<Question?> = mutableStateOf(null)
     val historyId = mutableStateOf(0)
     val chronometerSeconds = mutableStateOf(0)
+    val isGamePaused = mutableStateOf(false)
 
     private val chronometer = object : CountDownTimer(30000000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
-            chronometerSeconds.value++
+            if (!isGamePaused.value)
+                chronometerSeconds.value++
         }
 
         override fun onFinish() {
@@ -42,8 +44,12 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
         nextQuestion()
     }
 
-    fun startChronometer(){
+    fun startChronometer() {
         chronometer.start()
+    }
+
+    fun pauseUnpauseGame() {
+       isGamePaused.value = !isGamePaused.value
     }
 
     private fun clean() {

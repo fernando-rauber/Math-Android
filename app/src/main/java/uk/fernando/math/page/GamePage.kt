@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,6 +67,8 @@ fun GamePage(
 
         CountDownStart(viewModel)
 
+        ResumeGame(viewModel)
+
         AnimatedVisibility(visible = viewModel.historyId.value != 0) {
             MyDialog {
                 ResultButton {
@@ -95,6 +98,11 @@ private fun Timer(viewModel: GameViewModel) {
             fontSize = 22.sp
         )
 
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
+            Icon(painterResource(id = R.drawable.ic_pause), "pause")
+        }
     }
 }
 
@@ -166,6 +174,26 @@ private fun CountDownStart(viewModel: GameViewModel) {
 }
 
 @Composable
+private fun ResumeGame(viewModel: GameViewModel) {
+
+    AnimatedVisibility(viewModel.isGamePaused.value) {
+        MyDialog {
+            Box(Modifier.fillMaxHeight(0.9f)) {
+                MyButton(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.Center)
+                        .defaultMinSize(minHeight = 50.dp),
+                    onClick = { viewModel.pauseUnpauseGame() },
+                    text = "Resume Game"
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun ColumnScope.Question(question: Question) {
 
     Box(
@@ -227,7 +255,7 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
                 textField = it
                 isError = false
             },
-            trailingIcon = { if (isError) Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error) },
+            trailingIcon = { if (isError) Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colorScheme.error) },
             errorText = "Wrong Answer",
             isError = isError,
             keyboardOptions = KeyboardOptions(
