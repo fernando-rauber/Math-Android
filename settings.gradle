@@ -14,4 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyMath"
 include ':app'
-include ':billing'
+//include ':billing'
+include ':logger'
