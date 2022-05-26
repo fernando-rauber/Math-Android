@@ -4,16 +4,18 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.flow
+import uk.fernando.logger.MyLogger
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithQuestions
 import uk.fernando.math.database.entity.QuestionEntity
+import uk.fernando.math.ext.TAG
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 
 
-class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
+class GameViewModel(private val rep: HistoryRepository,private val logger: MyLogger) : BaseViewModel() {
 
     private var history = HistoryEntity()
     private val historyQuestion = mutableListOf<QuestionEntity>()
@@ -53,10 +55,15 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
     }
 
     private fun clean() {
-        history = HistoryEntity()
-        nextQuestion = 0
-        chronometerSeconds.value = 0
-        historyQuestion.clear()
+        try {
+            history = HistoryEntity()
+            nextQuestion = 0
+            chronometerSeconds.value = 0
+            historyQuestion.clear()
+        }catch (e: Exception){
+            logger.addMessageToCrashlytics(TAG,"Error to clean viewModel: msg: ${e.message}")
+            logger.addExceptionToCrashlytics(e)
+        }
     }
 
     fun checkAnswer(answer: Int) {
@@ -85,10 +92,15 @@ class GameViewModel(private val rep: HistoryRepository) : BaseViewModel() {
 
     private fun createHistory() {
         launchDefault {
-            chronometer.cancel()
-            history.timer = chronometerSeconds.value
-            historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
-            QuestionGenerator.clean()
+            try {
+                chronometer.cancel()
+                history.timer = chronometerSeconds.value
+                historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
+                QuestionGenerator.clean()
+            }catch (e: Exception){
+                logger.addMessageToCrashlytics(TAG,"Error create history: msg: ${e.message}")
+                logger.addExceptionToCrashlytics(e)
+            }
         }
     }
 

@@ -2,10 +2,12 @@ package uk.fernando.math.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.flow
+import uk.fernando.logger.MyLogger
+import uk.fernando.math.ext.TAG
 import uk.fernando.math.util.QuestionGenerator
 
 
-class CreateGameViewModel : BaseViewModel() {
+class CreateGameViewModel(private val logger: MyLogger) : BaseViewModel() {
 
     private val operatorOptions = mutableListOf(1, 2, 3, 4)
     private var quantity = 10
@@ -33,12 +35,17 @@ class CreateGameViewModel : BaseViewModel() {
     }
 
     fun generateQuestion() = flow {
-        // Loading
         loading.value = true
-        val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, isMultipleChoice, difficulty)
+        try {
+            val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, isMultipleChoice, difficulty)
 
-        loading.value = !finished
-        emit(finished)
+            loading.value = !finished
+            emit(finished)
+        } catch (e: Exception) {
+            logger.addMessageToCrashlytics(TAG,"Error to generate questions: msg: ${e.message}")
+            logger.addExceptionToCrashlytics(e)
+            emit(false)
+        }
     }
 }
 
