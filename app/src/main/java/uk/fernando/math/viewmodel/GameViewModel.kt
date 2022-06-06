@@ -20,7 +20,9 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
     private var history = HistoryEntity()
     private val historyQuestion = mutableListOf<QuestionEntity>()
 
-    private var nextQuestion = 0
+    // Counter
+    var maxQuestion = 0
+    val nextQuestion = mutableStateOf(0)
 
     val currentQuestion: MutableState<Question?> = mutableStateOf(null)
     val historyId = mutableStateOf(0)
@@ -42,6 +44,7 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
         clean()
 
         history.difficulty = QuestionGenerator.getDifficulty()
+        maxQuestion = QuestionGenerator.getQuestionList().count()
 
         nextQuestion()
     }
@@ -57,7 +60,7 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
     private fun clean() {
         try {
             history = HistoryEntity()
-            nextQuestion = 0
+            nextQuestion.value = 0
             chronometerSeconds.value = 0
             historyQuestion.clear()
         }catch (e: Exception){
@@ -66,25 +69,28 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
         }
     }
 
-    fun checkAnswer(answer: Int) {
+    fun checkAnswer(answer: Int) : Boolean? {
         if (historyId.value != 0) // Test ended
-            return
+            return null
 
-        if (answer == currentQuestion.value?.answer) {
+        return if (answer == currentQuestion.value?.answer) {
 
             createHistoryQuestion(answer)
 
             nextQuestion()
+            true
         } else {
-            if (historyQuestion.size < nextQuestion)
+            if (historyQuestion.size < nextQuestion.value)
                 createHistoryQuestion(answer)
+
+            false
         }
     }
 
     private fun nextQuestion() {
-        if (QuestionGenerator.getQuestionList().size > nextQuestion) {
-            currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion]
-            nextQuestion++
+        if (QuestionGenerator.getQuestionList().size > nextQuestion.value) {
+            currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion.value]
+            nextQuestion.value++
         } else {
             createHistory()
         }
@@ -108,7 +114,7 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
         currentQuestion.value?.let { q ->
 
             //this avoid to duplicate the question
-            if (historyQuestion.size >= nextQuestion)
+            if (historyQuestion.size >= nextQuestion.value)
                 return
 
             // counter
