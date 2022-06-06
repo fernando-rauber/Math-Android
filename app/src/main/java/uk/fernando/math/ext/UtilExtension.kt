@@ -1,5 +1,6 @@
 package uk.fernando.math.ext
 
+import android.media.MediaPlayer
 import androidx.navigation.NavController
 
 val Any.TAG: String
@@ -18,4 +19,12 @@ fun NavController.safeNav(direction: String) {
 fun Int.timerFormat(): String {
     val minutes = this / 60
     return "${minutes.toString().padStart(2, '0')}:${(this % 60).toString().padStart(2, '0')}"
+}
+
+fun MediaPlayer.playAudio(){
+    if (isPlaying) {
+        stop()
+        prepare()
+    }
+    start()
 }

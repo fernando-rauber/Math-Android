@@ -1,5 +1,6 @@
 package uk.fernando.math.page
 
+import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.ext.mathOperator
+import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
@@ -48,6 +50,8 @@ fun GamePage(
     viewModel: GameViewModel = getViewModel()
 ) {
     val coroutine = rememberCoroutineScope()
+    val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
+    val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
 
     LaunchedEffect(Unit) {
         viewModel.createGame()
@@ -62,7 +66,17 @@ fun GamePage(
         ) {
             Timer(viewModel)
 
-            QuestionDisplay(viewModel)
+            QuestionDisplay(
+                viewModel = viewModel,
+                playAudio = { isCorrectAnswer ->
+                    isCorrectAnswer?.let {
+                        if (isCorrectAnswer)
+                            soundCorrect.playAudio()
+                        else
+                            soundIncorrect.playAudio()
+                    }
+                }
+            )
         }
 
         CountDownStart(viewModel)
@@ -107,7 +121,7 @@ private fun Timer(viewModel: GameViewModel) {
 }
 
 @Composable
-private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel) {
+private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel, playAudio: (Boolean?) -> Unit) {
     viewModel.currentQuestion.value?.let { question ->
 
         Question(question)
@@ -116,14 +130,13 @@ private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel) {
             MultipleChoice(
                 correctAnswer = question.answer,
                 answerList = question.multipleChoices,
-                onClick = { answer -> viewModel.checkAnswer(answer) }
+                onClick = { answer -> playAudio(viewModel.checkAnswer(answer)) }
             )
         } else {
             OpenAnswer(correctAnswer = question.answer,
-                onClick = { answer -> viewModel.checkAnswer(answer) }
+                onClick = { answer -> playAudio(viewModel.checkAnswer(answer)) }
             )
         }
-
     }
 }
 
