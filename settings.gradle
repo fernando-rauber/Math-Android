@@ -16,3 +16,4 @@ rootProject.name = "MyMath"
 include ':app'
 //include ':billing'
 include ':logger'
+include ':advertising'

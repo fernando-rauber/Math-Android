@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,7 +32,10 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import uk.fernando.advertising.AdInterstitial
+import uk.fernando.advertising.enum.AdState
 import uk.fernando.math.R
+import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
 import uk.fernando.math.component.MyTextField
@@ -51,6 +55,7 @@ fun GamePage(
     viewModel: GameViewModel = getViewModel()
 ) {
     val coroutine = rememberCoroutineScope()
+    val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
 
@@ -88,9 +93,16 @@ fun GamePage(
             MyDialog {
                 ResultButton {
                     coroutine.launch {
-                        navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
-                            popUpTo(Directions.game.name) { inclusive = true }
-                            popUpTo(Directions.createGame.name) { inclusive = true }
+                        fullScreenAd.showAdvert().collect { state ->
+                            when (state) {
+                                AdState.DISMISSED, AdState.FAIL -> {
+                                    navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
+                                        popUpTo(Directions.game.name) { inclusive = true }
+                                        popUpTo(Directions.createGame.name) { inclusive = true }
+                                    }
+                                }
+                                else -> {}
+                            }
                         }
                     }
                 }

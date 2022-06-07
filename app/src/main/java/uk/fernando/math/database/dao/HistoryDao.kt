@@ -15,7 +15,7 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: HistoryEntity): Long
 
-    @Query("SELECT * FROM ${HistoryEntity.NAME} ORDER BY date ASC")
+    @Query("SELECT * FROM ${HistoryEntity.NAME} ORDER BY date DESC")
     fun getHistory(): Flow<List<HistoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

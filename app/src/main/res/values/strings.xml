@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">My Math</string>
 
+    // ADs IDs
+    <string name="ad_banner">ca-app-pub-5791754615168338/8853075395</string>
+    <string name="ad_full_page">ca-app-pub-5791754615168338/3600748714</string>
+
+
     // Bottom Bar
     <string name="game_action">Game</string>
     <string name="history_action">History</string>
@@ -19,4 +24,7 @@
     // Answer Choices
     <string name="open_answer">Open Answer</string>
     <string name="multiple_choices">Multiple Choices</string>
+
+
+
 </resources>

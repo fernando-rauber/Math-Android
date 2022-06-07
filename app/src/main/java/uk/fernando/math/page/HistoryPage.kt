@@ -5,16 +5,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import uk.fernando.advertising.component.AdBanner
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
 import uk.fernando.math.component.MyButton
@@ -24,10 +28,8 @@ import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.blueDark
 import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.HistoryViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalMaterialApi
 @Composable
 fun HistoryPage(
@@ -67,6 +69,8 @@ fun HistoryPage(
 
             }
         }
+
+        AdBanner(stringResource(R.string.ad_banner))
     }
 }
 
