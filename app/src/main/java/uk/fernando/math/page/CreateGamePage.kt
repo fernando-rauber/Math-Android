@@ -1,11 +1,8 @@
 package uk.fernando.math.page
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,14 +15,12 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.*
-import uk.fernando.math.ext.TAG
+import uk.fernando.math.component.MyButton
+import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.CreateGameViewModel
-import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @Composable

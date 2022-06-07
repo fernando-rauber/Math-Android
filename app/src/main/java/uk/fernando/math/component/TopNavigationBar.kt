@@ -28,7 +28,7 @@ fun TopNavigationBar(
         Modifier
             .fillMaxWidth()
             .background(Color.Transparent)
-            .padding(8.dp)
+            .padding(16.dp)
     ) {
 
         IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {

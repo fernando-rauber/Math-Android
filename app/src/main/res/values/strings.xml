@@ -25,6 +25,10 @@
     <string name="open_answer">Open Answer</string>
     <string name="multiple_choices">Multiple Choices</string>
 
-
+    // Settings
+    <string name="dark_mode">Dark Mode</string>
+    <string name="allow_decimals">Allow Decimals</string>
+    <string name="premium">Premium</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 </resources>
