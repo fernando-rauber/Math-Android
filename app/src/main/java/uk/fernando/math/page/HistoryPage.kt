@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,12 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.blueDark
@@ -54,24 +57,47 @@ fun HistoryPage(
 
         Divider(Modifier.padding(16.dp))
 
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            modifier = Modifier.weight(0.9f)
-        ) {
-
-            items(viewModel.history.value) { history ->
-
-                HistoryCardCustom(history) {
-                    coroutine.launch {
-                        navController.safeNav(Directions.summary.name.plus("/${history.id}"))
-                    }
+        HistoryList(
+            modifier = Modifier.weight(1f),
+            viewModel = viewModel,
+            onItemClick = { historyID ->
+                coroutine.launch {
+                    navController.safeNav(Directions.summary.name.plus("/$historyID"))
                 }
+            }
+        )
 
+        AdBanner()
+    }
+}
+
+@Composable
+private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemClick: (String) -> Unit) {
+
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = modifier
+    ) {
+        items(viewModel.history.value) { history ->
+
+            HistoryCardCustom(history) {
+                onItemClick("${history.id}")
             }
         }
-
-        AdBanner(stringResource(R.string.ad_banner))
     }
+}
+
+@Composable
+private fun AdBanner() {
+    val dataStore: PrefsStore by inject()
+
+    val isPremium = dataStore.isPremium().collectAsState(true)
+
+    if (!isPremium.value)
+        AdBanner(
+            unitId = stringResource(R.string.ad_banner),
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
 }
 
 @Composable
