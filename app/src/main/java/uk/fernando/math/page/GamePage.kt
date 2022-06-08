@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.advertising.enum.AdState
 import uk.fernando.math.R
@@ -39,6 +40,7 @@ import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
 import uk.fernando.math.component.MyTextField
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
@@ -54,7 +56,6 @@ fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: GameViewModel = getViewModel()
 ) {
-    val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
@@ -89,25 +90,42 @@ fun GamePage(
 
         ResumeGame(viewModel)
 
-        AnimatedVisibility(visible = viewModel.historyId.value != 0) {
-            MyDialog {
-                ResultButton {
-                    coroutine.launch {
+        DialogResult(
+            navController = navController,
+            viewModel = viewModel,
+            fullScreenAd = fullScreenAd
+        )
+    }
+}
+
+@Composable
+private fun DialogResult(navController: NavController, viewModel: GameViewModel, fullScreenAd: AdInterstitial) {
+    val coroutine = rememberCoroutineScope()
+    val dataStore: PrefsStore by inject()
+    val isPremium = dataStore.isPremium().collectAsState(true)
+
+    AnimatedVisibility(visible = viewModel.historyId.value != 0) {
+        MyDialog {
+            ResultButton {
+                coroutine.launch {
+                    if (isPremium.value) {
+                        navigateToResult(navController, "${viewModel.historyId.value}")
+                    } else {
                         fullScreenAd.showAdvert().collect { state ->
-                            when (state) {
-                                AdState.DISMISSED, AdState.FAIL -> {
-                                    navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
-                                        popUpTo(Directions.game.name) { inclusive = true }
-                                        popUpTo(Directions.createGame.name) { inclusive = true }
-                                    }
-                                }
-                                else -> {}
-                            }
+                            if (state == AdState.DISMISSED || state == AdState.FAIL)
+                                navigateToResult(navController, "${viewModel.historyId.value}")
                         }
                     }
                 }
             }
         }
+    }
+}
+
+private fun navigateToResult(navController: NavController, historyId: String) {
+    navController.navigate("${Directions.summary.name}/$historyId") {
+        popUpTo(Directions.game.name) { inclusive = true }
+        popUpTo(Directions.createGame.name) { inclusive = true }
     }
 }
 
