@@ -2,7 +2,7 @@ package uk.fernando.math.di
 
 
 import android.app.Application
-import android.os.Build
+import android.content.Context
 import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,6 +12,8 @@ import uk.fernando.logger.AndroidLogger
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.database.MyDatabase
+import uk.fernando.math.datastore.PrefsStore
+import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.viewmodel.*
 
@@ -25,7 +27,12 @@ object KoinModule {
         listOf(coreModule, databaseModule, repositoryModule, viewModelModule)
 
     private val coreModule = module {
+        fun provideDataStore(app: Context): PrefsStore {
+            return PrefsStoreImpl(app)
+        }
+
         single { getAndroidLogger() }
+        single { provideDataStore(androidApplication()) }
     }
 
     private val databaseModule = module {
@@ -52,7 +59,7 @@ object KoinModule {
             viewModel { GameViewModel(get(), get()) }
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
-            viewModel { SettingsViewModel() }
+            viewModel { SettingsViewModel(get()) }
         }
 
     private const val DB_NAME = "math_fun.db"

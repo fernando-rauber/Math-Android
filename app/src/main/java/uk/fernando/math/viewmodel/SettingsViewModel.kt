@@ -1,9 +1,15 @@
 package uk.fernando.math.viewmodel
 
+import uk.fernando.math.datastore.PrefsStore
 
-class SettingsViewModel() : BaseViewModel() {
 
+class SettingsViewModel(val prefs: PrefsStore) : BaseViewModel() {
 
+    fun updateDarkMode(isDarkMode: Boolean) {
+        launchIO {
+            prefs.storeDarkMode(isDarkMode)
+        }
+    }
 }
 
 

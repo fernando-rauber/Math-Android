@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,13 +29,15 @@ import uk.fernando.math.viewmodel.SettingsViewModel
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
+    val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
+
     Column(
         Modifier
             .fillMaxSize()
             .background(green_pastel)
     ) {
 
-        TopNavigationBar(title = "Settings")
+        TopNavigationBar(title = stringResource(R.string.settings_title))
 
         Column(
             modifier = Modifier
@@ -49,10 +52,9 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.dark_mode,
-                    isChecked = true,
-                    onCheckedChange = {
-
-                    })
+                    isChecked = isDarkMode.value,
+                    onCheckedChange = viewModel::updateDarkMode
+                )
 
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
