@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,11 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.compose.inject
 import uk.fernando.math.R
-import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.viewmodel.SettingsViewModel
 import uk.fernando.math.viewmodel.SplashViewModel
 
 @Composable
@@ -38,7 +34,7 @@ fun SplashPage(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(0.4f)
-                .offset(y =(-50).dp)
+                .offset(y = (-50).dp)
                 .align(Alignment.Center)
         )
     }
@@ -51,7 +47,7 @@ fun SplashPage(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.firstInstall(isDarkMode = isDarkMode)
+        viewModel.firstSetUp(isDarkMode = isDarkMode)
         delay(1500L)
         currentOnTimeout()
     }

@@ -23,12 +23,12 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.DARK_MODE] ?: false }
     }
 
-    override suspend fun allowDecimals(): Boolean {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.ALLOW_DECIMALS] ?: false }.first()
+    override fun allowDecimals(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.ALLOW_DECIMALS] ?: false }
     }
 
-    override suspend fun isPremium(): Boolean {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.PREMIUM] ?: false }.first()
+    override fun isPremium(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.PREMIUM] ?: false }
     }
 
     override suspend fun storeFirstTime(value: Boolean) {

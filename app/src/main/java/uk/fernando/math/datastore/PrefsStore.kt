@@ -6,8 +6,8 @@ interface PrefsStore {
 
     suspend fun isFirstTime(): Boolean
     fun isDarkMode(): Flow<Boolean>
-    suspend fun allowDecimals(): Boolean
-    suspend fun isPremium(): Boolean
+    fun allowDecimals(): Flow<Boolean>
+    fun isPremium(): Flow<Boolean>
 
     suspend fun storeFirstTime(value: Boolean)
     suspend fun storeDarkMode(value: Boolean)

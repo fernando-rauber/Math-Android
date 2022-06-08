@@ -30,6 +30,8 @@ import uk.fernando.math.viewmodel.SettingsViewModel
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
+    val allowDecimals = viewModel.prefs.allowDecimals().collectAsState(initial = false)
+    val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
 
     Column(
         Modifier
@@ -59,17 +61,16 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = R.string.allow_decimals,
-                    isChecked = true,
-                    onCheckedChange = {
+                    isChecked = allowDecimals.value,
+                    onCheckedChange = viewModel::updateAllowDecimals
+                )
 
-                    })
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.premium,
-                    isChecked = false,
-                    onCheckedChange = {
-
-                    })
+                    isChecked = isPremium.value,
+                    onCheckedChange = viewModel::updatePremium
+                )
 
                 CustomSettingsResourcesCard(
                     modifier = Modifier
