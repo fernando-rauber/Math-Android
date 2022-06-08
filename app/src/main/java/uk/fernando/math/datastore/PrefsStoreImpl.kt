@@ -15,6 +15,9 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(STORE_NAME
 class PrefsStoreImpl(context: Context) : PrefsStore {
 
     private val dataStore = context.dataStore
+    override suspend fun isFirstTime(): Boolean {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.FIRST_TIME] ?: true }.first()
+    }
 
     override fun isDarkMode(): Flow<Boolean> {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.DARK_MODE] ?: false }
@@ -26,6 +29,10 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
 
     override suspend fun isPremium(): Boolean {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.PREMIUM] ?: false }.first()
+    }
+
+    override suspend fun storeFirstTime(value: Boolean) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.FIRST_TIME] = value }
     }
 
     override suspend fun storeDarkMode(value: Boolean) {
@@ -41,6 +48,7 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     private object PreferencesKeys {
+        val FIRST_TIME = booleanPreferencesKey("first_time")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val ALLOW_DECIMALS = booleanPreferencesKey("allow_decimals")
         val PREMIUM = booleanPreferencesKey("premium")

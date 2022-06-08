@@ -13,7 +13,7 @@ import uk.fernando.math.page.*
 @ExperimentalMaterialApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.name) {
-
+        SplashPage(navController)
     }
     composable(Directions.createGame.name) {
         CreateGamePage(navController)

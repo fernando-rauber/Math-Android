@@ -25,14 +25,13 @@ import uk.fernando.math.ui.theme.MyMathTheme
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val dataStore: PrefsStore by inject()
             val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
-            val isDarkMode = dataStore.isDarkMode().collectAsState(false)
+            val isDarkMode = dataStore.isDarkMode().collectAsState(true)
 
             MyMathTheme(darkTheme = isDarkMode.value) {
 
@@ -56,14 +55,12 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.history.name
+                            startDestination = Directions.splash.name
                         ) {
                             buildGraph(controller)
                         }
-
                     }
                 }
-
             }
         }
     }

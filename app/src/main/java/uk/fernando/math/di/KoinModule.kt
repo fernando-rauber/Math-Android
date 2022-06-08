@@ -60,6 +60,7 @@ object KoinModule {
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
             viewModel { SettingsViewModel(get()) }
+            viewModel { SplashViewModel(get()) }
         }
 
     private const val DB_NAME = "math_fun.db"
