@@ -98,6 +98,27 @@ fun GamePage(
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @Composable
 private fun DialogResult(navController: NavController, viewModel: GameViewModel, fullScreenAd: AdInterstitial) {
     val coroutine = rememberCoroutineScope()

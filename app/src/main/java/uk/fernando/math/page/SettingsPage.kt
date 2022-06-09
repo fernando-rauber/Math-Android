@@ -73,6 +73,13 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 )
 
                 CustomSettingsResourcesCard(
+                    modifier = Modifier,
+                    text = R.string.notification,
+                    isChecked = true,
+                    onCheckedChange = viewModel::updateNotification
+                )
+
+                CustomSettingsResourcesCard(
                     modifier = Modifier
                         .padding(vertical = 10.dp)
                         .clickable {

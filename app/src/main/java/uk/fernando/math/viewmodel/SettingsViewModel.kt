@@ -15,6 +15,9 @@ class SettingsViewModel(val prefs: PrefsStore) : BaseViewModel() {
     fun updatePremium(isPremium: Boolean) {
         launchIO { prefs.storePremium(isPremium) }
     }
+
+    fun updateNotification(notification: Boolean) {
+    }
 }
 
 
