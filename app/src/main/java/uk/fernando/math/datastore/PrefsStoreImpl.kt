@@ -31,6 +31,10 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.PREMIUM] ?: false }
     }
 
+    override fun notificationEnable(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.NOTIFICATION] ?: true }
+    }
+
     override suspend fun storeFirstTime(value: Boolean) {
         dataStore.edit { prefs -> prefs[PreferencesKeys.FIRST_TIME] = value }
     }
@@ -47,10 +51,15 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         dataStore.edit { prefs -> prefs[PreferencesKeys.PREMIUM] = value }
     }
 
+    override suspend fun storeNotification(value: Boolean) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.NOTIFICATION] = value }
+    }
+
     private object PreferencesKeys {
         val FIRST_TIME = booleanPreferencesKey("first_time")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val ALLOW_DECIMALS = booleanPreferencesKey("allow_decimals")
         val PREMIUM = booleanPreferencesKey("premium")
+        val NOTIFICATION = booleanPreferencesKey("notification")
     }
 }

@@ -14,6 +14,7 @@ import uk.fernando.math.BuildConfig
 import uk.fernando.math.database.MyDatabase
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.datastore.PrefsStoreImpl
+import uk.fernando.math.notification.NotificationHelper
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.viewmodel.*
 
@@ -44,6 +45,7 @@ object KoinModule {
         }
 
         single { provideDatabase(androidApplication()) }
+        single { NotificationHelper(androidApplication()) }
         factory { get<MyDatabase>().historyDao() }
     }
 
@@ -59,8 +61,8 @@ object KoinModule {
             viewModel { GameViewModel(get(), get()) }
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
-            viewModel { SettingsViewModel(get()) }
-            viewModel { SplashViewModel(get()) }
+            viewModel { SettingsViewModel(get(), get()) }
+            viewModel { SplashViewModel(get(), get()) }
         }
 
     private const val DB_NAME = "math_fun.db"

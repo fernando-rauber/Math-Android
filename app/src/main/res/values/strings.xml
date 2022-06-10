@@ -33,4 +33,8 @@
     <string name="premium">Premium</string>
     <string name="privacy_policy">Privacy Policy</string>
 
+    // Notification Messages
+    <string name="notification_title">Let\'s Play</string>
+    <string name="notification_text">Don\'t miss a chance to improve your skills</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package uk.fernando.math.page
 
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.getViewModel
+import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.ui.theme.green_pastel
@@ -32,6 +35,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
     val allowDecimals = viewModel.prefs.allowDecimals().collectAsState(initial = false)
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
+    val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
 
     Column(
         Modifier
@@ -73,15 +77,16 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 )
 
                 CustomSettingsResourcesCard(
-                    modifier = Modifier,
+                    modifier = Modifier.padding(vertical = 10.dp),
                     text = R.string.notification,
-                    isChecked = true,
+                    isChecked = notificationEnable.value,
                     onCheckedChange = viewModel::updateNotification
                 )
 
                 CustomSettingsResourcesCard(
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
+                        .padding(bottom = 10.dp)
+                        .clip(RoundedCornerShape(28.dp))
                         .clickable {
 
                         },
@@ -94,7 +99,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 Spacer(Modifier.weight(0.9f))
 
                 Text(
-                    text = "Version 1.0",
+                    text = "Version ${BuildConfig.VERSION_NAME}",
                     fontSize = 14.sp,
                     color = Color.Black,
                     modifier = Modifier.fillMaxWidth(),
