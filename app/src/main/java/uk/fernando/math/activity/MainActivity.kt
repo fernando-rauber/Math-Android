@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -15,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.datastore.PrefsStore
@@ -32,6 +36,8 @@ class MainActivity : ComponentActivity() {
             val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
             val isDarkMode = dataStore.isDarkMode().collectAsState(true)
+
+            UpdateUIBar(isDarkMode = isDarkMode.value)
 
             MyMathTheme(darkTheme = isDarkMode.value) {
 
@@ -63,5 +69,17 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun UpdateUIBar(isDarkMode: Boolean) {
+    val systemUiController = rememberSystemUiController()
+    val systemBarColor = MaterialTheme.colorScheme.background
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = if (isDarkMode) Color.Black else Color.White
+        )
     }
 }
