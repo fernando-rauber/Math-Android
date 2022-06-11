@@ -25,13 +25,8 @@ private val LightColorPalette = lightColorScheme(
 
 @Composable
 fun MyMathTheme(darkTheme: Boolean, content: @Composable () -> Unit) {
-    val colors = if (darkTheme)
-        DarkColorPalette
-    else
-        LightColorPalette
-
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = if (darkTheme) DarkColorPalette else LightColorPalette,
         typography = Typography,
         shapes = Shapes,
         content = content
