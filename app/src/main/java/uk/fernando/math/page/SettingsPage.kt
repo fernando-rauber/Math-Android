@@ -1,18 +1,20 @@
 package uk.fernando.math.page
 
-import android.os.Build
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -38,20 +40,20 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(green_pastel)
-    ) {
-
-        TopNavigationBar(title = stringResource(R.string.settings_title))
-
-        Column(
+    Box {
+        Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 10.dp)
-                .background(Color.White, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-        ) {
+                .fillMaxWidth()
+                .fillMaxHeight(0.25f),
+            // shape = RoundedCornerShape(bottomStartPercent = 25, bottomEndPercent = 25),
+            shadowElevation = 4.dp,
+            color = green_pastel,
+            content = {}
+        )
+
+        Column(Modifier.fillMaxSize()) {
+
+            TopNavigationBar(title = stringResource(R.string.settings_title))
 
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 33.dp)
@@ -85,9 +87,9 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 )
 
                 CustomSettingsResourcesCard(
-                    modifier = Modifier
-                        .padding(bottom = 10.dp)
-                        .clip(RoundedCornerShape(28.dp))
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    modifierRow = Modifier
+                        .padding(vertical = 3.dp)
                         .clickable {
 
                         },
@@ -100,23 +102,21 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 Spacer(Modifier.weight(0.9f))
 
                 Text(
-                    text = "Version ${BuildConfig.VERSION_NAME}",
+                    text = stringResource(id = R.string.version, BuildConfig.VERSION_NAME),
                     fontSize = 14.sp,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
             }
-
         }
-
     }
 }
 
 @Composable
 private fun CustomSettingsResourcesCard(
-    modifier: Modifier,
-    color: Color = green_pastel,
+    modifier: Modifier = Modifier,
+    modifierRow: Modifier = Modifier,
     @StringRes text: Int,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -124,12 +124,12 @@ private fun CustomSettingsResourcesCard(
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(28.dp),
-        color = color.copy(0.1f)
+        shape = RoundedCornerShape(50),
+        shadowElevation = 4.dp
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
+            modifier = modifierRow.padding(16.dp)
         ) {
 
             Text(
@@ -145,7 +145,7 @@ private fun CustomSettingsResourcesCard(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_forward),
                     contentDescription = null,
-                    tint = color
+                    tint = green_pastel
                 )
             else
                 Surface(

@@ -25,6 +25,7 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
+import uk.fernando.math.ui.theme.green_pastel
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
@@ -55,13 +56,13 @@ class MainActivity : ComponentActivity() {
                                 BottomNavigationBar(controller)
                         }
                     },
-                    backgroundColor = Color.Transparent
+                    backgroundColor = MaterialTheme.colorScheme.background
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.splash.name
+                            startDestination = Directions.history.name
                         ) {
                             buildGraph(controller)
                         }
@@ -79,7 +80,8 @@ private fun UpdateUIBar(isDarkMode: Boolean) {
 
     SideEffect {
         systemUiController.setStatusBarColor(
-            color = if (isDarkMode) Color.Black else Color.White
+            color = green_pastel
+//            color = if (isDarkMode) Color.Black else Color.White
         )
     }
 }

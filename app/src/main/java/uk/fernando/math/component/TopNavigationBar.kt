@@ -28,7 +28,7 @@ fun TopNavigationBar(
         Modifier
             .fillMaxWidth()
             .background(Color.Transparent)
-            .padding(16.dp)
+            .padding(10.dp)
     ) {
 
         IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {
@@ -42,6 +42,7 @@ fun TopNavigationBar(
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleLarge
         )
 

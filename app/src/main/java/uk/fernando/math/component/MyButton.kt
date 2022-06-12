@@ -34,7 +34,7 @@ fun MyButton(
         border = borderStroke,
         modifier = modifier,
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = grey),
+//        colors = ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = grey),
         elevation = elevation,
         contentPadding = contentPadding,
         onClick = { if (!isLoading) onClick() }

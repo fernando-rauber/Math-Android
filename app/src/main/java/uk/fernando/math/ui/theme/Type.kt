@@ -28,5 +28,10 @@ val Typography = Typography(
         fontFamily = robotoFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
-    )
+    ),
+    labelSmall = TextStyle(
+        fontFamily = robotoFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 10.sp
+    ),
 )

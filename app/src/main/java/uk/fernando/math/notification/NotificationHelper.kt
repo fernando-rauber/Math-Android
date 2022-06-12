@@ -4,8 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.SystemClock
 import java.util.concurrent.TimeUnit
 
 const val requestCode = 112
@@ -32,7 +30,7 @@ class NotificationHelper(val context: Context) {
 
         alarmManager?.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            TimeUnit.HOURS.toMillis(11),
+            5000,
             TimeUnit.HOURS.toMillis(hourDelay),
             pendingIntent
         )

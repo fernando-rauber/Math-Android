@@ -32,6 +32,7 @@
     <string name="notification">Notification</string>
     <string name="premium">Premium</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="version">Version %s</string>
 
     // Notification Messages
     <string name="notification_title">Let\'s Play</string>

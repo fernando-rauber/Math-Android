@@ -4,17 +4,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.Divider
+import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
@@ -41,34 +45,54 @@ fun HistoryPage(
 ) {
     val coroutine = rememberCoroutineScope()
 
-    Column(Modifier.fillMaxSize()) {
-
-        TopNavigationBar(title = "History")
-
-        MyButton(
+    Box() {
+        Surface(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 50.dp),
+                .fillMaxHeight(0.25f),
+            shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp),
+            tonalElevation = 10.dp,
+            shadowElevation = 9.dp,
             color = green_pastel,
-            onClick = { navController.safeNav(Directions.createGame.name) },
-            text = "New Game"
+            content = {}
         )
 
-        Divider(Modifier.padding(16.dp))
+        Column(Modifier.fillMaxSize()) {
 
-        HistoryList(
-            modifier = Modifier.weight(1f),
-            viewModel = viewModel,
-            onItemClick = { historyID ->
-                coroutine.launch {
-                    navController.safeNav(Directions.summary.name.plus("/$historyID"))
-                }
-            }
-        )
+            TopNavigationBar(
+                title = "History",
+                rightIcon = {
+                    TextButton(onClick = { navController.safeNav(Directions.createGame.name) }) {
+                        Text(
+                            text = "NEW",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                })
 
-        AdBanner()
+
+
+            if (viewModel.history.value.isEmpty())
+                EmptyHistory(
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.safeNav(Directions.createGame.name) }
+                )
+            else
+                HistoryList(
+                    modifier = Modifier.weight(1f),
+                    viewModel = viewModel,
+                    onItemClick = { historyID ->
+                        coroutine.launch {
+                            navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                        }
+                    }
+                )
+
+            AdBanner()
+        }
     }
+
 }
 
 @Composable
@@ -84,6 +108,21 @@ private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemC
                 onItemClick("${history.id}")
             }
         }
+    }
+}
+
+@Composable
+private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
+
+    Box(modifier, contentAlignment = Alignment.Center) {
+        MyButton(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 50.dp),
+            onClick = onClick,
+            text = "New Game"
+        )
     }
 }
 
