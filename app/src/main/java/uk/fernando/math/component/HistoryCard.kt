@@ -85,8 +85,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
         Divider(
             Modifier
                 .fillMaxHeight()
-                .width(1.dp),
-            color = grey
+                .width(1.dp)
         )
 
         Column(

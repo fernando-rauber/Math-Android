@@ -22,7 +22,6 @@ fun MyButton(
     text: String,
     enabled: Boolean = true,
     color: Color = orange,
-    textColor: Color = Color.White,
     fontSize: TextUnit = 17.sp,
     isLoading: Boolean = false,
     textModifier: Modifier = Modifier,
@@ -34,7 +33,7 @@ fun MyButton(
         border = borderStroke,
         modifier = modifier,
         enabled = enabled,
-//        colors = ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = grey),
+        colors = ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = grey),
         elevation = elevation,
         contentPadding = contentPadding,
         onClick = { if (!isLoading) onClick() }
@@ -50,7 +49,7 @@ fun MyButton(
                 modifier = textModifier,
                 text = text,
                 textAlign = TextAlign.Center,
-                color = if (enabled) textColor else Color.Black,
+                color = if (enabled) Color.White else Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = fontSize
             )

@@ -12,7 +12,7 @@ class CreateGameViewModel(private val logger: MyLogger) : BaseViewModel() {
     private val operatorOptions = mutableListOf(1, 2, 3, 4)
     private var quantity = 10
     private var isMultipleChoice = true
-    private var difficulty = 2 // Medium
+    private var difficulty = 1 // Easy
     val loading = mutableStateOf(false)
 
     fun setMathOptions(option: Int) {

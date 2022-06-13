@@ -56,6 +56,7 @@ fun HistoryPage(
                             text = stringResource(R.string.new_game_action),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onBackground,
                             letterSpacing = (-0.80).sp
                         )
                     }

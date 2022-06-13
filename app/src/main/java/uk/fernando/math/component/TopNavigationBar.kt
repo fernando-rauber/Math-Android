@@ -37,7 +37,8 @@ fun TopNavigationBar(
             if (leftIcon != null)
                 Icon(
                     painter = painterResource(leftIcon),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
         }
 
