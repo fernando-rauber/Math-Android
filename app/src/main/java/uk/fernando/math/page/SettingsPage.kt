@@ -1,6 +1,7 @@
 package uk.fernando.math.page
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,6 +66,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.premium,
+                    isPremium = true,
                     isChecked = isPremium.value,
                     onCheckedChange = viewModel::updatePremium
                 )
@@ -109,6 +111,7 @@ private fun CustomSettingsResourcesCard(
     modifierRow: Modifier = Modifier,
     @StringRes text: Int,
     isChecked: Boolean,
+    isPremium: Boolean = false,
     onCheckedChange: (Boolean) -> Unit,
     showArrow: Boolean = false
 ) {
@@ -122,14 +125,22 @@ private fun CustomSettingsResourcesCard(
             modifier = modifierRow.padding(16.dp)
         ) {
 
-            Text(
-                text = stringResource(id = text),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier
-                    .padding(end = 28.dp)
-                    .weight(1f)
-            )
+            Row(
+                Modifier
+                    .padding(end = 20.dp)
+                    .weight(1f),
+            ) {
+
+                Text(
+                    text = stringResource(id = text),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(end = 5.dp)
+                )
+
+                if (isPremium)
+                    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+            }
 
             if (showArrow)
                 Icon(

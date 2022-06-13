@@ -38,7 +38,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
-import uk.fernando.advertising.enum.AdState
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyButton
@@ -102,7 +101,6 @@ fun GamePage(
     }
 }
 
-
 @Composable
 private fun DialogResult(navController: NavController, viewModel: GameViewModel, fullScreenAd: AdInterstitial) {
     val coroutine = rememberCoroutineScope()
@@ -110,20 +108,16 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val isPremium = dataStore.isPremium().collectAsState(true)
 
     AnimatedVisibility(visible = viewModel.historyId.value != 0) {
+        if (!isPremium.value)
+            fullScreenAd.showAdvert()
+
         CustomDialog(
             image = R.drawable.fireworks,
             message = R.string.result_message,
             buttonText = R.string.result_action
         ) {
             coroutine.launch {
-                if (isPremium.value) {
-                    navigateToResult(navController, "${viewModel.historyId.value}")
-                } else {
-                    fullScreenAd.showAdvert().collect { state ->
-                        if (state == AdState.DISMISSED || state == AdState.FAIL)
-                            navigateToResult(navController, "${viewModel.historyId.value}")
-                    }
-                }
+                navigateToResult(navController, "${viewModel.historyId.value}")
             }
         }
     }
@@ -145,18 +139,24 @@ private fun Timer(viewModel: GameViewModel) {
                 modifier = Modifier.size(36.dp),
                 painter = painterResource(id = R.drawable.ic_timer),
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 modifier = Modifier.padding(start = 2.dp),
                 text = viewModel.chronometerSeconds.value.timerFormat(),
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
-                Icon(painterResource(id = R.drawable.ic_pause), "pause")
+                Icon(
+                    painterResource(id = R.drawable.ic_pause),
+                    contentDescription = "pause",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
             }
         }
 
@@ -165,7 +165,8 @@ private fun Timer(viewModel: GameViewModel) {
             text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
-            fontSize = 26.sp
+            fontSize = 26.sp,
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -240,7 +241,6 @@ private fun ResumeGame(viewModel: GameViewModel) {
 
 @Composable
 private fun ColumnScope.Question(question: Question) {
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -251,11 +251,10 @@ private fun ColumnScope.Question(question: Question) {
         Text(
             text = "${question.first} ${question.operator.mathOperator()} ${question.second} = ?",
             fontSize = 40.sp,
+            color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
-
     }
-
 }
 
 @Composable

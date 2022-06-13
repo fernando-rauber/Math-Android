@@ -12,8 +12,6 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        QuestionGenerator.generateQuestions(listOf(1,2), 5, true, 1)
-
         MyAdvertising.initialize(this)
 
         startKoin {
