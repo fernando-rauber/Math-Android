@@ -21,7 +21,6 @@ val Typography = Typography(
         fontFamily = robotoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
-        lineHeight = 24.sp,
         letterSpacing = 0.15.sp
     ),
     titleLarge = TextStyle(

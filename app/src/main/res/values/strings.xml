@@ -37,6 +37,14 @@
     <string name="select_difficulty">Select Difficulty</string>
     <string name="start_action">Start</string>
 
+    // Game
+    <string name="resume_action">Resume Game</string>
+    <string name="resume_message">Taking a break?\nCome back soon!</string>
+    <string name="result_action">See Results</string>
+    <string name="result_message">Well done!\nLet\'s check your score.</string>
+    <string name="wrong_answer_message">Wrong Answer!</string>
+    <string name="check_action">Check Answer</string>
+
     // Result
     <string name="result_title">Result</string>
 

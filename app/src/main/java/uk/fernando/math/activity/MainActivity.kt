@@ -26,6 +26,7 @@ import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
 import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.util.QuestionGenerator
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.history.name
+                            startDestination = Directions.game.name
                         ) {
                             buildGraph(controller)
                         }

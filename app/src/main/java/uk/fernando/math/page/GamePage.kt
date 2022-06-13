@@ -1,7 +1,11 @@
 package uk.fernando.math.page
 
 import android.media.MediaPlayer
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -99,26 +103,6 @@ fun GamePage(
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @Composable
 private fun DialogResult(navController: NavController, viewModel: GameViewModel, fullScreenAd: AdInterstitial) {
     val coroutine = rememberCoroutineScope()
@@ -126,16 +110,18 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val isPremium = dataStore.isPremium().collectAsState(true)
 
     AnimatedVisibility(visible = viewModel.historyId.value != 0) {
-        MyDialog {
-            ResultButton {
-                coroutine.launch {
-                    if (isPremium.value) {
-                        navigateToResult(navController, "${viewModel.historyId.value}")
-                    } else {
-                        fullScreenAd.showAdvert().collect { state ->
-                            if (state == AdState.DISMISSED || state == AdState.FAIL)
-                                navigateToResult(navController, "${viewModel.historyId.value}")
-                        }
+        CustomDialog(
+            image = R.drawable.fireworks,
+            message = R.string.result_message,
+            buttonText = R.string.result_action
+        ) {
+            coroutine.launch {
+                if (isPremium.value) {
+                    navigateToResult(navController, "${viewModel.historyId.value}")
+                } else {
+                    fullScreenAd.showAdvert().collect { state ->
+                        if (state == AdState.DISMISSED || state == AdState.FAIL)
+                            navigateToResult(navController, "${viewModel.historyId.value}")
                     }
                 }
             }
@@ -152,29 +138,35 @@ private fun navigateToResult(navController: NavController, historyId: String) {
 
 @Composable
 private fun Timer(viewModel: GameViewModel) {
+    Box {
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_timer),
-            contentDescription = null,
-        )
-        Text(
-            text = viewModel.chronometerSeconds.value.timerFormat(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                modifier = Modifier.size(36.dp),
+                painter = painterResource(id = R.drawable.ic_timer),
+                contentDescription = null,
+            )
+            Text(
+                modifier = Modifier.padding(start = 2.dp),
+                text = viewModel.chronometerSeconds.value.timerFormat(),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
 
-        Text(
-            modifier = Modifier.weight(1f),
-            text = "${viewModel.nextQuestion.value} of ${viewModel.maxQuestion}",
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-            textAlign = TextAlign.Center
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
-            Icon(painterResource(id = R.drawable.ic_pause), "pause")
+            IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
+                Icon(painterResource(id = R.drawable.ic_pause), "pause")
+            }
         }
+
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 26.sp
+        )
     }
 }
 
@@ -198,20 +190,6 @@ private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel, playAudio: (Bo
     }
 }
 
-@Composable
-private fun ResultButton(onClick: () -> Unit) {
-    Box(Modifier.fillMaxHeight(0.7f)) {
-        MyButton(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .align(Alignment.Center)
-                .defaultMinSize(minHeight = 50.dp),
-            onClick = onClick,
-            text = "Results"
-        )
-    }
-}
 
 @Composable
 private fun CountDownStart(viewModel: GameViewModel) {
@@ -226,41 +204,37 @@ private fun CountDownStart(viewModel: GameViewModel) {
         }
     }
 
-    AnimatedVisibility(countDown > 0) {
-        MyDialog {
-            Box(
-                Modifier
-                    .fillMaxHeight(0.7f)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "$countDown",
-                    fontSize = 45.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+    AnimatedVisibility(
+        visible = countDown > 0,
+        exit = fadeOut()
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(0.6f))
+        ) {
+
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "$countDown",
+                style = MaterialTheme.typography.bodyLarge,
+                fontSize = 200.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
 
 @Composable
 private fun ResumeGame(viewModel: GameViewModel) {
-
     AnimatedVisibility(viewModel.isGamePaused.value) {
-        MyDialog {
-            Box(Modifier.fillMaxHeight(0.9f)) {
-                MyButton(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                        .defaultMinSize(minHeight = 50.dp),
-                    onClick = { viewModel.pauseUnpauseGame() },
-                    text = "Resume Game"
-                )
-            }
-        }
+        CustomDialog(
+            image = R.drawable.coffee_break,
+            message = R.string.resume_message,
+            buttonText = R.string.resume_action,
+            onClick = { viewModel.pauseUnpauseGame() }
+        )
     }
 }
 
@@ -327,7 +301,7 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
                 isError = false
             },
             trailingIcon = { if (isError) Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colorScheme.error) },
-            errorText = "Wrong Answer",
+            errorText = stringResource(R.string.wrong_answer_message),
             isError = isError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -360,7 +334,8 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
                     isError = false
                     textField = ""
                 }
-            }, text = "Check"
+            },
+            text = stringResource(R.string.check_action)
         )
     }
 
@@ -388,5 +363,46 @@ private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: MutableS
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@Composable
+private fun CustomDialog(
+    @DrawableRes image: Int,
+    @StringRes message: Int,
+    @StringRes buttonText: Int,
+    onClick: () -> Unit
+) {
+    MyDialog {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Image(
+                modifier = Modifier.padding(vertical = 30.dp),
+                painter = painterResource(id = image),
+                contentDescription = null
+            )
+
+            Text(
+                modifier = Modifier.padding(vertical = 15.dp),
+                text = stringResource(message),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                lineHeight = 25.sp,
+                letterSpacing = 0.30.sp
+            )
+
+            MyButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 50.dp),
+                onClick = onClick,
+                text = stringResource(buttonText)
+            )
+        }
     }
 }
