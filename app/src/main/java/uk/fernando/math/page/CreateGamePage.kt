@@ -1,6 +1,7 @@
 package uk.fernando.math.page
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -9,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -17,10 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.green_pastel
@@ -98,6 +102,10 @@ fun CreateGamePage(
 
 @Composable
 private fun BasicMathOptions(viewModel: CreateGameViewModel) {
+    val dataStore: PrefsStore by inject()
+
+    val isPremium = dataStore.isPremium().collectAsState(false)
+
     Column {
         Text(
             text = stringResource(id = R.string.select_operator),
@@ -122,8 +130,8 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            MathOperatorIcon(R.drawable.ic_math_percentage, false) { viewModel.setMathOptions(5) }
-            MathOperatorIcon(R.drawable.ic_math_square_root, false) { viewModel.setMathOptions(6) }
+            MathOperatorIcon(R.drawable.ic_math_percentage, isPremium.value, isChecked = false) { viewModel.setMathOptions(5) }
+            MathOperatorIcon(R.drawable.ic_math_square_root, isPremium.value, isChecked = false) { viewModel.setMathOptions(6) }
 
             Icon(painterResource(R.drawable.ic_math_percentage), contentDescription = null, tint = Color.Transparent)
             Icon(painterResource(R.drawable.ic_math_percentage), contentDescription = null, tint = Color.Transparent)
@@ -218,18 +226,32 @@ private fun Difficulty(onSelected: (Int) -> Unit) {
 }
 
 @Composable
-private fun MathOperatorIcon(@DrawableRes icon: Int, isChecked: Boolean = true, onChecked: () -> Unit) {
+private fun MathOperatorIcon(@DrawableRes icon: Int, hasPremium: Boolean = true, isChecked: Boolean = true, onChecked: () -> Unit) {
     var checked by remember { mutableStateOf(isChecked) }
     IconToggleButton(
         checked = checked,
         onCheckedChange = {
-            onChecked()
-            checked = it
+            if (hasPremium) {
+                onChecked()
+                checked = it
+            }
         }) {
-        if (checked)
-            Icon(painterResource(id = icon), tint = green_pastel, contentDescription = null)
-        else
-            Icon(painterResource(id = icon), contentDescription = null)
+        Box {
+            Icon(
+                painterResource(id = icon),
+                tint = if (checked) green_pastel else LocalContentColor.current,
+                contentDescription = null
+            )
 
+            if (!hasPremium)
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .rotate(45f)
+                        .offset(y = (-20).dp),
+                    painter = painterResource(id = R.drawable.ic_crown),
+                    contentDescription = null
+                )
+        }
     }
 }
