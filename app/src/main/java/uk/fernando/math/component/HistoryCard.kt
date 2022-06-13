@@ -1,7 +1,9 @@
 package uk.fernando.math.component
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -9,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,10 +18,11 @@ import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.ext.difficultyColor
-import uk.fernando.math.ext.difficultyName
+import uk.fernando.math.ext.mathOperatorIcon
 import uk.fernando.math.ext.timerFormat
-import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.pastel_red
+import uk.fernando.math.ui.theme.grey
+import uk.fernando.math.ui.theme.star_green
+import uk.fernando.math.ui.theme.star_red
 
 @Composable
 fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
@@ -31,84 +33,136 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
     ) {
 
         Column(
-            Modifier
-                .padding(10.dp)
-                .padding(start = 5.dp),
+            modifier = Modifier.padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_timer),
-                contentDescription = null,
-                tint = Color.White
-            )
+
             Text(
-                text = history.timer.timerFormat(),
-                color = Color.White,
-                style = MaterialTheme.typography.bodySmall
+                text = stringResource(R.string.result_title),
+                style = MaterialTheme.typography.bodyMedium
             )
+
+            Row(
+                Modifier.padding(top = 6.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                        .border(2.dp, star_green, MaterialTheme.shapes.small)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "${history.correct}",
+                        color = star_green,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                        .border(2.dp, star_red, MaterialTheme.shapes.small)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "${history.incorrect}",
+                        color = star_red,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+            }
+
         }
 
         Divider(
-            modifier = Modifier
+            Modifier
                 .fillMaxHeight()
-                .width(1.dp)
+                .width(1.dp),
+            color = grey
         )
 
-        Row(
+        Column(
             Modifier
-                .padding(10.dp)
-                .weight(1f),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .weight(1f)
+                .padding(start = 5.dp)
         ) {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
-                    .background(green_pastel, MaterialTheme.shapes.small)
+            Row(
+                Modifier
+                    .padding(5.dp)
+                    .weight(1f),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "${history.correct}",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_timer),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
+                Text(
+                    modifier = Modifier
+                        .padding(start = 2.dp)
+                        .weight(1f),
+                    text = history.timer.timerFormat(),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Row(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.End
+                ) {
+
+                    Icon(
+                        Icons.Filled.Star,
+                        contentDescription = null,
+                        tint = history.difficulty.difficultyColor()
+                    )
+
+                    Icon(
+                        painter = painterResource(if (history.difficulty == 1) R.drawable.ic_star_outline else R.drawable.ic_star),
+                        contentDescription = null,
+                        tint = history.difficulty.difficultyColor()
+                    )
+
+                    Icon(
+                        painter = painterResource(if (history.difficulty <= 2) R.drawable.ic_star_outline else R.drawable.ic_star),
+                        contentDescription = null,
+                        tint = history.difficulty.difficultyColor()
+                    )
+                }
             }
 
-            Box(
+            Divider(Modifier.padding(end = 5.dp))
+
+            Row(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
-                    .background(pastel_red, MaterialTheme.shapes.small)
+                    .padding(5.dp)
+                    .weight(1f),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "${history.incorrect}",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
-                )
+
+                history.operatorList.forEach { operator ->
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .size(18.dp),
+                        painter = painterResource(operator.mathOperatorIcon()),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
             }
-
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(0.7f)
-                .background(
-                    Color.White.copy(0.2f)
-                )
-        ) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                color = history.difficulty.difficultyColor(),
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold,
-                text = stringResource(id = history.difficulty.difficultyName())
-            )
         }
 
     }

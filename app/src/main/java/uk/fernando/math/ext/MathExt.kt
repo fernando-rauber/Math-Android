@@ -6,6 +6,9 @@ import uk.fernando.math.model.enum.Difficulty
 import uk.fernando.math.model.enum.Difficulty.*
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
+import uk.fernando.math.ui.theme.star_green
+import uk.fernando.math.ui.theme.star_orange
+import uk.fernando.math.ui.theme.star_red
 
 fun Int.mathOperator(): String {
     return when (getByValue(this)) {
@@ -19,6 +22,18 @@ fun Int.mathOperator(): String {
     }
 }
 
+fun Int.mathOperatorIcon(): Int {
+    return when (getByValue(this)) {
+        ADDITION -> R.drawable.ic_math_addition
+        SUBTRACTION -> R.drawable.ic_math_substraction
+        MULTIPLICATION -> R.drawable.ic_math_multiplication
+        DIVISION -> R.drawable.ic_math_addition
+        PERCENTAGE -> R.drawable.ic_math_percentage
+        SQUARE -> R.drawable.ic_math_square_root
+        else -> 1 // FRACTION
+    }
+}
+
 fun Int.difficultyName(): Int {
     return when (Difficulty.getByValue(this)) {
         EASY -> R.string.easy
@@ -29,8 +44,8 @@ fun Int.difficultyName(): Int {
 
 fun Int.difficultyColor(): Color {
     return when (Difficulty.getByValue(this)) {
-        EASY -> Color.Green.copy(0.7f)
-        MEDIUM -> Color.Yellow.copy(0.7f)
-        else -> Color.Red.copy(0.7f) // Hard
+        EASY -> star_green
+        MEDIUM -> star_orange
+        else -> star_red
     }
 }

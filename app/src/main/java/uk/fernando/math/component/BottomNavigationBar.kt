@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.fernando.math.R
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.dark
 import uk.fernando.math.ui.theme.green_pastel
 
 

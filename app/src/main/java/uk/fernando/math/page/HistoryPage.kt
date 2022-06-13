@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
@@ -15,11 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -27,14 +27,13 @@ import org.koin.androidx.compose.inject
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
+import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.blueDark
-import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.viewmodel.HistoryViewModel
 
 @ExperimentalMaterialApi
@@ -45,33 +44,22 @@ fun HistoryPage(
 ) {
     val coroutine = rememberCoroutineScope()
 
-    Box() {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.25f),
-            shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp),
-            tonalElevation = 10.dp,
-            shadowElevation = 9.dp,
-            color = green_pastel,
-            content = {}
-        )
+    MyBackground {
 
         Column(Modifier.fillMaxSize()) {
 
             TopNavigationBar(
-                title = "History",
+                title = R.string.history_title,
                 rightIcon = {
                     TextButton(onClick = { navController.safeNav(Directions.createGame.name) }) {
                         Text(
-                            text = "NEW",
+                            text = stringResource(R.string.new_game_action),
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Medium,
+                            letterSpacing = (-0.80).sp
                         )
                     }
                 })
-
-
 
             if (viewModel.history.value.isEmpty())
                 EmptyHistory(
@@ -80,7 +68,9 @@ fun HistoryPage(
                 )
             else
                 HistoryList(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .padding(top = 30.dp)
+                        .weight(1f),
                     viewModel = viewModel,
                     onItemClick = { historyID ->
                         coroutine.launch {
@@ -113,16 +103,27 @@ private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemC
 
 @Composable
 private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
-
     Box(modifier, contentAlignment = Alignment.Center) {
-        MyButton(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 50.dp),
-            onClick = onClick,
-            text = "New Game"
-        )
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .padding(bottom = 15.dp),
+                text = stringResource(R.string.empty_history_text),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+            MyButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 50.dp),
+                onClick = onClick,
+                text = stringResource(R.string.start_new_game_action)
+            )
+        }
     }
 }
 
@@ -143,14 +144,10 @@ private fun AdBanner() {
 private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
 
     Surface(
-        modifier = Modifier
-            .padding(top = 10.dp)
-            .clip(MaterialTheme.shapes.medium)
-            .clickable { onClick() },
-        color = blueDark,
-        shadowElevation = 4.dp,
+        modifier = Modifier.padding(top = 10.dp),
+        shadowElevation = 7.dp,
         shape = MaterialTheme.shapes.medium
     ) {
-        HistoryCard(history = history)
+        HistoryCard(modifier = Modifier.clickable { onClick() }, history = history)
     }
 }

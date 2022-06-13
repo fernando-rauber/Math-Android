@@ -41,7 +41,7 @@ fun SummaryPage(
 
     Column(Modifier.fillMaxSize()) {
 
-        TopNavigationBar(title = "Result",
+        TopNavigationBar(title = R.string.result_title,
             rightIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(

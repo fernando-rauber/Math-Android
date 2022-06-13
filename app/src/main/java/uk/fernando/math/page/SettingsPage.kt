@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
+import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.greySuperLight
@@ -40,24 +41,13 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
 
-    Box {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.25f),
-            // shape = RoundedCornerShape(bottomStartPercent = 25, bottomEndPercent = 25),
-            shadowElevation = 4.dp,
-            color = green_pastel,
-            content = {}
-        )
+    MyBackground {
 
         Column(Modifier.fillMaxSize()) {
 
-            TopNavigationBar(title = stringResource(R.string.settings_title))
+            TopNavigationBar(title = R.string.settings_title)
 
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 33.dp)
-            ) {
+            Column(Modifier.padding(horizontal = 20.dp, vertical = 30.dp)) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.dark_mode,
@@ -135,7 +125,7 @@ private fun CustomSettingsResourcesCard(
             Text(
                 text = stringResource(id = text),
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier
                     .padding(end = 28.dp)
                     .weight(1f)

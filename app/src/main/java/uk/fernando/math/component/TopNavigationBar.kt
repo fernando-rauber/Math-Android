@@ -1,6 +1,7 @@
 package uk.fernando.math.component
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,11 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopNavigationBar(
-    title: String,
+    @StringRes title: Int,
     @DrawableRes leftIcon: Int? = null,
     onLeftIconClick: () -> Unit = {},
     rightIcon: (@Composable () -> Unit)? = null
@@ -41,7 +43,7 @@ fun TopNavigationBar(
 
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = title,
+            text = stringResource(title),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleLarge
         )

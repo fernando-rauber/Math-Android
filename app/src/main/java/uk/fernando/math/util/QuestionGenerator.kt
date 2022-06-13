@@ -51,6 +51,11 @@ object QuestionGenerator {
      */
     fun getQuestionList() = questionList
 
+    /**
+     * Returns a list of math operators .
+     */
+    fun getMathOperatorList() = operatorList
+
     fun clean() {
         questionList.clear()
     }

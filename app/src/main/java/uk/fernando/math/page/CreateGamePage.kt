@@ -34,7 +34,7 @@ fun CreateGamePage(
     Column(Modifier.fillMaxSize()) {
 
         TopNavigationBar(
-            title = "Create Question",
+            title = R.string.question_creation_title,
             leftIcon = R.drawable.ic_arrow_back,
             onLeftIconClick = { navController.popBackStack() }
         )

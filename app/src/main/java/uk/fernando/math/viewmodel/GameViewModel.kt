@@ -3,7 +3,6 @@ package uk.fernando.math.viewmodel
 import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.flow.flow
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithQuestions
@@ -15,7 +14,7 @@ import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 
 
-class GameViewModel(private val rep: HistoryRepository,private val logger: MyLogger) : BaseViewModel() {
+class GameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {
 
     private var history = HistoryEntity()
     private val historyQuestion = mutableListOf<QuestionEntity>()
@@ -44,6 +43,7 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
         clean()
 
         history.difficulty = QuestionGenerator.getDifficulty()
+        history.operatorList = QuestionGenerator.getMathOperatorList()
         maxQuestion = QuestionGenerator.getQuestionList().count()
 
         nextQuestion()
@@ -54,7 +54,7 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
     }
 
     fun pauseUnpauseGame() {
-       isGamePaused.value = !isGamePaused.value
+        isGamePaused.value = !isGamePaused.value
     }
 
     private fun clean() {
@@ -63,13 +63,13 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
             nextQuestion.value = 0
             chronometerSeconds.value = 0
             historyQuestion.clear()
-        }catch (e: Exception){
-            logger.addMessageToCrashlytics(TAG,"Error to clean viewModel: msg: ${e.message}")
+        } catch (e: Exception) {
+            logger.addMessageToCrashlytics(TAG, "Error to clean viewModel: msg: ${e.message}")
             logger.addExceptionToCrashlytics(e)
         }
     }
 
-    fun checkAnswer(answer: Int) : Boolean? {
+    fun checkAnswer(answer: Int): Boolean? {
         if (historyId.value != 0) // Test ended
             return null
 
@@ -103,8 +103,8 @@ class GameViewModel(private val rep: HistoryRepository,private val logger: MyLog
                 history.timer = chronometerSeconds.value
                 historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
                 QuestionGenerator.clean()
-            }catch (e: Exception){
-                logger.addMessageToCrashlytics(TAG,"Error create history: msg: ${e.message}")
+            } catch (e: Exception) {
+                logger.addMessageToCrashlytics(TAG, "Error create history: msg: ${e.message}")
                 logger.addExceptionToCrashlytics(e)
             }
         }

@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import uk.fernando.math.ui.theme.green
 import uk.fernando.math.ui.theme.red
+import uk.fernando.math.ui.theme.star_green
 
 @Composable
 fun DefaultSnackBar(
@@ -29,7 +29,7 @@ fun DefaultSnackBar(
         hostState = snackBarHostState,
         snackbar = {
             when (snackBarSealed) {
-                is SnackBarSealed.Success -> CreateSnackBar(green, if (snackBarSealed.messageID != null) stringResource(id = snackBarSealed.messageID) else snackBarSealed.messageText ?: "")
+                is SnackBarSealed.Success -> CreateSnackBar(star_green, if (snackBarSealed.messageID != null) stringResource(id = snackBarSealed.messageID) else snackBarSealed.messageText ?: "")
                 is SnackBarSealed.Error -> CreateSnackBar(red, if (snackBarSealed.messageID != null) stringResource(id = snackBarSealed.messageID) else snackBarSealed.messageText ?: "")
             }
         },
