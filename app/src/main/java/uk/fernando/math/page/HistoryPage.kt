@@ -62,25 +62,28 @@ fun HistoryPage(
                     }
                 })
 
-            if (viewModel.history.value.isEmpty())
-                EmptyHistory(
-                    modifier = Modifier.weight(1f),
-                    onClick = { navController.safeNav(Directions.createGame.name) }
-                )
-            else
-                HistoryList(
-                    modifier = Modifier
-                        .padding(top = 30.dp)
-                        .weight(1f),
-                    viewModel = viewModel,
-                    onItemClick = { historyID ->
-                        coroutine.launch {
-                            navController.safeNav(Directions.summary.name.plus("/$historyID"))
-                        }
-                    }
-                )
+            Box(Modifier.weight(1f)) {
 
-            AdBanner()
+                if (viewModel.history.value.isEmpty())
+                    EmptyHistory(
+                        modifier = Modifier.fillMaxSize(),
+                        onClick = { navController.safeNav(Directions.createGame.name) }
+                    )
+                else
+                    HistoryList(
+                        modifier = Modifier
+                            .padding(top = 30.dp)
+                            .fillMaxSize(),
+                        viewModel = viewModel,
+                        onItemClick = { historyID ->
+                            coroutine.launch {
+                                navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                            }
+                        }
+                    )
+
+                AdBanner(Modifier.align(Alignment.BottomCenter))
+            }
         }
     }
 
@@ -88,9 +91,8 @@ fun HistoryPage(
 
 @Composable
 private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemClick: (String) -> Unit) {
-
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
         modifier = modifier
     ) {
         items(viewModel.history.value) { history ->
@@ -114,6 +116,7 @@ private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
                     .padding(bottom = 15.dp),
                 text = stringResource(R.string.empty_history_text),
                 style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
             MyButton(
@@ -129,7 +132,7 @@ private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
 }
 
 @Composable
-private fun AdBanner() {
+private fun AdBanner(modifier: Modifier) {
     val dataStore: PrefsStore by inject()
 
     val isPremium = dataStore.isPremium().collectAsState(true)
@@ -137,7 +140,7 @@ private fun AdBanner() {
     if (!isPremium.value)
         AdBanner(
             unitId = stringResource(R.string.ad_banner),
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = modifier.padding(bottom = 8.dp)
         )
 }
 
@@ -146,7 +149,7 @@ private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
 
     Surface(
         modifier = Modifier.padding(top = 10.dp),
-        shadowElevation = 7.dp,
+        shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
         HistoryCard(modifier = Modifier.clickable { onClick() }, history = history)

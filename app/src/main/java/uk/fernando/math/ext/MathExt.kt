@@ -27,7 +27,7 @@ fun Int.mathOperatorIcon(): Int {
         ADDITION -> R.drawable.ic_math_addition
         SUBTRACTION -> R.drawable.ic_math_substraction
         MULTIPLICATION -> R.drawable.ic_math_multiplication
-        DIVISION -> R.drawable.ic_math_addition
+        DIVISION -> R.drawable.ic_math_division
         PERCENTAGE -> R.drawable.ic_math_percentage
         SQUARE -> R.drawable.ic_math_square_root
         else -> 1 // FRACTION
