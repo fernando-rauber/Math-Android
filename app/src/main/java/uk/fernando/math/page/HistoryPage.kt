@@ -21,6 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
@@ -64,7 +66,7 @@ fun HistoryPage(
 
             Box(Modifier.weight(1f)) {
 
-                if (viewModel.history.value.isEmpty())
+                if (!viewModel.isLoading.value && viewModel.history.value.isEmpty())
                     EmptyHistory(
                         modifier = Modifier.fillMaxSize(),
                         onClick = { navController.safeNav(Directions.createGame.name) }
@@ -91,14 +93,19 @@ fun HistoryPage(
 
 @Composable
 private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemClick: (String) -> Unit) {
-    LazyColumn(
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
-        modifier = modifier
-    ) {
-        items(viewModel.history.value) { history ->
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(viewModel.isLoading.value) ,
+        onRefresh = viewModel::getAllHistory) {
 
-            HistoryCardCustom(history) {
-                onItemClick("${history.id}")
+        LazyColumn(
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
+            modifier = modifier
+        ) {
+            items(viewModel.history.value) { history ->
+
+                HistoryCardCustom(history) {
+                    onItemClick("${history.id}")
+                }
             }
         }
     }

@@ -27,15 +27,6 @@ import uk.fernando.math.ui.theme.green_pastel
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
-//    Surface(
-//        tonalElevation = 6.dp,
-//        shadowElevation = 4.dp,
-//        shape = MaterialTheme.shapes.medium.copy(
-//            bottomEnd = CornerSize(0.dp),
-//            bottomStart = CornerSize(0.dp)
-//        )
-//    ) {
-
     BottomNavigation(
         modifier = Modifier
             .shadow(
@@ -61,7 +52,6 @@ fun BottomNavigationBar(navController: NavController) {
                 navController.safeNav(Directions.settings.name)
         }
     }
-//    }
 }
 
 
