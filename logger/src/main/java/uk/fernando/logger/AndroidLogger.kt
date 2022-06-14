@@ -21,7 +21,7 @@ class AndroidLogger(override val logLevel: MyLogger.LogLevel = MyLogger.LogLevel
         FirebaseCrashlytics.getInstance().log("$tag : $msg")
     }
 
-    override fun addExceptionToCrashlytics(ext: Throwable) {
-        FirebaseCrashlytics.getInstance().recordException(ext)
+    override fun addExceptionToCrashlytics(throwable: Throwable) {
+        FirebaseCrashlytics.getInstance().recordException(throwable)
     }
 }

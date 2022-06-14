@@ -36,13 +36,14 @@ class CreateGameViewModel(private val logger: MyLogger) : BaseViewModel() {
 
     fun generateQuestion() = flow {
         loading.value = true
-        try {
+        kotlin.runCatching {
             val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, isMultipleChoice, difficulty)
 
             loading.value = !finished
             emit(finished)
-        } catch (e: Exception) {
-            logger.addMessageToCrashlytics(TAG,"Error to generate questions: msg: ${e.message}")
+        }.onFailure { e ->
+            logger.e(TAG, e.message.toString())
+            logger.addMessageToCrashlytics(TAG, "Error to generate questions: msg: ${e.message}")
             logger.addExceptionToCrashlytics(e)
             emit(false)
         }

@@ -64,6 +64,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
             chronometerSeconds.value = 0
             historyQuestion.clear()
         } catch (e: Exception) {
+            logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error to clean viewModel: msg: ${e.message}")
             logger.addExceptionToCrashlytics(e)
         }
@@ -104,6 +105,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
                 historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
                 QuestionGenerator.clean()
             } catch (e: Exception) {
+                logger.e(TAG, e.message.toString())
                 logger.addMessageToCrashlytics(TAG, "Error create history: msg: ${e.message}")
                 logger.addExceptionToCrashlytics(e)
             }

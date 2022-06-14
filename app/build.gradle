@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.firebase.crashlytics'
     id 'kotlin-kapt'
 }
 
@@ -21,8 +22,19 @@ android {
     }
 
     buildTypes {
+        debug{
+            manifestPlaceholders["enableCrashReporting"] = false
+            firebaseCrashlytics {
+                // speed up build
+                mappingFileUploadEnabled false
+            }
+        }
         release {
             minifyEnabled false
+            manifestPlaceholders["enableCrashReporting"] = true
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

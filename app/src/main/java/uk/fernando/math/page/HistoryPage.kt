@@ -34,9 +34,12 @@ import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.datastore.PrefsStore
+import uk.fernando.math.ext.formatToDate
+import uk.fernando.math.ext.isSameDay
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.HistoryViewModel
+import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
@@ -93,16 +96,19 @@ fun HistoryPage(
 
 @Composable
 private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemClick: (String) -> Unit) {
+    var date: Date = Date()
+
     SwipeRefresh(
-        state = rememberSwipeRefreshState(viewModel.isLoading.value) ,
-        onRefresh = viewModel::getAllHistory) {
+        state = rememberSwipeRefreshState(viewModel.isLoading.value),
+        onRefresh = viewModel::getAllHistory
+    ) {
 
         LazyColumn(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
             modifier = modifier
         ) {
-            items(viewModel.history.value) { history ->
 
+            items(viewModel.history.value) { history ->
                 HistoryCardCustom(history) {
                     onItemClick("${history.id}")
                 }
@@ -110,6 +116,22 @@ private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemC
         }
     }
 }
+
+//@Composable
+//private fun DisplayDate(previousDate: Date, newDate: Date, onDateChange: (Date) -> Unit) {
+//    if (!newDate.isSameDay(previousDate)) {
+//        onDateChange(newDate)
+//
+//        if (!newDate.isSameDay(Date()))
+//            Text(
+//                modifier = Modifier.padding(top = 5.dp),
+//                text = newDate.formatToDate(),
+//                style = MaterialTheme.typography.bodyMedium,
+//                fontWeight = FontWeight.Medium,
+//                color = MaterialTheme.colorScheme.onBackground
+//            )
+//    }
+//}
 
 @Composable
 private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
