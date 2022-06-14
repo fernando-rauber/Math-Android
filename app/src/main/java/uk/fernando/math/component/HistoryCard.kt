@@ -38,7 +38,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
         ) {
 
             Text(
-                text = stringResource(R.string.result_title),
+                text = stringResource(R.string.result),
                 style = MaterialTheme.typography.bodyMedium
             )
 

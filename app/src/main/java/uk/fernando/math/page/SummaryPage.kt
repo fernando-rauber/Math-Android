@@ -1,30 +1,29 @@
 package uk.fernando.math.page
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
+import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.SummaryViewModel
 
 @ExperimentalMaterialApi
@@ -39,47 +38,57 @@ fun SummaryPage(
         viewModel.getHistory(historyID)
     }
 
-    Column(Modifier.fillMaxSize()) {
+    MyBackground {
 
-        TopNavigationBar(title = R.string.result_title,
-            rightIcon = {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_close),
-                        contentDescription = null
-                    )
-                }
-            })
+        Column(Modifier.fillMaxSize()) {
 
-        viewModel.history.value?.let { history ->
+            TopNavigationBar(title = R.string.summary_title,
+                rightIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_close),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                })
 
-            HistoryCard(Modifier.background(green_pastel), history = history.history)
-
-            //User grid
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(
-                    start = 12.dp,
-                    top = 16.dp,
-                    end = 12.dp,
-                    bottom = 16.dp
-                ),
+            Surface(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                shadowElevation = 7.dp,
+                shape = MaterialTheme.shapes.medium
             ) {
-                items(history.questionList) { question ->
-                    MathCard(question.question, question.answer, question.correctAnswer)
+                viewModel.history.value?.let { history ->
+
+                    Column {
+
+                        HistoryCard(history = history.history)
+
+                        Divider(Modifier.padding(vertical = 5.dp))
+
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            text = stringResource(R.string.question_answer),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center
+                        )
+
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                        ) {
+                            items(history.questionList) { question ->
+                                MathCard(question.question, question.answer, question.correctAnswer)
+                            }
+                        }
+                    }
                 }
             }
-
-//            LazyColumn(
-//                modifier = Modifier.padding(10.dp),
-//                contentPadding = PaddingValues(16.dp)
-//            ) {
-//
-//                items(history.questionList) { question ->
-//                    MathCard(question.question, question.answer, question.correctAnswer)
-//                }
-//            }
         }
     }
 }
@@ -87,17 +96,38 @@ fun SummaryPage(
 @Preview
 @Composable
 private fun MathCard(math: String = "10 + 10", answer: Int = 15, correctAnswer: Int = 20) {
-    Row(Modifier.padding(top = 7.dp)) {
-        Text(
-            text = "$math = ",
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "$answer",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (answer != correctAnswer) Color.Red else Color.Black
-        )
+
+    Surface(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxSize(),
+        shadowElevation = 5.dp,
+        tonalElevation = 5.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+
+        Row(
+            Modifier.padding(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "$math = ",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "$answer",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                color = if (answer != correctAnswer) red else Color.Unspecified
+            )
+            if (answer != correctAnswer)
+                Text(
+                    modifier = Modifier.align(Alignment.Top),
+                    text = "($correctAnswer)",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold,
+                )
+        }
     }
 }
