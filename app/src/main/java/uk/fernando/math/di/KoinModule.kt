@@ -61,7 +61,7 @@ object KoinModule {
             viewModel { GameViewModel(get(), get()) }
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
-            viewModel { SettingsViewModel(get(), get()) }
+            viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SplashViewModel(get(), get()) }
         }
 

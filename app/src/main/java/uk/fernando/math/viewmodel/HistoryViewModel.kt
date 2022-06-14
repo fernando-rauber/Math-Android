@@ -1,29 +1,18 @@
 package uk.fernando.math.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import uk.fernando.math.database.entity.HistoryEntity
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import uk.fernando.math.repository.HistoryRepository
 
 
 class HistoryViewModel(private val rep: HistoryRepository) : BaseViewModel() {
 
-    val history: MutableState<List<HistoryEntity>> = mutableStateOf(emptyList())
-    val isLoading = mutableStateOf(false)
+    val history = Pager(PagingConfig(10)) { rep.getAllHistory() }
+        .flow
+        .cachedIn(viewModelScope)
 
-    init {
-        getAllHistory()
-    }
-
-    fun getAllHistory() {
-        launchDefault {
-            isLoading.value = true
-            rep.getAllHistory().collect {
-                history.value = it
-                isLoading.value = false
-            }
-        }
-    }
 }
 
 

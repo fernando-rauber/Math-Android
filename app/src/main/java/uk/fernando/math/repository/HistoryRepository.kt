@@ -17,9 +17,7 @@ class HistoryRepository(private val dao: HistoryDao) {
         historyID.toInt()
     }
 
-    suspend fun getAllHistory() = withContext(Dispatchers.IO) {
-        dao.getHistory()
-    }
+    fun getAllHistory() = dao.getHistory()
 
     suspend fun getQuestionByHistory(id: Int) = withContext(Dispatchers.IO) {
         dao.getQuestionsByHistory(id)

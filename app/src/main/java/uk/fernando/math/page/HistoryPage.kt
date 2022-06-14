@@ -3,9 +3,9 @@ package uk.fernando.math.page
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextButton
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,8 +21,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
@@ -34,8 +36,6 @@ import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.formatToDate
-import uk.fernando.math.ext.isSameDay
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.HistoryViewModel
@@ -67,48 +67,49 @@ fun HistoryPage(
                     }
                 })
 
+            val historyList = viewModel.history.collectAsLazyPagingItems()
+
             Box(Modifier.weight(1f)) {
 
-                if (!viewModel.isLoading.value && viewModel.history.value.isEmpty())
-                    EmptyHistory(
-                        modifier = Modifier.fillMaxSize(),
-                        onClick = { navController.safeNav(Directions.createGame.name) }
-                    )
-                else
-                    HistoryList(
-                        modifier = Modifier
-                            .padding(top = 30.dp)
-                            .fillMaxSize(),
-                        viewModel = viewModel,
-                        onItemClick = { historyID ->
-                            coroutine.launch {
-                                navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                if (historyList.loadState.refresh == LoadState.Loading)
+                    LoadingHistory()
+                else {
+                    if (historyList.itemCount == 0)
+                        EmptyHistory(
+                            modifier = Modifier.fillMaxSize(),
+                            onClick = { navController.safeNav(Directions.createGame.name) }
+                        )
+                    else
+                        HistoryList(
+                            modifier = Modifier
+                                .padding(top = 30.dp)
+                                .fillMaxSize(),
+                            historyList = historyList,
+                            onItemClick = { historyID ->
+                                coroutine.launch {
+                                    navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                                }
                             }
-                        }
-                    )
+                        )
+                }
 
                 AdBanner(Modifier.align(Alignment.BottomCenter))
             }
         }
     }
-
 }
 
 @Composable
-private fun HistoryList(modifier: Modifier, viewModel: HistoryViewModel, onItemClick: (String) -> Unit) {
+private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryEntity>, onItemClick: (String) -> Unit) {
     var date: Date = Date()
 
-    SwipeRefresh(
-        state = rememberSwipeRefreshState(viewModel.isLoading.value),
-        onRefresh = viewModel::getAllHistory
+    LazyColumn(
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
+        modifier = modifier
     ) {
 
-        LazyColumn(
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
-            modifier = modifier
-        ) {
-
-            items(viewModel.history.value) { history ->
+        items(historyList) { history ->
+            history?.let {
                 HistoryCardCustom(history) {
                     onItemClick("${history.id}")
                 }
@@ -158,6 +159,17 @@ private fun EmptyHistory(modifier: Modifier, onClick: () -> Unit) {
             )
         }
     }
+}
+
+@Composable
+private fun BoxScope.LoadingHistory() {
+    CircularProgressIndicator(
+        strokeWidth = 5.dp,
+        modifier = Modifier
+            .align(Alignment.Center)
+            .offset(y = (-70).dp)
+            .fillMaxWidth(0.2f)
+    )
 }
 
 @Composable
