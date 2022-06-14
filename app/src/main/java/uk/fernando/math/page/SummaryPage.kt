@@ -106,7 +106,7 @@ private fun MathCard(math: String = "10 + 10", answer: Int = 15, correctAnswer: 
             .fillMaxSize(),
         shadowElevation = 5.dp,
         tonalElevation = 5.dp,
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.small
     ) {
 
         Row(
@@ -115,12 +115,12 @@ private fun MathCard(math: String = "10 + 10", answer: Int = 15, correctAnswer: 
         ) {
             Text(
                 text = "$math = ",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "$answer",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (answer != correctAnswer) red else Color.Unspecified
             )
