@@ -57,7 +57,9 @@ fun CreateGamePage(
 
                 Column(Modifier.padding(16.dp)) {
 
-                    BasicMathOptions(viewModel)
+                    BasicMathOptions{
+                        viewModel.setMathOptions(it)
+                    }
 
                     Divider(Modifier.padding(vertical = 16.dp))
 
@@ -101,7 +103,7 @@ fun CreateGamePage(
 }
 
 @Composable
-private fun BasicMathOptions(viewModel: CreateGameViewModel) {
+fun BasicMathOptions(onItemSelected: (Int) -> Unit) {
     val dataStore: PrefsStore by inject()
 
     val isPremium = dataStore.isPremium().collectAsState(false)
@@ -118,10 +120,10 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            MathOperatorIcon(R.drawable.ic_math_addition) { viewModel.setMathOptions(1) }
-            MathOperatorIcon(R.drawable.ic_math_substraction) { viewModel.setMathOptions(2) }
-            MathOperatorIcon(R.drawable.ic_math_division) { viewModel.setMathOptions(3) }
-            MathOperatorIcon(R.drawable.ic_math_multiplication) { viewModel.setMathOptions(4) }
+            MathOperatorIcon(R.drawable.ic_math_addition) {onItemSelected(1) }
+            MathOperatorIcon(R.drawable.ic_math_substraction) { onItemSelected(2) }
+            MathOperatorIcon(R.drawable.ic_math_division) { onItemSelected(3) }
+            MathOperatorIcon(R.drawable.ic_math_multiplication) {onItemSelected(4) }
         }
 
         Row(
@@ -130,8 +132,8 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            MathOperatorIcon(R.drawable.ic_math_percentage, isPremium.value, isChecked = false) { viewModel.setMathOptions(5) }
-            MathOperatorIcon(R.drawable.ic_math_square_root, isPremium.value, isChecked = false) { viewModel.setMathOptions(6) }
+            MathOperatorIcon(R.drawable.ic_math_percentage, isPremium.value, isChecked = false) { onItemSelected(5) }
+            MathOperatorIcon(R.drawable.ic_math_square_root, isPremium.value, isChecked = false) { onItemSelected(6) }
 
             Icon(painterResource(R.drawable.ic_math_percentage), contentDescription = null, tint = Color.Transparent)
             Icon(painterResource(R.drawable.ic_math_percentage), contentDescription = null, tint = Color.Transparent)
@@ -140,7 +142,7 @@ private fun BasicMathOptions(viewModel: CreateGameViewModel) {
 }
 
 @Composable
-private fun QuestionQuantity(onSelected: (Int) -> Unit) {
+fun QuestionQuantity(onSelected: (Int) -> Unit) {
     var quantity by remember { mutableStateOf(10f) }
 
     Column {
@@ -184,7 +186,7 @@ private fun AnswerType(onChecked: (Boolean) -> Unit) {
 
 
 @Composable
-private fun Difficulty(onSelected: (Int) -> Unit) {
+fun Difficulty(onSelected: (Int) -> Unit) {
     var difficulty by remember { mutableStateOf(1f) }
 
     Column {

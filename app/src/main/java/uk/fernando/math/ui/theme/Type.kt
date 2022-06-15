@@ -30,7 +30,14 @@ val Typography = Typography(
     ),
     labelSmall = TextStyle(
         fontFamily = robotoFamily,
-        fontWeight = FontWeight.Bold,
         fontSize = 10.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = robotoFamily,
+        fontSize = 12.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = robotoFamily,
+        fontSize = 14.sp
     ),
 )

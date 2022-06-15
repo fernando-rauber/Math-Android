@@ -25,9 +25,23 @@ object Directions {
             get() = emptyList()
     }
 
+    val multiplayerCreateGame = object : NavigationCommand {
+        override val name: String
+            get() = "multiplayer_create_game"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
     val game = object : NavigationCommand {
         override val name: String
             get() = "game"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
+    val multiplayerGame = object : NavigationCommand {
+        override val name: String
+            get() = "multiplayer_game"
         override val arguments: List<NamedNavArgument>
             get() = emptyList()
     }

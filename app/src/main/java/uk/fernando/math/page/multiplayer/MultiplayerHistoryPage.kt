@@ -51,7 +51,7 @@ fun MultiplayerHistoryPage(
             TopNavigationBar(
                 title = R.string.multiplayer_title,
                 rightIcon = {
-                    TextButton(onClick = { navController.safeNav(Directions.createGame.name) }) {
+                    TextButton(onClick = { navController.safeNav(Directions.multiplayerCreateGame.name) }) {
                         Text(
                             text = stringResource(R.string.new_game_action),
                             style = MaterialTheme.typography.bodyMedium,
@@ -73,7 +73,7 @@ fun MultiplayerHistoryPage(
                         EmptyHistory(
                             modifier = Modifier.fillMaxSize(),
                             message = R.string.empty_multiplayer_history_text,
-                            onClick = { navController.safeNav(Directions.createGame.name) }
+                            onClick = { navController.safeNav(Directions.multiplayerCreateGame.name) }
                         )
                     else
                         HistoryList(

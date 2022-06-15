@@ -41,7 +41,9 @@
     <string name="select_operator">Select Math\'s Operators</string>
     <string name="quantity">Quantity: %s</string>
     <string name="select_difficulty">Select Difficulty</string>
-    <string name="start_action">Start</string>
+    <string name="start_action">Start Game</string>
+    <string name="player_one">Player One</string>
+    <string name="player_two">Player Two</string>
 
     // Game
     <string name="resume_action">Resume Game</string>
