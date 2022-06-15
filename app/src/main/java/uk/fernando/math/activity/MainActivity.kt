@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
 //                    )),
                     bottomBar = {
                         when (navBackStackEntry?.destination?.route) {
-                            Directions.history.name, Directions.settings.name ->
+                            Directions.history.name, Directions.multiplayerHistory.name, Directions.settings.name ->
                                 BottomNavigationBar(controller)
                         }
                     },

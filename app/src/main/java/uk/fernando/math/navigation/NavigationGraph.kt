@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import uk.fernando.math.navigation.Directions.HISTORY_ID
 import uk.fernando.math.page.*
+import uk.fernando.math.page.multiplayer.MultiplayerHistoryPage
 
 
 @ExperimentalAnimationApi
@@ -30,6 +31,9 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
     }
     composable(Directions.history.name) {
         HistoryPage(navController)
+    }
+    composable(Directions.multiplayerHistory.name) {
+        MultiplayerHistoryPage(navController)
     }
     composable(Directions.settings.name) {
         SettingsPage()

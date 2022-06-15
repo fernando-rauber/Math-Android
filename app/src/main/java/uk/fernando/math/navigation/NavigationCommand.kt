@@ -39,6 +39,13 @@ object Directions {
             get() = emptyList()
     }
 
+    val multiplayerHistory = object : NavigationCommand {
+        override val name: String
+            get() = "multiplayer_history"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
     val summary = object : NavigationCommand {
         override val name: String
             get() = "summary"

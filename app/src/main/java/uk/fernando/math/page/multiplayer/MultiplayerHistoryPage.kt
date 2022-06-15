@@ -1,12 +1,10 @@
-package uk.fernando.math.page
+package uk.fernando.math.page.multiplayer
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextButton
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -28,15 +25,20 @@ import androidx.paging.compose.items
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.*
+import uk.fernando.math.component.HistoryCard
+import uk.fernando.math.component.MyAdBanner
+import uk.fernando.math.component.MyBackground
+import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
+import uk.fernando.math.page.EmptyHistory
+import uk.fernando.math.page.LoadingHistory
 import uk.fernando.math.viewmodel.HistoryViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun HistoryPage(
+fun MultiplayerHistoryPage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: HistoryViewModel = getViewModel()
 ) {
@@ -47,7 +49,7 @@ fun HistoryPage(
         Column(Modifier.fillMaxSize()) {
 
             TopNavigationBar(
-                title = R.string.solo_title,
+                title = R.string.multiplayer_title,
                 rightIcon = {
                     TextButton(onClick = { navController.safeNav(Directions.createGame.name) }) {
                         Text(
@@ -70,7 +72,7 @@ fun HistoryPage(
                     if (historyList.itemCount == 0)
                         EmptyHistory(
                             modifier = Modifier.fillMaxSize(),
-                            message = R.string.empty_history_text,
+                            message = R.string.empty_multiplayer_history_text,
                             onClick = { navController.safeNav(Directions.createGame.name) }
                         )
                     else
@@ -81,7 +83,7 @@ fun HistoryPage(
                             historyList = historyList,
                             onItemClick = { historyID ->
                                 coroutine.launch {
-                                    navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                                    // navController.safeNav(Directions.summary.name.plus("/$historyID"))
                                 }
                             }
                         )
@@ -95,8 +97,6 @@ fun HistoryPage(
 
 @Composable
 private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryEntity>, onItemClick: (String) -> Unit) {
-//    var date: Date = Date()
-
     LazyColumn(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
         modifier = modifier
@@ -112,63 +112,8 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
     }
 }
 
-//@Composable
-//private fun DisplayDate(previousDate: Date, newDate: Date, onDateChange: (Date) -> Unit) {
-//    if (!newDate.isSameDay(previousDate)) {
-//        onDateChange(newDate)
-//
-//        if (!newDate.isSameDay(Date()))
-//            Text(
-//                modifier = Modifier.padding(top = 5.dp),
-//                text = newDate.formatToDate(),
-//                style = MaterialTheme.typography.bodyMedium,
-//                fontWeight = FontWeight.Medium,
-//                color = MaterialTheme.colorScheme.onBackground
-//            )
-//    }
-//}
-
-@Composable
-fun EmptyHistory(modifier: Modifier, @StringRes message: Int, onClick: () -> Unit) {
-    Box(modifier, contentAlignment = Alignment.Center) {
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .padding(bottom = 15.dp),
-                text = stringResource(message),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Center
-            )
-            MyButton(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                    .defaultMinSize(minHeight = 50.dp),
-                onClick = onClick,
-                text = stringResource(R.string.start_new_game_action)
-            )
-        }
-    }
-}
-
-@Composable
-fun BoxScope.LoadingHistory() {
-    CircularProgressIndicator(
-        strokeWidth = 5.dp,
-        modifier = Modifier
-            .align(Alignment.Center)
-            .offset(y = (-70).dp)
-            .fillMaxWidth(0.2f)
-    )
-}
-
 @Composable
 private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
-
     Surface(
         modifier = Modifier.padding(top = 10.dp),
         shadowElevation = 4.dp,

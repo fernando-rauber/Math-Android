@@ -7,7 +7,8 @@
 
     // Bottom Bar
     <string name="game_action">Game</string>
-    <string name="history_action">History</string>
+    <string name="solo_action">Solo</string>
+    <string name="multiplayer_action">Multiplayer</string>
     <string name="settings_action">Settings</string>
 
     // Difficulty
@@ -24,12 +25,16 @@
     <string name="open_answer">Open Answer</string>
     <string name="multiple_choice">Multiple Choice</string>
 
-    // History
-    <string name="history_title">History</string>
+    // Solo History
+    <string name="solo_title">Solo</string>
     <string name="result">Result</string>
     <string name="start_new_game_action">Start New Game</string>
     <string name="new_game_action">New Game</string>
     <string name="empty_history_text">Start a new game and test your math\'s skills</string>
+
+    // Multiplayer History
+    <string name="multiplayer_title">Multiplayer</string>
+    <string name="empty_multiplayer_history_text">Challenge someone and start a duel</string>
 
     // Question Creation
     <string name="question_creation_title">Question Creation</string>
