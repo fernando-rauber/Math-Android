@@ -33,7 +33,7 @@ object QuestionGenerator {
 
         for (i in 1..quantity) {
             val question = createQuestion(operatorList.random())
-            Log.e("*****", "${question.second} - ${question.answer} ")
+//            Log.e("*****", "${question.second} - ${question.answer} ")
             questionList.add(question)
         }
 
