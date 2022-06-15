@@ -43,7 +43,6 @@
     <string name="resume_message">Taking a break?\nCome back soon!</string>
     <string name="result_action">See Results</string>
     <string name="result_message">Well done!\nLet\'s check your score.</string>
-    <string name="wrong_answer_message">Wrong Answer!</string>
     <string name="check_action">Check Answer</string>
 
     // Result

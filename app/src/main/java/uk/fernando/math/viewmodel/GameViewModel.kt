@@ -19,7 +19,6 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     private var history = HistoryEntity()
     private val historyQuestion = mutableListOf<QuestionEntity>()
 
-    // Counter
     var maxQuestion = 0
     val nextQuestion = mutableStateOf(0)
 
@@ -70,22 +69,15 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
         }
     }
 
-    fun checkAnswer(answer: Int): Boolean? {
+    fun registerAnswer(answer: Int): Boolean? {
         if (historyId.value != 0) // Test ended
             return null
 
-        return if (answer == currentQuestion.value?.answer) {
+        createHistoryQuestion(answer)
 
-            createHistoryQuestion(answer)
+        nextQuestion()
 
-            nextQuestion()
-            true
-        } else {
-            if (historyQuestion.size < nextQuestion.value)
-                createHistoryQuestion(answer)
-
-            false
-        }
+        return answer == currentQuestion.value?.answer
     }
 
     private fun nextQuestion() {
@@ -115,11 +107,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     private fun createHistoryQuestion(answer: Int) {
         currentQuestion.value?.let { q ->
 
-            //this avoid to duplicate the question
-            if (historyQuestion.size >= nextQuestion.value)
-                return
-
-            // counter
+            // score counter
             if (answer == q.answer)
                 history.correct++
             else

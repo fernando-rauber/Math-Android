@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,7 +47,10 @@ import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.*
+import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.ui.theme.orange
+import uk.fernando.math.ui.theme.pastel_red
+import uk.fernando.math.ui.theme.purple
 import uk.fernando.math.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -178,19 +179,16 @@ private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel, playAudio: (Bo
         Question(question)
 
         if (question.multipleChoices != null) {
-            MultipleChoice(
-                correctAnswer = question.answer,
-                answerList = question.multipleChoices,
-                onClick = { answer -> playAudio(viewModel.checkAnswer(answer)) }
-            )
+            MultipleChoice(question.multipleChoices) { answer ->
+                playAudio(viewModel.registerAnswer(answer))
+            }
         } else {
-            OpenAnswer(correctAnswer = question.answer,
-                onClick = { answer -> playAudio(viewModel.checkAnswer(answer)) }
-            )
+            OpenAnswer { answer ->
+                playAudio(viewModel.registerAnswer(answer))
+            }
         }
     }
 }
-
 
 @Composable
 private fun CountDownStart(viewModel: GameViewModel) {
@@ -258,38 +256,24 @@ private fun ColumnScope.Question(question: Question) {
 }
 
 @Composable
-private fun MultipleChoice(correctAnswer: Int, answerList: List<Int>, onClick: (Int) -> Unit) {
-    val color1 = remember { mutableStateOf(orange) }
-    val color2 = remember { mutableStateOf(green_pastel) }
-    val color3 = remember { mutableStateOf(pastel_red) }
-    val color4 = remember { mutableStateOf(purple) }
-
-    // To refresh all the multiple choices back to the original color
-    if (correctAnswer > 0) {
-        color1.value = orange
-        color2.value = green_pastel
-        color3.value = pastel_red
-        color4.value = purple
-    }
-
+private fun MultipleChoice(answerList: List<Int>, onClick: (Int) -> Unit) {
     Column {
         Row {
-            AnswerCard(correctAnswer, answerList[0], color1, onClick)
+            AnswerCard(answerList[0], orange, onClick)
             Spacer(Modifier.width(16.dp))
-            AnswerCard(correctAnswer, answerList[1], color2, onClick)
+            AnswerCard(answerList[1], green_pastel, onClick)
         }
         Row(Modifier.padding(top = 16.dp)) {
-            AnswerCard(correctAnswer, answerList[2], color3, onClick)
+            AnswerCard(answerList[2], pastel_red, onClick)
             Spacer(Modifier.width(16.dp))
-            AnswerCard(correctAnswer, answerList[3], color4, onClick)
+            AnswerCard(answerList[3], purple, onClick)
         }
     }
 }
 
 @Composable
-private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
+private fun OpenAnswer(onClick: (Int) -> Unit) {
     var textField by remember { mutableStateOf("") }
-    var isError by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxWidth()) {
 
@@ -297,11 +281,7 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
             value = textField,
             onValueChange = {
                 textField = it
-                isError = false
             },
-            trailingIcon = { if (isError) Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colorScheme.error) },
-            errorText = stringResource(R.string.wrong_answer_message),
-            isError = isError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
@@ -309,12 +289,7 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
             keyboardActions = KeyboardActions(
                 onDone = {
                     onClick(textField.toInt())
-                    if (textField.toInt() != correctAnswer) {
-                        isError = true
-                    } else {
-                        isError = false
-                        textField = ""
-                    }
+                    textField = ""
                 }
             )
         )
@@ -327,34 +302,23 @@ private fun OpenAnswer(correctAnswer: Int, onClick: (Int) -> Unit) {
             enabled = textField.isNotEmpty(),
             onClick = {
                 onClick(textField.toInt())
-                if (textField.toInt() != correctAnswer) {
-                    isError = true
-                } else {
-                    isError = false
-                    textField = ""
-                }
+                textField = ""
             },
             text = stringResource(R.string.check_action)
         )
     }
-
 }
 
 @Composable
-private fun RowScope.AnswerCard(correctAnswer: Int, answer: Int, color: MutableState<Color>, onClick: (Int) -> Unit) {
+private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Unit) {
 
     Box(
         modifier = Modifier
             .weight(1f)
             .defaultMinSize(minHeight = 100.dp)
             .clip(MaterialTheme.shapes.medium)
-            .background(color.value)
-            .clickable {
-                onClick(answer)
-                if (correctAnswer != answer) {
-                    color.value = red
-                }
-            },
+            .background(color)
+            .clickable { onClick(answer) },
         contentAlignment = Alignment.Center
     ) {
         Text(
