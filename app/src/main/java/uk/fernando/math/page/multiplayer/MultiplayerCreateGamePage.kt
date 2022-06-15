@@ -70,7 +70,7 @@ fun MultiplayerCreateGamePage(
                         PlayerName(
                             playerName = "Player 2",
                             label = R.string.player_two,
-                            onValueChange = viewModel::setPlayer1
+                            onValueChange = viewModel::setPlayer2
                         )
 
                         Divider(Modifier.padding(vertical = 10.dp))

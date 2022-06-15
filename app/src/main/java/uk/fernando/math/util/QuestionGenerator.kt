@@ -22,6 +22,9 @@ object QuestionGenerator {
     private var minNumber = 1
     private var maxNumber = 999
 
+    private var player1 = ""
+    private var player2 = ""
+
     private val questionList = mutableListOf<Question>()
 
     fun generateQuestions(operator: List<Int>, quantity: Int, isMultipleChoice: Boolean, difficulty: Int): Boolean {
@@ -40,6 +43,10 @@ object QuestionGenerator {
         return true
     }
 
+    fun setPlayers(player1: String, player2: String){
+        this.player1 = player1
+        this.player2 = player2
+    }
 
     /**
      * Returns difficulty level 1(easy) 2(medium) 3(hard).
