@@ -25,22 +25,22 @@ import androidx.paging.compose.items
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.HistoryCard
+import uk.fernando.math.component.MultiplayerHistoryCard
 import uk.fernando.math.component.MyAdBanner
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.multiplayer.HistoryWithPLayers
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.page.EmptyHistory
 import uk.fernando.math.page.LoadingHistory
-import uk.fernando.math.viewmodel.HistoryViewModel
+import uk.fernando.math.viewmodel.MultiplayerHistoryViewModel
 
 @ExperimentalMaterialApi
 @Composable
 fun MultiplayerHistoryPage(
     navController: NavController = NavController(LocalContext.current),
-    viewModel: HistoryViewModel = getViewModel()
+    viewModel: MultiplayerHistoryViewModel = getViewModel()
 ) {
     val coroutine = rememberCoroutineScope()
 
@@ -83,7 +83,7 @@ fun MultiplayerHistoryPage(
                             historyList = historyList,
                             onItemClick = { historyID ->
                                 coroutine.launch {
-                                    // navController.safeNav(Directions.summary.name.plus("/$historyID"))
+                                    navController.safeNav(Directions.multiplayerSummary.name.plus("/$historyID"))
                                 }
                             }
                         )
@@ -96,7 +96,7 @@ fun MultiplayerHistoryPage(
 }
 
 @Composable
-private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryEntity>, onItemClick: (String) -> Unit) {
+private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryWithPLayers>, onItemClick: (String) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
         modifier = modifier
@@ -105,7 +105,7 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
         items(historyList) { history ->
             history?.let {
                 HistoryCardCustom(history) {
-                    onItemClick("${history.id}")
+                    onItemClick("${history.history.id}")
                 }
             }
         }
@@ -113,12 +113,12 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
 }
 
 @Composable
-private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
+private fun HistoryCardCustom(history: HistoryWithPLayers, onClick: () -> Unit) {
     Surface(
         modifier = Modifier.padding(top = 10.dp),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
-        HistoryCard(modifier = Modifier.clickable { onClick() }, history = history)
+        MultiplayerHistoryCard(modifier = Modifier.clickable { onClick() }, history = history)
     }
 }

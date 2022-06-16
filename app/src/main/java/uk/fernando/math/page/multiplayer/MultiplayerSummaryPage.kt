@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
+import uk.fernando.math.component.MultiplayerHistoryCard
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.ui.theme.red
@@ -68,7 +69,7 @@ fun MultiplayerSummaryPage(
 
                     Column {
 
-                        //HistoryCard(history = history.history)
+                        MultiplayerHistoryCard(history = history)
 
                         Divider(Modifier.padding(vertical = 5.dp))
 

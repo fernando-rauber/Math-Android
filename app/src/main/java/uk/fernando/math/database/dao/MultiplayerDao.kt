@@ -43,6 +43,6 @@ interface MultiplayerDao {
         return historyID
     }
 
-//    @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE id = :historyId")
-//    fun getQuestionsByHistory(historyId: Int): HistoryWithQuestions
+    @Query("SELECT * FROM ${MultiplayerHistoryEntity.NAME} WHERE id = :historyId")
+    fun getHistoryById(historyId: Int): HistoryWithPLayers
 }

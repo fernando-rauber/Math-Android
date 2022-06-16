@@ -14,7 +14,7 @@ class MultiplayerSummaryViewModel(private val rep: MultiplayerRepository) : Base
 
     fun getHistory(historyID: Int) {
         launchDefault {
-//            history.value = rep.getQuestionByHistory(historyID)
+            history.value = rep.getQuestionByHistory(historyID)
         }
     }
 

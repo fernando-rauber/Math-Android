@@ -14,6 +14,6 @@ class MultiplayerRepository(private val dao: MultiplayerDao) {
     fun getAllHistory() = dao.getHistory()
 
     suspend fun getQuestionByHistory(id: Int) = withContext(Dispatchers.IO) {
-
+        dao.getHistoryById(id)
     }
 }
