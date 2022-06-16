@@ -5,8 +5,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.database.entity.HistoryEntity
-import uk.fernando.math.database.entity.HistoryWithQuestions
-import uk.fernando.math.database.entity.QuestionEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
+import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
@@ -17,7 +18,7 @@ import uk.fernando.math.util.QuestionGenerator
 class GameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {
 
     private var history = HistoryEntity()
-    private val historyQuestion = mutableListOf<QuestionEntity>()
+    private var player1 = PlayerEntity()
 
     var maxQuestion = 0
     val nextQuestion = mutableStateOf(0)
@@ -61,7 +62,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
             history = HistoryEntity()
             nextQuestion.value = 0
             chronometerSeconds.value = 0
-            historyQuestion.clear()
+            player1 = PlayerEntity()
         } catch (e: Exception) {
             logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error to clean viewModel: msg: ${e.message}")
@@ -94,7 +95,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
             try {
                 chronometer.cancel()
                 history.timer = chronometerSeconds.value
-                historyId.value = rep.insertHistory(HistoryWithQuestions(history, historyQuestion))
+                historyId.value = rep.insertHistory(HistoryWithPLayers(history, listOf(player1)))
                 QuestionGenerator.clean()
             } catch (e: Exception) {
                 logger.e(TAG, e.message.toString())
@@ -109,17 +110,17 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
 
             // score counter
             if (answer == q.answer)
-                history.correct++
+                player1.correct++
             else
-                history.incorrect++
+                player1.incorrect++
 
-            val question = QuestionEntity(
+            val question = PlayerQuestionEntity(
                 question = "${q.first} ${q.operator.mathOperator()} ${q.second}",
                 answer = answer,
                 correctAnswer = q.answer
             )
 
-            historyQuestion.add(question)
+            player1.questionList.add(question)
         }
     }
 

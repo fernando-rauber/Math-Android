@@ -29,7 +29,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.*
-import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.HistoryViewModel
@@ -94,7 +95,7 @@ fun HistoryPage(
 }
 
 @Composable
-private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryEntity>, onItemClick: (String) -> Unit) {
+private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<HistoryWithPLayers>, onItemClick: (String) -> Unit) {
 //    var date: Date = Date()
 
     LazyColumn(
@@ -105,7 +106,7 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
         items(historyList) { history ->
             history?.let {
                 HistoryCardCustom(history) {
-                    onItemClick("${history.id}")
+                    onItemClick("${history.history.id}")
                 }
             }
         }
@@ -167,13 +168,13 @@ fun BoxScope.LoadingHistory() {
 }
 
 @Composable
-private fun HistoryCardCustom(history: HistoryEntity, onClick: () -> Unit) {
+private fun HistoryCardCustom(history: HistoryWithPLayers, onClick: () -> Unit) {
 
     Surface(
         modifier = Modifier.padding(top = 10.dp),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
-        HistoryCard(modifier = Modifier.clickable { onClick() }, history = history)
+        HistoryCard(modifier = Modifier.clickable { onClick() }, history = history.history, history.firstPlayer())
     }
 }

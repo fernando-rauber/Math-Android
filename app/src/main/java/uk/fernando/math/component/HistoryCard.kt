@@ -17,15 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
 import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.difficultyColor
 import uk.fernando.math.ext.mathOperatorIcon
 import uk.fernando.math.ext.timerFormat
-import uk.fernando.math.ui.theme.grey
 import uk.fernando.math.ui.theme.star_green
 import uk.fernando.math.ui.theme.star_red
 
 @Composable
-fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
+fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: PlayerEntity) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +55,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = "${history.correct}",
+                        text = "${player.correct}",
                         color = star_green,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
@@ -71,7 +71,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity) {
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = "${history.incorrect}",
+                        text = "${player.incorrect}",
                         color = star_red,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold

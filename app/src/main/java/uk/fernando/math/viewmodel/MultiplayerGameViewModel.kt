@@ -3,20 +3,20 @@ package uk.fernando.math.viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
-import uk.fernando.math.database.entity.multiplayer.HistoryWithPLayers
-import uk.fernando.math.database.entity.multiplayer.MultiplayerHistoryEntity
-import uk.fernando.math.database.entity.multiplayer.PlayerEntity
-import uk.fernando.math.database.entity.multiplayer.PlayerQuestionEntity
+import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
+import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
 import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
-import uk.fernando.math.repository.MultiplayerRepository
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 
 
-class MultiplayerGameViewModel(private val rep: MultiplayerRepository, private val logger: MyLogger) : BaseViewModel() {
+class MultiplayerGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {
 
-    private var history = MultiplayerHistoryEntity()
+    private var history = HistoryEntity()
 
     private var player1 = PlayerEntity()
     private var player2 = PlayerEntity()
@@ -35,6 +35,7 @@ class MultiplayerGameViewModel(private val rep: MultiplayerRepository, private v
 
         history.difficulty = QuestionGenerator.getDifficulty()
         history.operatorList = QuestionGenerator.getMathOperatorList()
+        history.multiplayer = true
         maxQuestion = QuestionGenerator.getQuestionList().count()
 
         player1.name = QuestionGenerator.getPlayer1()
@@ -45,7 +46,7 @@ class MultiplayerGameViewModel(private val rep: MultiplayerRepository, private v
 
     private fun clean() {
         try {
-            history = MultiplayerHistoryEntity()
+            history = HistoryEntity()
             historyId.value = 0
             nextQuestion.value = 0
             player1 = PlayerEntity()

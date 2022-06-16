@@ -352,8 +352,7 @@ fun CustomDialog(
 
             MyButton(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
+                    .padding(16.dp)
                     .fillMaxWidth()
                     .defaultMinSize(minHeight = 50.dp),
                 onClick = onClick,
@@ -363,7 +362,8 @@ fun CustomDialog(
             if (onExitGame != null)
                 MyButton(
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp)
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 50.dp),
                     onClick = onExitGame,

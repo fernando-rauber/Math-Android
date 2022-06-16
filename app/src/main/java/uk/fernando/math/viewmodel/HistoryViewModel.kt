@@ -9,7 +9,7 @@ import uk.fernando.math.repository.HistoryRepository
 
 class HistoryViewModel(private val rep: HistoryRepository) : BaseViewModel() {
 
-    val history = Pager(PagingConfig(10)) { rep.getAllHistory() }
+    val history = Pager(PagingConfig(10)) { rep.getAllHistory(isMultiplayer = false) }
         .flow
         .cachedIn(viewModelScope)
 

@@ -16,7 +16,6 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.notification.NotificationHelper
 import uk.fernando.math.repository.HistoryRepository
-import uk.fernando.math.repository.MultiplayerRepository
 import uk.fernando.math.viewmodel.*
 
 object KoinModule {
@@ -48,13 +47,11 @@ object KoinModule {
         single { provideDatabase(androidApplication()) }
         single { NotificationHelper(androidApplication()) }
         factory { get<MyDatabase>().historyDao() }
-        factory { get<MyDatabase>().multiplayerDao() }
     }
 
     private val repositoryModule: Module
         get() = module {
             factory { HistoryRepository(get()) }
-            factory { MultiplayerRepository(get()) }
         }
 
     private val viewModelModule: Module

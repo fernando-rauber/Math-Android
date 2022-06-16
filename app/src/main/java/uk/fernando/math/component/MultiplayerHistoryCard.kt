@@ -12,19 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
-import uk.fernando.math.database.entity.multiplayer.HistoryWithPLayers
-import uk.fernando.math.database.entity.multiplayer.MultiplayerHistoryEntity
-import uk.fernando.math.database.entity.multiplayer.PlayerEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.difficultyColor
 import uk.fernando.math.ext.mathOperatorIcon
 import uk.fernando.math.ui.theme.star_green
 import uk.fernando.math.ui.theme.star_red
-import java.util.*
 
 @Composable
 fun MultiplayerHistoryCard(modifier: Modifier = Modifier, history: HistoryWithPLayers) {
@@ -143,16 +139,4 @@ private fun PlayerCard(player: PlayerEntity) {
             fontWeight = FontWeight.Medium
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun test() {
-    val history = MultiplayerHistoryEntity(1, Date(), 1, listOf(1, 2, 3, 4))
-    val player = PlayerEntity(1, "Player Name", 5, 2, 1)
-    val player2 = PlayerEntity(1, "Player Name 2", 5, 2, 1)
-
-    val historyPlayer = HistoryWithPLayers(history, listOf(player, player2))
-
-    MultiplayerHistoryCard(history = historyPlayer)
 }

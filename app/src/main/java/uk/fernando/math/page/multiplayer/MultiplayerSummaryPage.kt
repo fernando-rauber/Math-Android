@@ -20,7 +20,8 @@ import uk.fernando.math.R
 import uk.fernando.math.component.MultiplayerHistoryCard
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.database.entity.multiplayer.PlayerQuestionEntity
+import uk.fernando.math.database.entity.PlayerQuestionEntity
+import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.MathCard
 import uk.fernando.math.viewmodel.MultiplayerSummaryViewModel
 
@@ -104,7 +105,7 @@ fun MultiplayerSummaryPage(
                                     )
                                 }
                             }
-                            items(history.playerList.first().questionList.size) { index ->
+                            items(history.firstPlayer().questionList.size) { index ->
                                 ResultMathCard(player1.questionList[index], player2.questionList[index])
                             }
                         }

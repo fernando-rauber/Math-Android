@@ -23,6 +23,7 @@ import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.SummaryViewModel
 
@@ -65,7 +66,7 @@ fun SummaryPage(
 
                     Column {
 
-                        HistoryCard(history = history.history)
+                        HistoryCard(history = history.history, player = history.firstPlayer())
 
                         Divider(Modifier.padding(vertical = 5.dp))
 
@@ -83,7 +84,7 @@ fun SummaryPage(
                             modifier = Modifier.fillMaxSize(),
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
                         ) {
-                            items(history.questionList) { question ->
+                            items(history.firstPlayer().questionList) { question ->
                                 MathCard(Modifier, question.question, question.answer, question.correctAnswer)
                             }
                         }

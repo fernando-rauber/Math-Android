@@ -1,13 +1,11 @@
 package uk.fernando.math.database.dao
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import uk.fernando.math.database.entity.HistoryEntity
-import uk.fernando.math.database.entity.HistoryWithQuestions
-import uk.fernando.math.database.entity.QuestionEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
+import uk.fernando.math.database.entity.PlayerQuestionEntity
 
 @Dao
 interface HistoryDao {
@@ -15,13 +13,45 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: HistoryEntity): Long
 
-    @Query("SELECT * FROM ${HistoryEntity.NAME} ORDER BY date DESC")
-    fun getHistory(): PagingSource<Int, HistoryEntity>
+    @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE multiplayer == :isMultiplayer ORDER BY date DESC")
+    fun getHistory(isMultiplayer: Boolean): PagingSource<Int, HistoryWithPLayers>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertQuestion(item: QuestionEntity)
+    fun insertPlayer(item: PlayerEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertQuestion(item: PlayerQuestionEntity)
+
+    @Transaction
+    fun insertHistory(history: HistoryWithPLayers): Long {
+        val historyID = insert(history.history)
+
+        history.playerList.forEach { player ->
+            player.historyId = historyID
+            insertPlayer(player).let { playeID ->
+
+                player.questionList.forEach { question ->
+                    question.playerId = playeID
+                    insertQuestion(question)
+                }
+            }
+        }
+
+        return historyID
+    }
 
     @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE id = :historyId")
-    fun getQuestionsByHistory(historyId: Int): HistoryWithQuestions
+    fun getHistoryById(historyId: Int): HistoryWithPLayers
 
+    @Query("SELECT * FROM ${PlayerQuestionEntity.NAME} WHERE player_id = :playerID")
+    fun getQuestionByFriend(playerID: Long): List<PlayerQuestionEntity>
+
+    @Transaction
+    fun getHistoryWithFriendsById(historyId: Int): HistoryWithPLayers {
+        return getHistoryById(historyId).apply {
+            this.playerList.forEach {
+                it.questionList.addAll(getQuestionByFriend(it.id!!))
+            }
+        }
+    }
 }

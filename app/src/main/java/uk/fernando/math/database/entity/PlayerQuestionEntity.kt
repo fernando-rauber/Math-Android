@@ -1,4 +1,4 @@
-package uk.fernando.math.database.entity.multiplayer
+package uk.fernando.math.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

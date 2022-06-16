@@ -29,7 +29,7 @@ import uk.fernando.math.component.MultiplayerHistoryCard
 import uk.fernando.math.component.MyAdBanner
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.database.entity.multiplayer.HistoryWithPLayers
+import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.page.EmptyHistory
