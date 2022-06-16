@@ -52,6 +52,7 @@
     <string name="result_action">See Results</string>
     <string name="result_message">Well done!\nLet\'s check the score.</string>
     <string name="check_action">Check Answer</string>
+    <string name="exit_game_action">Exit Game</string>
 
     // Result
     <string name="summary_title">Summary</string>

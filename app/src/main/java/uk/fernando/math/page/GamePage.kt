@@ -48,10 +48,7 @@ import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.orange
-import uk.fernando.math.ui.theme.pastel_red
-import uk.fernando.math.ui.theme.purple
+import uk.fernando.math.ui.theme.*
 import uk.fernando.math.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -97,7 +94,7 @@ fun GamePage(
 
         CountDownStart { viewModel.startChronometer() }
 
-        ResumeGame(viewModel)
+        ResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 
         DialogResult(
             navController = navController,
@@ -219,12 +216,13 @@ fun CountDownStart(onStart: () -> Unit) {
 }
 
 @Composable
-private fun ResumeGame(viewModel: GameViewModel) {
+private fun ResumeGame(viewModel: GameViewModel, onExitGame: () -> Unit) {
     AnimatedVisibility(viewModel.isGamePaused.value) {
         CustomDialog(
             image = R.drawable.coffee_break,
             message = R.string.resume_message,
             buttonText = R.string.resume_action,
+            onExitGame = onExitGame,
             onClick = { viewModel.pauseUnpauseGame() }
         )
     }
@@ -327,7 +325,8 @@ fun CustomDialog(
     @DrawableRes image: Int,
     @StringRes message: Int,
     @StringRes buttonText: Int,
-    onClick: () -> Unit
+    onExitGame: (() -> Unit)? = null,
+    onClick: () -> Unit,
 ) {
     MyDialog {
         Column(
@@ -353,12 +352,24 @@ fun CustomDialog(
 
             MyButton(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
                     .fillMaxWidth()
                     .defaultMinSize(minHeight = 50.dp),
                 onClick = onClick,
                 text = stringResource(buttonText)
             )
+
+            if (onExitGame != null)
+                MyButton(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 50.dp),
+                    onClick = onExitGame,
+                    color = star_red,
+                    text = stringResource(R.string.exit_game_action)
+                )
         }
     }
 }
