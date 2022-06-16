@@ -2,9 +2,6 @@ package uk.fernando.math.database.dao
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import uk.fernando.math.database.entity.HistoryEntity
-import uk.fernando.math.database.entity.HistoryWithQuestions
-import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.multiplayer.HistoryWithPLayers
 import uk.fernando.math.database.entity.multiplayer.MultiplayerHistoryEntity
 import uk.fernando.math.database.entity.multiplayer.PlayerEntity
@@ -45,4 +42,16 @@ interface MultiplayerDao {
 
     @Query("SELECT * FROM ${MultiplayerHistoryEntity.NAME} WHERE id = :historyId")
     fun getHistoryById(historyId: Int): HistoryWithPLayers
+
+    @Query("SELECT * FROM ${PlayerQuestionEntity.NAME} WHERE player_id = :playerID")
+    fun getQuestionByFriend(playerID: Long): List<PlayerQuestionEntity>
+
+    @Transaction
+    fun getHistoryWithFriendsById(historyId: Int): HistoryWithPLayers {
+        return getHistoryById(historyId).apply {
+            this.playerList.forEach {
+                it.questionList.addAll(getQuestionByFriend(it.id!!))
+            }
+        }
+    }
 }

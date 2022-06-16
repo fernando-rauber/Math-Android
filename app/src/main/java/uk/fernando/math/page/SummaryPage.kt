@@ -10,14 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
@@ -86,7 +84,7 @@ fun SummaryPage(
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
                         ) {
                             items(history.questionList) { question ->
-                                MathCard(question.question, question.answer, question.correctAnswer)
+                                MathCard(Modifier, question.question, question.answer, question.correctAnswer)
                             }
                         }
                     }
@@ -96,14 +94,13 @@ fun SummaryPage(
     }
 }
 
-@Preview
 @Composable
-private fun MathCard(math: String = "10 + 10", answer: Int = 15, correctAnswer: Int = 20) {
+fun MathCard(modifier: Modifier = Modifier, math: String, answer: Int?, correctAnswer: Int) {
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 10.dp)
-            .fillMaxSize(),
+            .fillMaxWidth(),
         shadowElevation = 5.dp,
         tonalElevation = 5.dp,
         shape = MaterialTheme.shapes.small
@@ -119,7 +116,7 @@ private fun MathCard(math: String = "10 + 10", answer: Int = 15, correctAnswer: 
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "$answer",
+                text = "${answer ?: " "}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (answer != correctAnswer) red else Color.Unspecified
