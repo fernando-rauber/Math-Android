@@ -34,7 +34,7 @@ import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.page.CustomDialog
 import uk.fernando.math.page.QuestionDisplay
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.ui.theme.orange
 import uk.fernando.math.ui.theme.star_red
 import uk.fernando.math.viewmodel.MultiplayerGameViewModel
 import kotlin.time.Duration.Companion.seconds
@@ -48,6 +48,7 @@ fun MultiplayerGamePage(
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+    var isPaused by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.createGame()
@@ -68,7 +69,9 @@ fun MultiplayerGamePage(
                 }
             )
 
-            Settings(viewModel)
+            Settings(viewModel) {
+                isPaused = true
+            }
 
             Player1Screen(
                 viewModel = viewModel,
@@ -80,6 +83,16 @@ fun MultiplayerGamePage(
                             soundIncorrect.playAudio()
                     }
                 }
+            )
+        }
+
+        MyAnimation(isPaused) {
+            CustomDialog(
+                image = R.drawable.coffee_break,
+                message = R.string.resume_message,
+                buttonText = R.string.resume_action,
+                onExitGame = { navController.popBackStack() },
+                onClick = { isPaused = false }
             )
         }
 
@@ -187,12 +200,25 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
 }
 
 @Composable
-private fun Settings(viewModel: MultiplayerGameViewModel) {
+private fun Settings(viewModel: MultiplayerGameViewModel, onPause: () -> Unit) {
     Row(
-        modifier = Modifier.background(green_pastel),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .background(orange)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
+
+        Text(
+            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 26.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+
+        IconButton(onClick = onPause) {
             Icon(
                 painterResource(id = R.drawable.ic_pause),
                 contentDescription = "pause",
@@ -200,15 +226,14 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        IconButton(onClick = { }) {
-            Icon(
-                painterResource(id = R.drawable.ic_close),
-                contentDescription = "close",
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
+        Text(
+            modifier = Modifier.rotate(180f),
+            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 26.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
 
