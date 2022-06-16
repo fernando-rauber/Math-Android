@@ -67,6 +67,7 @@ object KoinModule {
             viewModel { MultiplayerHistoryViewModel(get()) }
             viewModel { MultiplayerCreateGameViewModel(get()) }
             viewModel { MultiplayerGameViewModel(get(), get()) }
+            viewModel { MultiplayerSummaryViewModel(get()) }
             viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SplashViewModel(get(), get()) }
         }

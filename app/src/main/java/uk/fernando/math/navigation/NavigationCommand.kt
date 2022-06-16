@@ -69,6 +69,15 @@ object Directions {
             )
     }
 
+    val multiplayerSummary = object : NavigationCommand {
+        override val name: String
+            get() = "multiplayer_summary"
+        override val arguments: List<NamedNavArgument>
+            get() = listOf(
+                navArgument(HISTORY_ID) { type = NavType.StringType }
+            )
+    }
+
     val settings = object : NavigationCommand {
         override val name: String
             get() = "settings"

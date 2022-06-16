@@ -113,7 +113,7 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val dataStore: PrefsStore by inject()
     val isPremium = dataStore.isPremium().collectAsState(true)
 
-    MyAnimation(visible = viewModel.historyId.value != 0) {
+    MyAnimation(viewModel.historyId.value != 0) {
         if (!isPremium.value)
             fullScreenAd.showAdvert()
 
@@ -123,16 +123,12 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
             buttonText = R.string.result_action
         ) {
             coroutine.launch {
-                navigateToResult(navController, "${viewModel.historyId.value}")
+                navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
+                    popUpTo(Directions.game.name) { inclusive = true }
+                    popUpTo(Directions.createGame.name) { inclusive = true }
+                }
             }
         }
-    }
-}
-
-private fun navigateToResult(navController: NavController, historyId: String) {
-    navController.navigate("${Directions.summary.name}/$historyId") {
-        popUpTo(Directions.game.name) { inclusive = true }
-        popUpTo(Directions.createGame.name) { inclusive = true }
     }
 }
 

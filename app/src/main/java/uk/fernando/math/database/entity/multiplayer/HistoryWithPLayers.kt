@@ -9,7 +9,7 @@ data class HistoryWithPLayers(
 
     @Embedded val history: MultiplayerHistoryEntity,
 
-    @Relation(parentColumn = "id", entityColumn = "player_id", entity = PlayerEntity::class)
+    @Relation(parentColumn = "id", entityColumn = "history_id", entity = PlayerEntity::class)
     val playerList: List<PlayerEntity> = listOf()
 
 ) : Serializable

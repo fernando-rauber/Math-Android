@@ -10,6 +10,7 @@ import uk.fernando.math.page.*
 import uk.fernando.math.page.multiplayer.MultiplayerCreateGamePage
 import uk.fernando.math.page.multiplayer.MultiplayerGamePage
 import uk.fernando.math.page.multiplayer.MultiplayerHistoryPage
+import uk.fernando.math.page.multiplayer.MultiplayerSummaryPage
 
 
 @ExperimentalAnimationApi
@@ -36,6 +37,13 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
             navController.popBackStack()
         else
             SummaryPage(navController, historyID.toInt())
+    }
+    composable(Directions.multiplayerSummary.name.plus("/{$HISTORY_ID}")) {
+        val historyID = it.arguments?.getString(HISTORY_ID)
+        if (historyID == null)
+            navController.popBackStack()
+        else
+            MultiplayerSummaryPage(navController, historyID.toInt())
     }
     composable(Directions.history.name) {
         HistoryPage(navController)

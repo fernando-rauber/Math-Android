@@ -177,7 +177,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
             buttonText = R.string.result_action
         ) {
             coroutine.launch {
-                navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
+                navController.navigate("${Directions.multiplayerSummary.name}/${viewModel.historyId.value}") {
                     popUpTo(Directions.multiplayerGame.name) { inclusive = true }
                     popUpTo(Directions.multiplayerCreateGame.name) { inclusive = true }
                 }
