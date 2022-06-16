@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import uk.fernando.math.navigation.Directions.HISTORY_ID
 import uk.fernando.math.page.*
 import uk.fernando.math.page.multiplayer.MultiplayerCreateGamePage
+import uk.fernando.math.page.multiplayer.MultiplayerGamePage
 import uk.fernando.math.page.multiplayer.MultiplayerHistoryPage
 
 
@@ -27,6 +28,7 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         GamePage(navController)
     }
     composable(Directions.multiplayerGame.name) {
+        MultiplayerGamePage(navController)
     }
     composable(Directions.summary.name.plus("/{$HISTORY_ID}")) {
         val historyID = it.arguments?.getString(HISTORY_ID)

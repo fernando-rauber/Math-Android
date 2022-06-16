@@ -63,6 +63,16 @@ object QuestionGenerator {
      */
     fun getMathOperatorList() = operatorList
 
+    /**
+     * Returns player 1 name.
+     */
+    fun getPlayer1() = player1
+
+    /**
+     * Returns player 2 name.
+     */
+    fun getPlayer2() = player2
+
     fun clean() {
         questionList.clear()
     }
@@ -194,7 +204,7 @@ object QuestionGenerator {
             multipleChoice.add(createFakeAnswer(answer, multipleChoice))
         }
 
-        return multipleChoice.shuffled()
+        return multipleChoice
     }
 
     /**

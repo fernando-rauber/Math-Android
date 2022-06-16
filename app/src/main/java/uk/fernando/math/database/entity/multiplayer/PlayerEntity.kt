@@ -1,9 +1,6 @@
 package uk.fernando.math.database.entity.multiplayer
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.io.Serializable
 
 @Entity(
@@ -14,7 +11,7 @@ data class PlayerEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
-    val name: String,
+    var name: String = "",
     var correct: Int = 0,
     var incorrect: Int = 0,
 
@@ -22,6 +19,9 @@ data class PlayerEntity(
     var historyId: Long = 0
 
 ) : Serializable {
+
+    @Ignore
+    val questionList = mutableListOf<PlayerQuestionEntity>()
 
     companion object {
         const val NAME = "player"

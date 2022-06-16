@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.multiplayerHistory.name
+                            startDestination = Directions.multiplayerCreateGame.name
                         ) {
                             buildGraph(controller)
                         }

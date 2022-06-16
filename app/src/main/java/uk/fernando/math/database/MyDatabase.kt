@@ -10,7 +10,7 @@ import uk.fernando.math.database.dao.MultiplayerDao
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.multiplayer.MultiplayerHistoryEntity
-import uk.fernando.math.database.entity.multiplayer.PlayerAnswerEntity
+import uk.fernando.math.database.entity.multiplayer.PlayerQuestionEntity
 import uk.fernando.math.database.entity.multiplayer.PlayerEntity
 
 
@@ -19,7 +19,7 @@ import uk.fernando.math.database.entity.multiplayer.PlayerEntity
     version = DATABASE_VERSION,
     exportSchema = false,
     entities = [HistoryEntity::class, QuestionEntity::class, MultiplayerHistoryEntity::class,
-        PlayerEntity::class, PlayerAnswerEntity::class]
+        PlayerEntity::class, PlayerQuestionEntity::class]
 )
 abstract class MyDatabase : RoomDatabase() {
 

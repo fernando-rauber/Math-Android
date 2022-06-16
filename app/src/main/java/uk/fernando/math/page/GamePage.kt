@@ -38,6 +38,7 @@ import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
+import uk.fernando.math.component.MyAnimation
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
 import uk.fernando.math.component.MyTextField
@@ -77,20 +78,24 @@ fun GamePage(
         ) {
             Timer(viewModel)
 
-            QuestionDisplay(
-                viewModel = viewModel,
-                playAudio = { isCorrectAnswer ->
-                    isCorrectAnswer?.let {
-                        if (isCorrectAnswer)
-                            soundCorrect.playAudio()
-                        else
-                            soundIncorrect.playAudio()
+            viewModel.currentQuestion.value?.let { question ->
+
+                QuestionDisplay(
+                    question = question,
+                    onClick = { answer ->
+                        val isCorrectAnswer = viewModel.registerAnswer(answer)
+                        isCorrectAnswer?.let {
+                            if (isCorrectAnswer)
+                                soundCorrect.playAudio()
+                            else
+                                soundIncorrect.playAudio()
+                        }
                     }
-                }
-            )
+                )
+            }
         }
 
-        CountDownStart(viewModel)
+        CountDownStart { viewModel.startChronometer() }
 
         ResumeGame(viewModel)
 
@@ -108,7 +113,7 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val dataStore: PrefsStore by inject()
     val isPremium = dataStore.isPremium().collectAsState(true)
 
-    AnimatedVisibility(visible = viewModel.historyId.value != 0) {
+    MyAnimation(visible = viewModel.historyId.value != 0) {
         if (!isPremium.value)
             fullScreenAd.showAdvert()
 
@@ -173,25 +178,17 @@ private fun Timer(viewModel: GameViewModel) {
 }
 
 @Composable
-private fun ColumnScope.QuestionDisplay(viewModel: GameViewModel, playAudio: (Boolean?) -> Unit) {
-    viewModel.currentQuestion.value?.let { question ->
+fun ColumnScope.QuestionDisplay(question: Question, onClick: (Int) -> Unit) {
+    Question(question)
 
-        Question(question)
-
-        if (question.multipleChoices != null) {
-            MultipleChoice(question.multipleChoices) { answer ->
-                playAudio(viewModel.registerAnswer(answer))
-            }
-        } else {
-            OpenAnswer { answer ->
-                playAudio(viewModel.registerAnswer(answer))
-            }
-        }
-    }
+    if (question.multipleChoices != null)
+        MultipleChoice(question.multipleChoices.shuffled(), onClick = onClick)
+    else
+        OpenAnswer(onClick = onClick)
 }
 
 @Composable
-private fun CountDownStart(viewModel: GameViewModel) {
+fun CountDownStart(onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(3) }
 
     LaunchedEffect(Unit) {
@@ -199,7 +196,7 @@ private fun CountDownStart(viewModel: GameViewModel) {
             delay(1.seconds)
             countDown--
             if (countDown == -1)
-                viewModel.startChronometer()
+                onStart()
         }
     }
 
@@ -330,7 +327,7 @@ private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Uni
 }
 
 @Composable
-private fun CustomDialog(
+fun CustomDialog(
     @DrawableRes image: Int,
     @StringRes message: Int,
     @StringRes buttonText: Int,
