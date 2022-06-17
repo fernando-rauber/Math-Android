@@ -1,4 +1,4 @@
-package uk.fernando.math.page
+package uk.fernando.math.page.solo
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,7 +25,7 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ui.theme.red
-import uk.fernando.math.viewmodel.SummaryViewModel
+import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
 @ExperimentalMaterialApi
 @Composable

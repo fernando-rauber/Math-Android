@@ -1,4 +1,4 @@
-package uk.fernando.math.page
+package uk.fernando.math.page.solo
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -28,7 +28,7 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.viewmodel.CreateGameViewModel
+import uk.fernando.math.viewmodel.solo.CreateGameViewModel
 
 @ExperimentalMaterialApi
 @Composable

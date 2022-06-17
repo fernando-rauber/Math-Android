@@ -32,9 +32,9 @@ import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.EmptyHistory
-import uk.fernando.math.page.LoadingHistory
-import uk.fernando.math.viewmodel.MultiplayerHistoryViewModel
+import uk.fernando.math.page.solo.EmptyHistory
+import uk.fernando.math.page.solo.LoadingHistory
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerHistoryViewModel
 
 @ExperimentalMaterialApi
 @Composable

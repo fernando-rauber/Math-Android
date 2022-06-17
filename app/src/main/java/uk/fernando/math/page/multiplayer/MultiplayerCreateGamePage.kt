@@ -25,10 +25,10 @@ import uk.fernando.math.component.MyTextField
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.BasicMathOptions
-import uk.fernando.math.page.Difficulty
-import uk.fernando.math.page.QuestionQuantity
-import uk.fernando.math.viewmodel.MultiplayerCreateGameViewModel
+import uk.fernando.math.page.solo.BasicMathOptions
+import uk.fernando.math.page.solo.Difficulty
+import uk.fernando.math.page.solo.QuestionQuantity
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
 
 @ExperimentalMaterialApi
 @Composable

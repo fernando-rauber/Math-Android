@@ -1,4 +1,4 @@
-package uk.fernando.math.viewmodel
+package uk.fernando.math.viewmodel.solo
 
 import android.os.CountDownTimer
 import androidx.compose.runtime.MutableState
@@ -13,6 +13,7 @@ import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
+import uk.fernando.math.viewmodel.BaseViewModel
 
 
 class GameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {

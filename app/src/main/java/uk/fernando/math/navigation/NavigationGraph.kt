@@ -6,7 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import uk.fernando.math.navigation.Directions.HISTORY_ID
-import uk.fernando.math.page.*
+import uk.fernando.math.page.SettingsPage
+import uk.fernando.math.page.SplashPage
+import uk.fernando.math.page.solo.*
 import uk.fernando.math.page.multiplayer.MultiplayerCreateGamePage
 import uk.fernando.math.page.multiplayer.MultiplayerGamePage
 import uk.fernando.math.page.multiplayer.MultiplayerHistoryPage

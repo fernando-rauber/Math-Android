@@ -1,4 +1,4 @@
-package uk.fernando.math.viewmodel
+package uk.fernando.math.viewmodel.multiplayer
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +12,7 @@ import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
+import uk.fernando.math.viewmodel.BaseViewModel
 
 
 class MultiplayerGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {

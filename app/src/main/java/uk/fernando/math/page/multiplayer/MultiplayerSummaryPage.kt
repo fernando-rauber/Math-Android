@@ -22,8 +22,8 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
-import uk.fernando.math.page.MathCard
-import uk.fernando.math.viewmodel.MultiplayerSummaryViewModel
+import uk.fernando.math.page.solo.MathCard
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
 
 @ExperimentalMaterialApi
 @Composable

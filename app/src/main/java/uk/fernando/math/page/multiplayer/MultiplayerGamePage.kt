@@ -32,11 +32,12 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.noRippleClickable
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.CustomDialog
-import uk.fernando.math.page.QuestionDisplay
+import uk.fernando.math.page.solo.CountDownStart
+import uk.fernando.math.page.solo.CustomDialog
+import uk.fernando.math.page.solo.QuestionDisplay
 import uk.fernando.math.ui.theme.orange
 import uk.fernando.math.ui.theme.star_red
-import uk.fernando.math.viewmodel.MultiplayerGameViewModel
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
 import kotlin.time.Duration.Companion.seconds
 
 @ExperimentalMaterialApi
@@ -82,6 +83,8 @@ fun MultiplayerGamePage(
                 }
             )
         }
+
+        CountDownStart { }
 
         // Dialogs
         PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
@@ -133,10 +136,8 @@ private fun ColumnScope.Player1Screen(viewModel: MultiplayerGameViewModel, playS
         }
 
         // Block screen until other player choose their answer
-        MyAnimation(
-            visible = viewModel.player1Waiting.value,
-            content = { AwaitingPlayer() }
-        )
+        MyAnimation(viewModel.player1Waiting.value) { AwaitingPlayer() }
+
     }
 }
 
@@ -170,10 +171,7 @@ private fun ColumnScope.Player2Screen(viewModel: MultiplayerGameViewModel, playS
         }
 
         // Block screen until other player choose their answer
-        MyAnimation(
-            visible = viewModel.player2Waiting.value,
-            content = { AwaitingPlayer() }
-        )
+        MyAnimation(viewModel.player2Waiting.value) { AwaitingPlayer() }
     }
 }
 

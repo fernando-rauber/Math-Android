@@ -1,4 +1,4 @@
-package uk.fernando.math.page
+package uk.fernando.math.page.solo
 
 import android.media.MediaPlayer
 import androidx.annotation.DrawableRes
@@ -49,7 +49,7 @@ import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.ui.theme.*
-import uk.fernando.math.viewmodel.GameViewModel
+import uk.fernando.math.viewmodel.solo.GameViewModel
 import kotlin.time.Duration.Companion.seconds
 
 @ExperimentalMaterialApi

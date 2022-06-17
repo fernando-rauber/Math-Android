@@ -1,4 +1,4 @@
-package uk.fernando.math.page
+package uk.fernando.math.page.solo
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -33,7 +33,7 @@ import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.viewmodel.HistoryViewModel
+import uk.fernando.math.viewmodel.solo.HistoryViewModel
 
 @ExperimentalMaterialApi
 @Composable

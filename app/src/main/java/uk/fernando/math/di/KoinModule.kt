@@ -17,6 +17,14 @@ import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.notification.NotificationHelper
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.viewmodel.*
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerHistoryViewModel
+import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
+import uk.fernando.math.viewmodel.solo.CreateGameViewModel
+import uk.fernando.math.viewmodel.solo.GameViewModel
+import uk.fernando.math.viewmodel.solo.HistoryViewModel
+import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
 object KoinModule {
 
