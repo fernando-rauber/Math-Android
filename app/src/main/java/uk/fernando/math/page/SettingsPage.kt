@@ -59,6 +59,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = R.string.allow_decimals,
+                    subText = R.string.allow_decimals_subtext,
                     isChecked = allowDecimals.value,
                     onCheckedChange = viewModel::updateAllowDecimals
                 )
@@ -66,6 +67,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.premium,
+                    subText = R.string.premium_subtext,
                     isPremium = true,
                     isChecked = isPremium.value,
                     onCheckedChange = viewModel::updatePremium
@@ -110,6 +112,7 @@ private fun CustomSettingsResourcesCard(
     modifier: Modifier = Modifier,
     modifierRow: Modifier = Modifier,
     @StringRes text: Int,
+    @StringRes subText: Int? = null,
     isChecked: Boolean,
     isPremium: Boolean = false,
     onCheckedChange: (Boolean) -> Unit,
@@ -125,21 +128,30 @@ private fun CustomSettingsResourcesCard(
             modifier = modifierRow.padding(16.dp)
         ) {
 
-            Row(
-                Modifier
-                    .padding(end = 20.dp)
-                    .weight(1f),
-            ) {
+            Column(Modifier
+                .padding(end = 20.dp)
+                .weight(1f),) {
 
-                Text(
-                    text = stringResource(id = text),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(end = 5.dp)
-                )
+                Row{
 
-                if (isPremium)
-                    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+                    Text(
+                        text = stringResource(id = text),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(end = 5.dp)
+                    )
+
+                    if (isPremium)
+                        Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+                }
+
+                subText?.let {
+                    Text(
+                        text = stringResource(id = subText),
+                        style = MaterialTheme.typography.bodySmall,
+//                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
 
             if (showArrow)

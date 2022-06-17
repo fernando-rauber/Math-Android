@@ -62,8 +62,10 @@
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="allow_decimals">Allow Decimals</string>
+    <string name="allow_decimals_subtext">Questions/Answer may contain decimals.</string>
     <string name="notification">Notification</string>
     <string name="premium">Premium</string>
+    <string name="premium_subtext">Remove Ads and open new features.</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="version">Version %s</string>
 
