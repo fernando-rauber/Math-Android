@@ -57,34 +57,41 @@ fun MultiplayerGamePage(
     Box {
         Column(Modifier.fillMaxSize()) {
 
-            Player2Screen(
-                viewModel = viewModel,
-                playSound = { isCorrectAnswer ->
-                    isCorrectAnswer?.let {
-                        if (isCorrectAnswer)
-                            soundCorrect.playAudio()
-                        else
-                            soundIncorrect.playAudio()
+            Box(Modifier.weight(1f).rotate(180f)) {
+                Player2Screen(
+                    viewModel = viewModel,
+                    playSound = { isCorrectAnswer ->
+                        isCorrectAnswer?.let {
+                            if (isCorrectAnswer)
+                                soundCorrect.playAudio()
+                            else
+                                soundIncorrect.playAudio()
+                        }
                     }
-                }
-            )
+                )
+
+                CountDownStart { }
+            }
 
             Settings(viewModel)
 
-            Player1Screen(
-                viewModel = viewModel,
-                playSound = { isCorrectAnswer ->
-                    isCorrectAnswer?.let {
-                        if (isCorrectAnswer)
-                            soundCorrect.playAudio()
-                        else
-                            soundIncorrect.playAudio()
-                    }
-                }
-            )
-        }
+            Box(Modifier.weight(1f)) {
 
-        CountDownStart { }
+                Player1Screen(
+                    viewModel = viewModel,
+                    playSound = { isCorrectAnswer ->
+                        isCorrectAnswer?.let {
+                            if (isCorrectAnswer)
+                                soundCorrect.playAudio()
+                            else
+                                soundIncorrect.playAudio()
+                        }
+                    }
+                )
+
+                CountDownStart { }
+            }
+        }
 
         // Dialogs
         PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
@@ -111,8 +118,8 @@ private fun PauseResumeGame(viewModel: MultiplayerGameViewModel, onExitGame: () 
 }
 
 @Composable
-private fun ColumnScope.Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boolean?) -> Unit) {
-    Box(Modifier.weight(1f)) {
+private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boolean?) -> Unit) {
+    Box {
 
         // Question & Multiple choice
         Column(
@@ -142,13 +149,8 @@ private fun ColumnScope.Player1Screen(viewModel: MultiplayerGameViewModel, playS
 }
 
 @Composable
-private fun ColumnScope.Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boolean?) -> Unit) {
-    Box(
-        Modifier
-            .weight(1f)
-            .rotate(180f)
-    ) {
-
+private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boolean?) -> Unit) {
+    Box{
         // Question & Multiple choice
         Column(
             Modifier
@@ -275,14 +277,13 @@ private fun AwaitingPlayer() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(0.6f))
+            .background(Color.Black.copy(0.7f))
             .noRippleClickable { }) {
 
         Text(
             text = stringResource(id = R.string.waiting_player),
             modifier = Modifier.align(Alignment.Center),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.titleMedium,
             color = Color.White
         )
     }
