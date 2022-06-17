@@ -91,7 +91,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     }
 
     private fun createHistory() {
-        launchDefault {
+        launchIO {
             try {
                 chronometer.cancel()
                 history.timer = chronometerSeconds.value
@@ -106,21 +106,23 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     }
 
     private fun createHistoryQuestion(answer: Int) {
-        currentQuestion.value?.let { q ->
+        launchIO {
+            currentQuestion.value?.let { q ->
 
-            // score counter
-            if (answer == q.answer)
-                player1.correct++
-            else
-                player1.incorrect++
+                // score counter
+                if (answer == q.answer)
+                    player1.correct++
+                else
+                    player1.incorrect++
 
-            val question = PlayerQuestionEntity(
-                question = "${q.first} ${q.operator.mathOperator()} ${q.second}",
-                answer = answer,
-                correctAnswer = q.answer
-            )
+                val question = PlayerQuestionEntity(
+                    question = "${q.first} ${q.operator.mathOperator()} ${q.second}",
+                    answer = answer,
+                    correctAnswer = q.answer
+                )
 
-            player1.questionList.add(question)
+                player1.questionList.add(question)
+            }
         }
     }
 

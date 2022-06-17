@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
+import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
@@ -39,18 +40,14 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by controller.currentBackStackEntryAsState()
             val isDarkMode = dataStore.isDarkMode().collectAsState(true)
 
-            UpdateUIBar(isDarkMode = isDarkMode.value)
+//            when (navBackStackEntry?.destination?.route) {
+//                Directions.splash.name, Directions.game.name -> UpdateStatusBar()
+//                Directions.history.name, Directions.summary.name -> UpdateStatusBar(green_pastel)
+//            }
 
             MyMathTheme(darkTheme = isDarkMode.value) {
 
                 Scaffold(
-//                    modifier = Modifier.background(
-//                        Brush.verticalGradient(
-//                        colors = listOf(
-//                            MaterialTheme.colors.background.copy(0.9f),
-//                            MaterialTheme.colors.background.copy(0.4f)
-//                        )
-//                    )),
                     bottomBar = {
                         when (navBackStackEntry?.destination?.route) {
                             Directions.history.name, Directions.multiplayerHistory.name, Directions.settings.name ->
@@ -63,7 +60,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(padding)) {
                         NavHost(
                             navController = controller,
-                            startDestination = Directions.multiplayerHistory.name
+                            startDestination = Directions.splash.name
                         ) {
                             buildGraph(controller)
                         }
@@ -71,18 +68,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun UpdateUIBar(isDarkMode: Boolean) {
-    val systemUiController = rememberSystemUiController()
-    val systemBarColor = MaterialTheme.colorScheme.background
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = green_pastel
-//            color = if (isDarkMode) Color.Black else Color.White
-        )
     }
 }

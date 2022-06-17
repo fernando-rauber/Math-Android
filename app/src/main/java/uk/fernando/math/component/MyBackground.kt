@@ -16,7 +16,6 @@ fun MyBackground(content: @Composable () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f),
-            // shape = RoundedCornerShape(bottomStartPercent = 25, bottomEndPercent = 25),
             shadowElevation = 4.dp,
             color = green_pastel,
             content = {}

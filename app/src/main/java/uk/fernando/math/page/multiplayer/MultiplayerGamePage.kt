@@ -48,7 +48,6 @@ fun MultiplayerGamePage(
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
-    var isPaused by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.createGame()
@@ -69,9 +68,7 @@ fun MultiplayerGamePage(
                 }
             )
 
-            Settings(viewModel) {
-                isPaused = true
-            }
+            Settings(viewModel)
 
             Player1Screen(
                 viewModel = viewModel,
@@ -86,20 +83,26 @@ fun MultiplayerGamePage(
             )
         }
 
-        MyAnimation(isPaused) {
-            CustomDialog(
-                image = R.drawable.coffee_break,
-                message = R.string.resume_message,
-                buttonText = R.string.resume_action,
-                onExitGame = { navController.popBackStack() },
-                onClick = { isPaused = false }
-            )
-        }
+        // Dialogs
+        PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 
         DialogResult(
             navController = navController,
             viewModel = viewModel,
             fullScreenAd = fullScreenAd
+        )
+    }
+}
+
+@Composable
+private fun PauseResumeGame(viewModel: MultiplayerGameViewModel, onExitGame: () -> Unit) {
+    MyAnimation(viewModel.isGamePaused.value) {
+        CustomDialog(
+            image = R.drawable.coffee_break,
+            message = R.string.resume_message,
+            buttonText = R.string.resume_action,
+            onExitGame = onExitGame,
+            onClick = { viewModel.pauseUnpauseGame() }
         )
     }
 }
@@ -200,7 +203,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
 }
 
 @Composable
-private fun Settings(viewModel: MultiplayerGameViewModel, onPause: () -> Unit) {
+private fun Settings(viewModel: MultiplayerGameViewModel) {
     Row(
         modifier = Modifier
             .background(orange)
@@ -218,7 +221,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel, onPause: () -> Unit) {
         )
 
 
-        IconButton(onClick = onPause) {
+        IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
             Icon(
                 painterResource(id = R.drawable.ic_pause),
                 contentDescription = "pause",

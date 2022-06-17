@@ -29,6 +29,7 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
 
     val currentQuestion: MutableState<Question?> = mutableStateOf(null)
     val historyId = mutableStateOf(0)
+    val isGamePaused = mutableStateOf(false)
 
     fun createGame() {
         clean()
@@ -42,6 +43,10 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
         player2.name = QuestionGenerator.getPlayer2()
 
         nextQuestion()
+    }
+
+    fun pauseUnpauseGame() {
+        isGamePaused.value = !isGamePaused.value
     }
 
     private fun clean() {

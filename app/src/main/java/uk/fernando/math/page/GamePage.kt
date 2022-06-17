@@ -75,26 +75,20 @@ fun GamePage(
         ) {
             Timer(viewModel)
 
-            viewModel.currentQuestion.value?.let { question ->
-
-                QuestionDisplay(
-                    question = question,
-                    onClick = { answer ->
-                        val isCorrectAnswer = viewModel.registerAnswer(answer)
-                        isCorrectAnswer?.let {
-                            if (isCorrectAnswer)
-                                soundCorrect.playAudio()
-                            else
-                                soundIncorrect.playAudio()
-                        }
-                    }
-                )
+            QuestionAndAnswers(viewModel) { isCorrectAnswer ->
+                isCorrectAnswer?.let {
+                    if (isCorrectAnswer)
+                        soundCorrect.playAudio()
+                    else
+                        soundIncorrect.playAudio()
+                }
             }
         }
 
+        // Dialogs
         CountDownStart { viewModel.startChronometer() }
 
-        ResumeGame(viewModel, onExitGame = { navController.popBackStack() })
+        PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 
         DialogResult(
             navController = navController,
@@ -171,6 +165,19 @@ private fun Timer(viewModel: GameViewModel) {
 }
 
 @Composable
+private fun ColumnScope.QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -> Unit) {
+    viewModel.currentQuestion.value?.let { question ->
+
+        QuestionDisplay(
+            question = question,
+            onClick = { answer ->
+                playSound(viewModel.registerAnswer(answer))
+            }
+        )
+    }
+}
+
+@Composable
 fun ColumnScope.QuestionDisplay(question: Question, onClick: (Int) -> Unit) {
     Question(question)
 
@@ -216,8 +223,8 @@ fun CountDownStart(onStart: () -> Unit) {
 }
 
 @Composable
-private fun ResumeGame(viewModel: GameViewModel, onExitGame: () -> Unit) {
-    AnimatedVisibility(viewModel.isGamePaused.value) {
+private fun PauseResumeGame(viewModel: GameViewModel, onExitGame: () -> Unit) {
+    MyAnimation(viewModel.isGamePaused.value) {
         CustomDialog(
             image = R.drawable.coffee_break,
             message = R.string.resume_message,

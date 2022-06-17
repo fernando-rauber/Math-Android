@@ -26,7 +26,6 @@ fun SplashPage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: SplashViewModel = getViewModel()
 ) {
-
     Box(Modifier.fillMaxSize()) {
 
         Image(
