@@ -69,27 +69,31 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
             return null
 
         val nextQuestion = generateHistoryQuestion(answer, player1)
+        val isAnswerCorrect =  isAnswerCorrect(answer)
 
         if (nextQuestion)
             nextQuestion()
         else
             player1Waiting.value = true
 
-        return answer == currentQuestion.value?.answer
+        return isAnswerCorrect
     }
+
+    private fun isAnswerCorrect(answer: Int?) = answer == currentQuestion.value?.answer
 
     fun registerAnswerPlayer2(answer: Int?): Boolean? {
         if (historyId.value != 0) // Game ended
             return null
 
         val nextQuestion = generateHistoryQuestion(answer, player2)
+        val isAnswerCorrect =  isAnswerCorrect(answer)
 
         if (nextQuestion)
             nextQuestion()
         else
             player2Waiting.value = true
 
-        return answer == currentQuestion.value?.answer
+        return isAnswerCorrect
     }
 
     private fun nextQuestion() {
