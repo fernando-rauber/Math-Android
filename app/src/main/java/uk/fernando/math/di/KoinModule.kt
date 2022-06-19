@@ -79,7 +79,7 @@ object KoinModule {
 
     private const val DB_NAME = "math_fun.db"
 
-    private fun getAndroidLogger(): MyLogger {
+    fun getAndroidLogger(): MyLogger {
         return if (BuildConfig.BUILD_TYPE == "debug")
             AndroidLogger(MyLogger.LogLevel.DEBUG)
         else
