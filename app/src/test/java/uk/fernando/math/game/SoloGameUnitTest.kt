@@ -1,4 +1,4 @@
-package uk.fernando.math.history
+package uk.fernando.math.game
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -16,7 +16,7 @@ import uk.fernando.math.viewmodel.solo.GameViewModel
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HistoryUnitTest : KoinTestCase() {
+class SoloGameUnitTest : KoinTestCase() {
     private val gameViewModel: GameViewModel by inject()
 
     init {
