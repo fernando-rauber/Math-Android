@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
+import uk.fernando.math.ext.isBooleanQuestion
+import uk.fernando.math.ext.toFalseTrue
 import uk.fernando.math.model.Question
 import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.orange
@@ -31,10 +33,14 @@ import uk.fernando.math.ui.theme.purple
 fun ColumnScope.MyQuestionDisplay(question: Question, onClick: (Int) -> Unit) {
     Question(question)
 
-    if (question.multipleChoices != null)
-        MultipleChoice(question.multipleChoices.shuffled(), onClick = onClick)
-    else
-        OpenAnswer(onClick = onClick)
+    if (question.operator.isBooleanQuestion())
+        BooleanChoice(onClick = onClick)
+    else {
+        if (question.multipleChoices != null)
+            MultipleChoice(question.multipleChoices.shuffled(), onClick = onClick)
+        else
+            OpenAnswer(onClick = onClick)
+    }
 }
 
 @Composable
@@ -59,7 +65,9 @@ private fun ColumnScope.Question(question: Question) {
 @Composable
 private fun BooleanChoice(onClick: (Int) -> Unit) {
     Row {
-
+        AnswerCard(1, green_pastel, onClick, true)
+        Spacer(Modifier.width(16.dp))
+        AnswerCard(0, pastel_red, onClick, true)
     }
 }
 
@@ -118,7 +126,7 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
 }
 
 @Composable
-private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Unit) {
+private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Unit, isBoolean: Boolean = false) {
 
     Box(
         modifier = Modifier
@@ -130,7 +138,7 @@ private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Uni
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "$answer",
+            text = if (isBoolean) stringResource(answer.toFalseTrue()) else "$answer",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold
         )

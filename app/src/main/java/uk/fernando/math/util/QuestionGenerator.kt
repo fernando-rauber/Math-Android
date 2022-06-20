@@ -1,5 +1,6 @@
 package uk.fernando.math.util
 
+import android.util.Log
 import uk.fernando.math.model.Question
 import uk.fernando.math.model.enum.Difficulty
 import uk.fernando.math.model.enum.Difficulty.*
@@ -135,7 +136,7 @@ object QuestionGenerator {
         val second = (minNumber..maxNumber).random()
 
         if (first == second)
-            return getQuestionPlusMinus(operator)
+            return getQuestionGreaterOrLess(operator)
 
         val answer = if (operator == GREATER_THAN.value)
             first > second

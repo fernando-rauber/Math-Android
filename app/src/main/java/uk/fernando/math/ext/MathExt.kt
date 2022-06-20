@@ -11,18 +11,6 @@ import uk.fernando.math.ui.theme.star_green
 import uk.fernando.math.ui.theme.star_orange
 import uk.fernando.math.ui.theme.star_red
 
-fun Int.mathOperator(): String {
-    return when (getByValue(this)) {
-        ADDITION -> "+"
-        SUBTRACTION -> "-"
-        MULTIPLICATION -> "x"
-        DIVISION -> "-"
-        PERCENTAGE -> "%"
-        SQUARE -> "Square of"
-        else -> "FRACTION" // FRACTION
-    }
-}
-
 fun Int.mathOperatorIcon(): Int {
     return when (getByValue(this)) {
         ADDITION -> R.drawable.ic_math_addition
@@ -49,11 +37,10 @@ fun Int.operatorIcon(): Int {
     }
 }
 
-fun Int.difficultyName(): Int {
-    return when (Difficulty.getByValue(this)) {
-        EASY -> R.string.easy
-        MEDIUM -> R.string.medium
-        else -> R.string.hard // Hard
+fun Int.isBooleanQuestion(): Boolean {
+    return when (getByValue(this)) {
+        GREATER_THAN, LESSER_THAN -> true
+        else -> false
     }
 }
 

@@ -2,6 +2,7 @@ package uk.fernando.math.ext
 
 import android.media.MediaPlayer
 import androidx.navigation.NavController
+import uk.fernando.math.R
 
 val Any.TAG: String
     get() {
@@ -21,7 +22,11 @@ fun Int.timerFormat(): String {
     return "${minutes.toString().padStart(2, '0')}:${(this % 60).toString().padStart(2, '0')}"
 }
 
-fun MediaPlayer.playAudio(){
+fun Int.toFalseTrue(): Int {
+    return if (this == 1) R.string.correct_boolean else R.string.incorrect_boolean
+}
+
+fun MediaPlayer.playAudio() {
     if (isPlaying) {
         stop()
         prepare()

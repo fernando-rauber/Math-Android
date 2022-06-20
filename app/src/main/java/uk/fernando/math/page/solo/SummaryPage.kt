@@ -25,6 +25,8 @@ import uk.fernando.math.component.game.MyQuestion
 import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
+import uk.fernando.math.ext.isBooleanQuestion
+import uk.fernando.math.ext.toFalseTrue
 import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
@@ -113,22 +115,30 @@ fun MathCard(modifier: Modifier = Modifier, question: PlayerQuestionEntity) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
+            val isBooleanAnswer = question.operator.isBooleanQuestion()
+
+            val answer = if (question.answer == null) " "
+            else if (isBooleanAnswer) stringResource(question.answer.toFalseTrue())
+            else question.answer.toString()
+
             MyQuestion(
                 value1 = question.value1,
                 value2 = question.value2,
                 operator = question.operator,
-                result = question.answer?.toString() ?: " ",
+                result = answer,
                 resultColor = if (question.answer != question.correctAnswer) red else null,
                 size = 16
             )
 
-            if (question.answer != question.correctAnswer)
+            if (question.answer != question.correctAnswer) {
+                val correctAnswer = if (isBooleanAnswer) stringResource(question.correctAnswer.toFalseTrue()) else question.correctAnswer
                 Text(
                     modifier = Modifier.align(Alignment.Top),
-                    text = "(${question.correctAnswer})",
+                    text = "($correctAnswer)",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
                 )
+            }
         }
     }
 }
