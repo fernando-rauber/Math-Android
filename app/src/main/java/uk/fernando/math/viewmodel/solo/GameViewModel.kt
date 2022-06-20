@@ -1,32 +1,16 @@
 package uk.fernando.math.viewmodel.solo
 
 import android.os.CountDownTimer
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
-import uk.fernando.math.database.entity.HistoryEntity
-import uk.fernando.math.database.entity.HistoryWithPLayers
-import uk.fernando.math.database.entity.PlayerEntity
-import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.model.Question
-import uk.fernando.math.repository.HistoryRepository
-import uk.fernando.math.util.QuestionGenerator
-import uk.fernando.math.viewmodel.BaseViewModel
+import uk.fernando.math.repository.GameRepository
+import uk.fernando.math.viewmodel.BaseGameViewModel
 
 
-class GameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {
+class GameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseGameViewModel(rep, logger) {
 
-    private var history = HistoryEntity()
-    private var player1 = PlayerEntity()
-
-    var maxQuestion = 0
-    val nextQuestion = mutableStateOf(0)
-
-    val currentQuestion: MutableState<Question?> = mutableStateOf(null)
-    val historyId = mutableStateOf(0)
     val chronometerSeconds = mutableStateOf(0)
-    val isGamePaused = mutableStateOf(false)
 
     //TODO need to fix it, what happen if user go to background on the game? should pause
     private val chronometer = object : CountDownTimer(30000000, 1000) {
@@ -40,44 +24,40 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
         }
     }
 
-    fun createGame() {
+     fun createGame() {
         clean()
 
-        history.difficulty = QuestionGenerator.getDifficulty()
-        history.operatorList = QuestionGenerator.getMathOperatorList()
-        maxQuestion = QuestionGenerator.getQuestionList().count()
+        launchDefault {
+            val historyWithPlayer = rep.getOpenGame()
 
-        nextQuestion()
+            history = historyWithPlayer!!.history
+
+            // Get Players
+            player1 = historyWithPlayer.playerList.first()
+
+            maxQuestion = player1.questionList.count()
+
+            nextQuestion()
+        }
     }
+
+    fun isMultipleChoice() = history.isMultipleChoice
 
     fun startChronometer() {
         chronometer.start()
     }
 
-    fun pauseUnpauseGame() {
-        isGamePaused.value = !isGamePaused.value
-    }
 
-    private fun clean() {
-        try {
-            history = HistoryEntity()
-            nextQuestion.value = 0
-            chronometerSeconds.value = 0
-            player1 = PlayerEntity()
-        } catch (e: Exception) {
-            logger.e(TAG, e.message.toString())
-            logger.addMessageToCrashlytics(TAG, "Error to clean viewModel: msg: ${e.message}")
-            logger.addExceptionToCrashlytics(e)
-        }
+    override fun clean() {
+        super.clean()
+        chronometerSeconds.value = 0
     }
 
     fun registerAnswer(answer: Int): Boolean? {
-        if (historyId.value != 0) // Test ended
+        if (isGameFinished.value)
             return null
-
-        createHistoryQuestion(answer)
-
-        val isAnswerCorrect = answer == currentQuestion.value?.answer
+        
+        val isAnswerCorrect = updateQuestion(answer, player1, currentQuestion.value!!)
 
         nextQuestion()
 
@@ -85,47 +65,30 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     }
 
     private fun nextQuestion() {
-        if (QuestionGenerator.getQuestionList().size > nextQuestion.value) {
-            currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion.value]
-            nextQuestion.value++
+        if (player1.questionList.size > nextQuestionCounter.value) {
+            currentQuestion.value = player1.questionList[nextQuestionCounter.value]
+            nextQuestionCounter.value++
         } else {
-            createHistory()
+            updateHistoryData()
         }
     }
 
-    private fun createHistory() {
+    private fun updateHistoryData() {
         launchDefault {
             try {
                 chronometer.cancel()
                 history.timer = chronometerSeconds.value
-                historyId.value = rep.insertHistory(HistoryWithPLayers(history, listOf(player1)))
-                QuestionGenerator.clean()
+                history.isFinished = true
+
+                updateHistory(history)
+                updatePlayer(player1)
+
+                isGameFinished.value = true
             } catch (e: Exception) {
                 logger.e(TAG, e.message.toString())
                 logger.addMessageToCrashlytics(TAG, "Error create history: msg: ${e.message}")
                 logger.addExceptionToCrashlytics(e)
             }
-        }
-    }
-
-    private fun createHistoryQuestion(answer: Int) {
-        currentQuestion.value?.let { q ->
-
-            // score counter
-            if (answer == q.answer)
-                player1.correct++
-            else
-                player1.incorrect++
-
-            val question = PlayerQuestionEntity(
-                value1 = q.value1,
-                value2 = q.value2,
-                operator = q.operator,
-                answer = answer,
-                correctAnswer = q.answer
-            )
-
-            player1.questionList.add(question)
         }
     }
 

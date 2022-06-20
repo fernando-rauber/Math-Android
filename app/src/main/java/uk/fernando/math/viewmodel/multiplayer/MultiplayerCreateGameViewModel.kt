@@ -1,22 +1,21 @@
 package uk.fernando.math.viewmodel.multiplayer
 
-import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.flow
 import uk.fernando.logger.MyLogger
+import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.TAG
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
-import uk.fernando.math.viewmodel.BaseViewModel
+import uk.fernando.math.viewmodel.BaseCreateGameViewModel
+import java.util.*
 
 
-class MultiplayerCreateGameViewModel(private val logger: MyLogger) : BaseViewModel() {
+class MultiplayerCreateGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseCreateGameViewModel() {
 
-    private val operatorOptions = mutableListOf(1, 2, 3, 4)
-    private var quantity = 10
     private var player1 = "Player 1"
     private var player2 = "Player 2"
-    private var difficulty = 1 // Easy
-    val loading = mutableStateOf(false)
-    val isGameValid = mutableStateOf(true)
 
     fun setPlayer1(name: String) {
         this.player1 = name
@@ -26,31 +25,29 @@ class MultiplayerCreateGameViewModel(private val logger: MyLogger) : BaseViewMod
         this.player2 = name
     }
 
-    fun setMathOptions(option: Int) {
-        if (operatorOptions.contains(option))
-            operatorOptions.remove(option)
-        else
-            operatorOptions.add(option)
-
-        isGameValid.value = operatorOptions.size > 0
-    }
-
-    fun setQuantity(quantity: Int) {
-        this.quantity = quantity
-    }
-
-    fun setDifficulty(difficulty: Int) {
-        this.difficulty = difficulty
-    }
-
     fun generateQuestion() = flow {
         loading.value = true
         kotlin.runCatching {
-            QuestionGenerator.setPlayers(player1, player2)
-            val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, true, difficulty)
+            // Delete Previous Game if still open
+            rep.deleteOpenGame()
 
-            loading.value = !finished
-            emit(finished)
+            val player1 = PlayerEntity(name = player1)
+            val player2 = PlayerEntity(name = player2)
+            val history = HistoryEntity(
+                date = Date(),
+                difficulty = difficultyLevel,
+                operatorList = operatorOptions,
+                multiplayer = true
+            )
+
+            val questionList = QuestionGenerator().generateQuestions(operatorOptions, quantityQuestion, difficultyLevel)
+            player1.questionList.addAll(questionList)
+            player2.questionList.addAll(questionList)
+
+            rep.insertHistory(HistoryWithPLayers(history, listOf(player1, player2)))
+
+            loading.value = false
+            emit(true)
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error to generate questions: msg: ${e.message}")

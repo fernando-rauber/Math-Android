@@ -1,50 +1,40 @@
 package uk.fernando.math.viewmodel.solo
 
-import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.flow
 import uk.fernando.logger.MyLogger
+import uk.fernando.math.database.entity.HistoryEntity
+import uk.fernando.math.database.entity.HistoryWithPLayers
+import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.TAG
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
-import uk.fernando.math.viewmodel.BaseViewModel
+import uk.fernando.math.viewmodel.BaseCreateGameViewModel
+import java.util.*
 
 
-class CreateGameViewModel(private val logger: MyLogger) : BaseViewModel() {
-
-    private val operatorOptions = mutableListOf(1, 2, 3, 4)
-    private var quantity = 10
-    private var isMultipleChoice = true
-    private var difficulty = 1 // Easy
-    val loading = mutableStateOf(false)
-    val isGameValid = mutableStateOf(true)
-
-    fun setMathOptions(option: Int) {
-        if (operatorOptions.contains(option))
-            operatorOptions.remove(option)
-        else
-            operatorOptions.add(option)
-
-        isGameValid.value = operatorOptions.size > 0
-    }
-
-    fun setQuantity(quantity: Int) {
-        this.quantity = quantity
-    }
-
-    fun setTypeAnswer(isMultipleChoice: Boolean) {
-        this.isMultipleChoice = isMultipleChoice
-    }
-
-    fun setDifficulty(difficulty: Int) {
-        this.difficulty = difficulty
-    }
+class CreateGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseCreateGameViewModel() {
 
     fun generateQuestion() = flow {
         loading.value = true
         kotlin.runCatching {
-            val finished = QuestionGenerator.generateQuestions(operatorOptions, quantity, isMultipleChoice, difficulty)
+            // Delete Previous Game if still open
+            rep.deleteOpenGame()
 
-            loading.value = !finished
-            emit(finished)
+            val player = PlayerEntity()
+            val history = HistoryEntity(
+                date = Date(),
+                difficulty = difficultyLevel,
+                operatorList = operatorOptions,
+                isMultipleChoice = isMultipleChoice
+            )
+
+            player.questionList.addAll(QuestionGenerator().generateQuestions(operatorOptions, quantityQuestion, difficultyLevel))
+
+            rep.insertHistory(HistoryWithPLayers(history, listOf(player)))
+
+            loading.value = false
+            resetViewModel()
+            emit(true)
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error to generate questions: msg: ${e.message}")

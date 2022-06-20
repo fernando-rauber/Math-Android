@@ -1,76 +1,48 @@
 package uk.fernando.math.viewmodel.multiplayer
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
-import uk.fernando.math.database.entity.HistoryEntity
-import uk.fernando.math.database.entity.HistoryWithPLayers
-import uk.fernando.math.database.entity.PlayerEntity
-import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.model.Question
-import uk.fernando.math.repository.HistoryRepository
-import uk.fernando.math.util.QuestionGenerator
-import uk.fernando.math.viewmodel.BaseViewModel
+import uk.fernando.math.repository.GameRepository
+import uk.fernando.math.viewmodel.BaseGameViewModel
 
 
-class MultiplayerGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseViewModel() {
-
-    private var history = HistoryEntity()
-
-    private var player1 = PlayerEntity()
-    private var player2 = PlayerEntity()
+class MultiplayerGameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseGameViewModel(rep, logger) {
 
     val player1Waiting = mutableStateOf(false)
     val player2Waiting = mutableStateOf(false)
 
-    var maxQuestion = 0
-    val nextQuestion = mutableStateOf(0)
-
-    val currentQuestion: MutableState<Question?> = mutableStateOf(null)
-    val historyId = mutableStateOf(0)
-    val isGamePaused = mutableStateOf(false)
+    private var player1Counter = 1
+    private var player2Counter = 1
 
     fun createGame() {
         clean()
 
-        history.difficulty = QuestionGenerator.getDifficulty()
-        history.operatorList = QuestionGenerator.getMathOperatorList()
-        history.multiplayer = true
-        maxQuestion = QuestionGenerator.getQuestionList().count()
+        launchDefault {
+            val historyWithPlayer = rep.getOpenGame()
 
-        player1.name = QuestionGenerator.getPlayer1()
-        player2.name = QuestionGenerator.getPlayer2()
+            history = historyWithPlayer!!.history
 
-        nextQuestion()
-    }
+            // Get Players
+            player1 = historyWithPlayer.playerList.first()
+            if (history.multiplayer)
+                player2 = historyWithPlayer.playerList[1]
 
-    fun pauseUnpauseGame() {
-        isGamePaused.value = !isGamePaused.value
-    }
+            maxQuestion = player1.questionList.count() ?: 0
 
-    private fun clean() {
-        try {
-            history = HistoryEntity()
-            historyId.value = 0
-            nextQuestion.value = 0
-            player1 = PlayerEntity()
-            player2 = PlayerEntity()
-        } catch (e: Exception) {
-            logger.e(TAG, e.message.toString())
-            logger.addMessageToCrashlytics(TAG, "Error to clean viewModel: msg: ${e.message}")
-            logger.addExceptionToCrashlytics(e)
+            nextQuestion()
         }
     }
 
     fun registerAnswerPlayer1(answer: Int?): Boolean? {
-        if (historyId.value != 0) // Game ended
+        if (isGameFinished.value)
             return null
 
-        val nextQuestion = generateHistoryQuestion(answer, player1)
-        val isAnswerCorrect =  isAnswerCorrect(answer)
+        val isAnswerCorrect = updateQuestion(answer, player1, currentQuestion.value!!)
 
-        if (nextQuestion)
+        player1Counter++
+
+        if (player1Counter == player2Counter)
             nextQuestion()
         else
             player1Waiting.value = true
@@ -78,16 +50,15 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
         return isAnswerCorrect
     }
 
-    private fun isAnswerCorrect(answer: Int?) = answer == currentQuestion.value?.answer
-
     fun registerAnswerPlayer2(answer: Int?): Boolean? {
-        if (historyId.value != 0) // Game ended
+        if (isGameFinished.value)
             return null
 
-        val nextQuestion = generateHistoryQuestion(answer, player2)
-        val isAnswerCorrect =  isAnswerCorrect(answer)
+        val isAnswerCorrect = updateQuestion(answer, player2, player2.questionList[nextQuestionCounter.value - 1])
 
-        if (nextQuestion)
+        player2Counter++
+
+        if (player1Counter == player2Counter)
             nextQuestion()
         else
             player2Waiting.value = true
@@ -99,19 +70,24 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
         player1Waiting.value = false
         player2Waiting.value = false
 
-        if (QuestionGenerator.getQuestionList().size > nextQuestion.value) {
-            currentQuestion.value = QuestionGenerator.getQuestionList()[nextQuestion.value]
-            nextQuestion.value++
+        if (player1.questionList.size > nextQuestionCounter.value) {
+            currentQuestion.value = player1.questionList[nextQuestionCounter.value]
+            nextQuestionCounter.value++
         } else {
-            insertHistory()
+            updateHistoryData()
         }
     }
 
-    private fun insertHistory() {
+    private fun updateHistoryData() {
         launchDefault {
             try {
-                historyId.value = rep.insertHistory(HistoryWithPLayers(history, listOf(player1, player2)))
-                QuestionGenerator.clean()
+                history.isFinished = true
+
+                updateHistory(history)
+                updatePlayer(player1)
+                updatePlayer(player2)
+
+                isGameFinished.value = true
             } catch (e: Exception) {
                 logger.e(TAG, e.message.toString())
                 logger.addMessageToCrashlytics(TAG, "Error create history: msg: ${e.message}")
@@ -119,30 +95,6 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
             }
         }
     }
-
-    private fun generateHistoryQuestion(answer: Int?, player: PlayerEntity): Boolean {
-        currentQuestion.value?.let { q ->
-
-            // score counter
-            if (answer == q.answer)
-                player.correct++
-            else
-                player.incorrect++
-
-            val question = PlayerQuestionEntity(
-                value1 = q.value1,
-                value2 = q.value2,
-                operator = q.operator,
-                answer = answer,
-                correctAnswer = q.answer
-            )
-
-            player.questionList.add(question)
-        }
-
-        return player1.questionList.size == player2.questionList.size
-    }
-
 }
 
 

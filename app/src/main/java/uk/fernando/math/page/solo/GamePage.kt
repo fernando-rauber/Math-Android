@@ -88,7 +88,7 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val dataStore: PrefsStore by inject()
     val isPremium = dataStore.isPremium().collectAsState(true)
 
-    MyAnimation(viewModel.historyId.value != 0) {
+    MyAnimation(viewModel.isGameFinished.value) {
         if (!isPremium.value)
             fullScreenAd.showAdvert()
 
@@ -98,7 +98,7 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
             buttonText = R.string.result_action
         ) {
             coroutine.launch {
-                navController.navigate("${Directions.summary.name}/${viewModel.historyId.value}") {
+                navController.navigate("${Directions.summary.name}/${viewModel.getHistoryId()}") {
                     popUpTo(Directions.game.name) { inclusive = true }
                     popUpTo(Directions.createGame.name) { inclusive = true }
                 }
@@ -139,7 +139,7 @@ private fun Timer(viewModel: GameViewModel) {
 
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            text = "${viewModel.nextQuestionCounter.value}-${viewModel.maxQuestion}",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 26.sp,
@@ -154,6 +154,7 @@ private fun ColumnScope.QuestionAndAnswers(viewModel: GameViewModel, playSound: 
 
         MyQuestionDisplay(
             question = question,
+            multipleChoice = if (viewModel.isMultipleChoice()) question.getMultipleChoiceList() else null,
             onClick = { answer ->
                 playSound(viewModel.registerAnswer(answer))
             }

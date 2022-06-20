@@ -5,7 +5,7 @@ import java.io.Serializable
 
 @Entity(
     tableName = PlayerEntity.NAME,
-    foreignKeys = [ForeignKey(entity = HistoryEntity::class, parentColumns = ["id"], childColumns = ["history_id"])]
+    foreignKeys = [ForeignKey(entity = HistoryEntity::class, parentColumns = ["id"], childColumns = ["history_id"], onDelete = ForeignKey.CASCADE)]
 )
 data class PlayerEntity(
     @PrimaryKey(autoGenerate = true)
@@ -21,7 +21,7 @@ data class PlayerEntity(
 ) : Serializable {
 
     @Ignore
-    val questionList = mutableListOf<PlayerQuestionEntity>()
+    val questionList = mutableListOf<QuestionEntity>()
 
     companion object {
         const val NAME = "player"

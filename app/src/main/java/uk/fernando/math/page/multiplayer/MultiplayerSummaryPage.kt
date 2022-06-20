@@ -20,7 +20,7 @@ import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.history.MultiplayerHistoryCard
-import uk.fernando.math.database.entity.PlayerQuestionEntity
+import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
@@ -117,7 +117,7 @@ fun MultiplayerSummaryPage(
 }
 
 @Composable
-private fun ResultMathCard(player1Question: PlayerQuestionEntity, player2Question: PlayerQuestionEntity) {
+private fun ResultMathCard(player1Question: QuestionEntity, player2Question: QuestionEntity) {
     Row {
         MathCard(Modifier.weight(1f), player1Question)
         Spacer(Modifier.width(16.dp))

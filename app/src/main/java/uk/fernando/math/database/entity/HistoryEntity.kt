@@ -16,7 +16,14 @@ data class HistoryEntity(
     var difficulty: Int = 0,
     @ColumnInfo(name = "operators")
     var operatorList: List<Int> = emptyList(),
-    var multiplayer: Boolean = false
+
+    var multiplayer: Boolean = false,
+
+    @ColumnInfo(name = "is_finished")
+    var isFinished: Boolean = false,
+
+    @ColumnInfo(name = "is_multiple_choice")
+    var isMultipleChoice: Boolean = false
 
 ) : Serializable {
 

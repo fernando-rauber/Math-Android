@@ -15,6 +15,7 @@ import uk.fernando.math.database.MyDatabase
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.notification.NotificationHelper
+import uk.fernando.math.repository.GameRepository
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.viewmodel.*
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
@@ -55,22 +56,24 @@ object KoinModule {
         single { provideDatabase(androidApplication()) }
         single { NotificationHelper(androidApplication()) }
         factory { get<MyDatabase>().historyDao() }
+        factory { get<MyDatabase>().gameDao() }
     }
 
     private val repositoryModule: Module
         get() = module {
-            factory { HistoryRepository(get()) }
+            factory { HistoryRepository(get(), get()) }
+            factory { GameRepository(get()) }
         }
 
     private val viewModelModule: Module
         get() = module {
 
-            viewModel { CreateGameViewModel(get()) }
+            viewModel { CreateGameViewModel(get(),get()) }
             viewModel { GameViewModel(get(), get()) }
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
             viewModel { MultiplayerHistoryViewModel(get()) }
-            viewModel { MultiplayerCreateGameViewModel(get()) }
+            viewModel { MultiplayerCreateGameViewModel(get(), get()) }
             viewModel { MultiplayerGameViewModel(get(), get()) }
             viewModel { MultiplayerSummaryViewModel(get()) }
             viewModel { SettingsViewModel(get(), get(), get()) }

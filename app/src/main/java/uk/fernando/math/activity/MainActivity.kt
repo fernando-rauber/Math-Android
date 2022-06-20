@@ -9,25 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
-import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.ui.theme.MyMathTheme
-import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.util.QuestionGenerator
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {

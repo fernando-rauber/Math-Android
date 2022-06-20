@@ -21,30 +21,30 @@ import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
+import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
-import uk.fernando.math.model.Question
 import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.orange
 import uk.fernando.math.ui.theme.pastel_red
 import uk.fernando.math.ui.theme.purple
 
 @Composable
-fun ColumnScope.MyQuestionDisplay(question: Question, onClick: (Int) -> Unit) {
+fun ColumnScope.MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, onClick: (Int) -> Unit) {
     Question(question)
 
     if (question.operator.isBooleanQuestion())
         BooleanChoice(onClick = onClick)
     else {
-        if (question.multipleChoices != null)
-            MultipleChoice(question.multipleChoices.shuffled(), onClick = onClick)
+        if (multipleChoice != null && multipleChoice.isNotEmpty())
+            MultipleChoice(multipleChoice, onClick = onClick)
         else
             OpenAnswer(onClick = onClick)
     }
 }
 
 @Composable
-private fun ColumnScope.Question(question: Question) {
+private fun ColumnScope.Question(question: QuestionEntity) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

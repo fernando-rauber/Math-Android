@@ -23,7 +23,7 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.game.MyQuestion
 import uk.fernando.math.component.history.HistoryCard
-import uk.fernando.math.database.entity.PlayerQuestionEntity
+import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
@@ -99,7 +99,7 @@ fun SummaryPage(
 }
 
 @Composable
-fun MathCard(modifier: Modifier = Modifier, question: PlayerQuestionEntity) {
+fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity) {
 
     Surface(
         modifier = modifier
@@ -118,7 +118,7 @@ fun MathCard(modifier: Modifier = Modifier, question: PlayerQuestionEntity) {
             val isBooleanAnswer = question.operator.isBooleanQuestion()
 
             val answer = if (question.answer == null) " "
-            else if (isBooleanAnswer) stringResource(question.answer.toFalseTrue())
+            else if (isBooleanAnswer) stringResource(question.answer!!.toFalseTrue())
             else question.answer.toString()
 
             MyQuestion(

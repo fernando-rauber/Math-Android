@@ -60,7 +60,8 @@ fun MultiplayerGamePage(
             Box(
                 Modifier
                     .weight(1f)
-                    .rotate(180f)) {
+                    .rotate(180f)
+            ) {
                 Player2Screen(
                     viewModel = viewModel,
                     playSound = { isCorrectAnswer ->
@@ -133,7 +134,7 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
             viewModel.currentQuestion.value?.let { question ->
 
-                MyQuestionDisplay(question = question) { answer ->
+                MyQuestionDisplay(question = question, multipleChoice = question.getMultipleChoiceList()) { answer ->
                     playSound(viewModel.registerAnswerPlayer1(answer))
                 }
             }
@@ -163,7 +164,7 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
             viewModel.currentQuestion.value?.let { question ->
 
-                MyQuestionDisplay(question = question) { answer ->
+                MyQuestionDisplay(question = question, multipleChoice = question.getMultipleChoiceList().shuffled()) { answer ->
                     playSound(viewModel.registerAnswerPlayer2(answer))
                 }
             }
@@ -186,7 +187,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
     val dataStore: PrefsStore by inject()
     val isPremium = dataStore.isPremium().collectAsState(true)
 
-    MyAnimation(visible = viewModel.historyId.value != 0) {
+    MyAnimation(viewModel.isGameFinished.value) {
         if (!isPremium.value)
             fullScreenAd.showAdvert()
 
@@ -196,7 +197,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
             buttonText = R.string.result_action
         ) {
             coroutine.launch {
-                navController.navigate("${Directions.multiplayerSummary.name}/${viewModel.historyId.value}") {
+                navController.navigate("${Directions.multiplayerSummary.name}/${viewModel.getHistoryId()}") {
                     popUpTo(Directions.multiplayerGame.name) { inclusive = true }
                     popUpTo(Directions.multiplayerCreateGame.name) { inclusive = true }
                 }
@@ -216,7 +217,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
     ) {
 
         Text(
-            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            text = "${viewModel.nextQuestionCounter.value}-${viewModel.maxQuestion}",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 26.sp,
@@ -234,7 +235,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
 
         Text(
             modifier = Modifier.rotate(180f),
-            text = "${viewModel.nextQuestion.value}-${viewModel.maxQuestion}",
+            text = "${viewModel.nextQuestionCounter.value}-${viewModel.maxQuestion}",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 26.sp,
