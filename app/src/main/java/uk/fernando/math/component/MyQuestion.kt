@@ -30,7 +30,7 @@ fun MyQuestion(value1: String, value2: String, operator: Int, result: String, re
         Icon(
             modifier = Modifier
                 .padding(start = 3.dp, end = 1.dp, top = 2.dp)
-                .size((size * 0.7).dp),
+                .size((size * if(operator == 6) 1.2 else 0.7).dp),
             painter = painterResource(operator.operatorIcon()),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground

@@ -7,7 +7,8 @@ enum class MathOperator(val value: Int) {
     MULTIPLICATION(4),
     PERCENTAGE(5),
     SQUARE(6),
-    FRACTION(7);
+    GREATER_THAN(7),
+    LESSER_THAN(8);
 
     companion object {
         fun getByValue(value: Int) = values().firstOrNull { it.value == value }

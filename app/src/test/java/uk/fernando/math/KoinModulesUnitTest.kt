@@ -9,6 +9,7 @@ import org.koin.test.category.CheckModuleTest
 import org.koin.test.check.checkModules
 import org.koin.test.mock.MockProviderRule
 import uk.fernando.math.di.KoinModule
+import uk.fernando.math.di.mockModule
 
 @Category(CheckModuleTest::class)
 class KoinModulesUnitTest : AutoCloseKoinTest() {
@@ -21,7 +22,7 @@ class KoinModulesUnitTest : AutoCloseKoinTest() {
     @Test
     fun `can resolve dependency tree`() {
         checkModules {
-            modules(KoinModule.allModules() )
+            modules(KoinModule.allModules() + mockModule )
         }
     }
 }
