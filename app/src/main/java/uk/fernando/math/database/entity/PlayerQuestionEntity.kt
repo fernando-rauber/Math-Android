@@ -14,14 +14,18 @@ data class PlayerQuestionEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
-    val question: String,
+    @ColumnInfo(name = "value_1")
+    val value1: String,
+    @ColumnInfo(name = "value_2")
+    val value2: String,
+    val operator: Int,
     val answer: Int?,
     val correctAnswer: Int,
 
     @ColumnInfo(name = "player_id", index = true)
     var playerId: Long = 0,
 
-) : Serializable {
+    ) : Serializable {
 
     companion object {
         const val NAME = "player_question"

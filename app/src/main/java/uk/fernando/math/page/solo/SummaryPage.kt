@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,7 +21,9 @@ import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.HistoryCard
 import uk.fernando.math.component.MyBackground
+import uk.fernando.math.component.MyQuestion
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
@@ -85,7 +86,7 @@ fun SummaryPage(
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
                         ) {
                             items(history.firstPlayer().questionList) { question ->
-                                MathCard(Modifier, question.question, question.answer, question.correctAnswer)
+                                MathCard(Modifier, question)
                             }
                         }
                     }
@@ -96,7 +97,7 @@ fun SummaryPage(
 }
 
 @Composable
-fun MathCard(modifier: Modifier = Modifier, math: String, answer: Int?, correctAnswer: Int) {
+fun MathCard(modifier: Modifier = Modifier, question: PlayerQuestionEntity) {
 
     Surface(
         modifier = modifier
@@ -111,21 +112,20 @@ fun MathCard(modifier: Modifier = Modifier, math: String, answer: Int?, correctA
             Modifier.padding(15.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "$math = ",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+
+            MyQuestion(
+                value1 = question.value1,
+                value2 = question.value2,
+                operator = question.operator,
+                result = question.answer?.toString() ?: " ",
+                resultColor = if (question.answer != question.correctAnswer) red else null,
+                size = 16
             )
-            Text(
-                text = "${answer ?: " "}",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                color = if (answer != correctAnswer) red else Color.Unspecified
-            )
-            if (answer != correctAnswer)
+
+            if (question.answer != question.correctAnswer)
                 Text(
                     modifier = Modifier.align(Alignment.Top),
-                    text = "($correctAnswer)",
+                    text = "(${question.correctAnswer})",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
                 )

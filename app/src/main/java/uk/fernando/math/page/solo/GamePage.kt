@@ -38,12 +38,8 @@ import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
-import uk.fernando.math.component.MyAnimation
-import uk.fernando.math.component.MyButton
-import uk.fernando.math.component.MyDialog
-import uk.fernando.math.component.MyTextField
+import uk.fernando.math.component.*
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.model.Question
@@ -244,11 +240,12 @@ private fun ColumnScope.Question(question: Question) {
         contentAlignment = Alignment.Center
     ) {
 
-        Text(
-            text = "${question.first} ${question.operator.mathOperator()} ${question.second} = ?",
-            fontSize = 40.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontWeight = FontWeight.Bold
+        MyQuestion(
+            value1 = question.value1,
+            value2 = question.value2,
+            operator = question.operator,
+            result = "?",
+            size = 40
         )
     }
 }

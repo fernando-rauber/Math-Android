@@ -9,7 +9,6 @@ import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
@@ -29,6 +28,7 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
     val chronometerSeconds = mutableStateOf(0)
     val isGamePaused = mutableStateOf(false)
 
+    //TODO need to fix it, what happen if user go to background on the game? should pause
     private val chronometer = object : CountDownTimer(30000000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
@@ -118,7 +118,9 @@ class GameViewModel(private val rep: HistoryRepository, private val logger: MyLo
                 player1.incorrect++
 
             val question = PlayerQuestionEntity(
-                question = "${q.first} ${q.operator.mathOperator()} ${q.second}",
+                value1 = q.value1,
+                value2 = q.value2,
+                operator = q.operator,
                 answer = answer,
                 correctAnswer = q.answer
             )

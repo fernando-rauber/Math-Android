@@ -119,8 +119,8 @@ fun MultiplayerSummaryPage(
 @Composable
 private fun ResultMathCard(player1Question: PlayerQuestionEntity, player2Question: PlayerQuestionEntity) {
     Row {
-        MathCard(Modifier.weight(1f), player1Question.question, player1Question.answer ?: 0, player1Question.correctAnswer)
+        MathCard(Modifier.weight(1f), player1Question)
         Spacer(Modifier.width(16.dp))
-        MathCard(Modifier.weight(1f), player2Question.question, player2Question.answer ?: 0, player2Question.correctAnswer)
+        MathCard(Modifier.weight(1f), player2Question)
     }
 }

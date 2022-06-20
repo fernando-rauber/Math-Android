@@ -15,7 +15,7 @@ fun Int.mathOperator(): String {
         ADDITION -> "+"
         SUBTRACTION -> "-"
         MULTIPLICATION -> "x"
-        DIVISION -> "/"
+        DIVISION -> "-"
         PERCENTAGE -> "%"
         SQUARE -> "Square of"
         else -> "FRACTION" // FRACTION
@@ -28,6 +28,18 @@ fun Int.mathOperatorIcon(): Int {
         SUBTRACTION -> R.drawable.ic_math_substraction
         MULTIPLICATION -> R.drawable.ic_math_multiplication
         DIVISION -> R.drawable.ic_math_division
+        PERCENTAGE -> R.drawable.ic_math_percentage
+        SQUARE -> R.drawable.ic_math_square_root
+        else -> 1 // FRACTION
+    }
+}
+
+fun Int.operatorIcon(): Int {
+    return when (getByValue(this)) {
+        ADDITION -> R.drawable.ic_plus
+        SUBTRACTION -> R.drawable.ic_minus
+        MULTIPLICATION -> R.drawable.ic_times
+        DIVISION -> R.drawable.ic_divide
         PERCENTAGE -> R.drawable.ic_math_percentage
         SQUARE -> R.drawable.ic_math_square_root
         else -> 1 // FRACTION

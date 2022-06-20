@@ -8,7 +8,6 @@ import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.ext.mathOperator
 import uk.fernando.math.model.Question
 import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
@@ -131,7 +130,9 @@ class MultiplayerGameViewModel(private val rep: HistoryRepository, private val l
                 player.incorrect++
 
             val question = PlayerQuestionEntity(
-                question = "${q.first} ${q.operator.mathOperator()} ${q.second}",
+                value1 = q.value1,
+                value2 = q.value2,
+                operator = q.operator,
                 answer = answer,
                 correctAnswer = q.answer
             )

@@ -1,16 +1,13 @@
 package uk.fernando.math.util
 
-import android.util.Log
 import uk.fernando.math.model.Question
 import uk.fernando.math.model.enum.Difficulty
 import uk.fernando.math.model.enum.Difficulty.*
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
-import java.lang.Math.pow
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 object QuestionGenerator {
 
@@ -123,9 +120,9 @@ object QuestionGenerator {
             return getQuestionPlusMinus(operator)
 
         return Question(
-            first = first.toString(),
+            value1 = first.toString(),
             operator = operator,
-            second = second.toString(),
+            value2 = second.toString(),
             answer = answer,
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer) else null
         )
@@ -146,9 +143,9 @@ object QuestionGenerator {
             return getQuestionDivTimes(operator)
 
         return Question(
-            first = first.toString(),
+            value1 = first.toString(),
             operator = operator,
-            second = second.toString(),
+            value2 = second.toString(),
             answer = answer,
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer) else null
         )
@@ -165,9 +162,9 @@ object QuestionGenerator {
             return getQuestionPercentage()
 
         return Question(
-            first = first.toString(),
+            value1 = first.toString(),
             operator = 5,
-            second = second.toString(),
+            value2 = second.toString(),
             answer = answer.toInt(),
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer.toInt()) else null
         )
@@ -184,9 +181,9 @@ object QuestionGenerator {
         val answer = second.toDouble().pow(2.0)
 
         return Question(
-            first = "",
+            value1 = "",
             operator = 6,
-            second = second.toString(),
+            value2 = second.toString(),
             answer = answer.toInt(),
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer.toInt()) else null
         )
