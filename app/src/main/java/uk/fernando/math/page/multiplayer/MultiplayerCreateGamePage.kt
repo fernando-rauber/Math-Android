@@ -95,21 +95,13 @@ fun MultiplayerCreateGamePage(
                         Spacer(Modifier.height(60.dp))
                     }
 
-                    MyButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
-                            .defaultMinSize(minHeight = 50.dp),
-                        text = stringResource(id = R.string.start_action),
-                        isLoading = viewModel.loading.value,
-                        onClick = {
-                            coroutine.launch {
-                                viewModel.generateQuestion().collect {
-                                    if (it) navController.safeNav(Directions.multiplayerGame.name)
-                                }
+                    CreateGameButton(viewModel) {
+                        coroutine.launch {
+                            viewModel.generateQuestion().collect {
+                                if (it) navController.safeNav(Directions.multiplayerGame.name)
                             }
                         }
-                    )
+                    }
                 }
             }
         }
@@ -139,4 +131,18 @@ private fun PlayerName(playerName: String, @StringRes label: Int, onValueChange:
             },
         )
     }
+}
+
+@Composable
+private fun BoxScope.CreateGameButton(viewModel: MultiplayerCreateGameViewModel, onClick: () -> Unit) {
+    MyButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter)
+            .defaultMinSize(minHeight = 50.dp),
+        text = stringResource(id = R.string.start_action),
+        isLoading = viewModel.loading.value,
+        enabled = viewModel.isGameValid.value,
+        onClick = onClick
+    )
 }

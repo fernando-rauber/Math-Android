@@ -74,27 +74,18 @@ fun CreateGamePage(
 
                     Spacer(Modifier.weight(1f))
 
-                    MyButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .defaultMinSize(minHeight = 50.dp),
-                        text = stringResource(id = R.string.start_action),
-                        isLoading = viewModel.loading.value,
-                        onClick = {
-                            coroutine.launch {
-                                viewModel.generateQuestion().collect {
-                                    if (it) navController.safeNav(Directions.game.name)
-                                }
+                    CreateGameButton(viewModel) {
+                        coroutine.launch {
+                            viewModel.generateQuestion().collect {
+                                if (it) navController.safeNav(Directions.game.name)
                             }
                         }
-                    )
+                    }
                 }
             }
         }
     }
-
 }
-
 
 @Composable
 private fun AnswerType(onChecked: (Boolean) -> Unit) {
@@ -114,4 +105,17 @@ private fun AnswerType(onChecked: (Boolean) -> Unit) {
             )
         }
     }
+}
+
+@Composable
+private fun CreateGameButton(viewModel: CreateGameViewModel, onClick: () -> Unit) {
+    MyButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 50.dp),
+        text = stringResource(id = R.string.start_action),
+        isLoading = viewModel.loading.value,
+        enabled = viewModel.isGameValid.value,
+        onClick = onClick
+    )
 }

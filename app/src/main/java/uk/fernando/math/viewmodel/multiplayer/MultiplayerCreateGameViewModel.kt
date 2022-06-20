@@ -16,6 +16,7 @@ class MultiplayerCreateGameViewModel(private val logger: MyLogger) : BaseViewMod
     private var player2 = "Player 2"
     private var difficulty = 1 // Easy
     val loading = mutableStateOf(false)
+    val isGameValid = mutableStateOf(true)
 
     fun setPlayer1(name: String) {
         this.player1 = name
@@ -30,6 +31,8 @@ class MultiplayerCreateGameViewModel(private val logger: MyLogger) : BaseViewMod
             operatorOptions.remove(option)
         else
             operatorOptions.add(option)
+
+        isGameValid.value = operatorOptions.size > 0
     }
 
     fun setQuantity(quantity: Int) {
