@@ -29,11 +29,11 @@ import uk.fernando.math.component.MyAdBanner
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.history.MultiplayerHistoryCard
+import uk.fernando.math.component.history.MyEmptyHistory
+import uk.fernando.math.component.history.MyLoadingHistory
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.solo.EmptyHistory
-import uk.fernando.math.page.solo.LoadingHistory
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerHistoryViewModel
 
 @ExperimentalMaterialApi
@@ -66,11 +66,11 @@ fun MultiplayerHistoryPage(
 
             Box(Modifier.weight(1f)) {
 
-                if (historyList.loadState.refresh == LoadState.Loading)
-                    LoadingHistory()
-                else {
+                if (historyList.loadState.refresh == LoadState.Loading) {
+                    MyLoadingHistory()
+                } else {
                     if (historyList.itemCount == 0)
-                        EmptyHistory(
+                        MyEmptyHistory(
                             modifier = Modifier.fillMaxSize(),
                             message = R.string.empty_multiplayer_history_text,
                             onClick = { navController.safeNav(Directions.multiplayerCreateGame.name) }
