@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.HistoryCard
 import uk.fernando.math.component.MyBackground
-import uk.fernando.math.component.MyQuestion
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.game.MyQuestion
+import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ui.theme.red

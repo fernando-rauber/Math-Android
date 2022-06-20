@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.MultiplayerHistoryCard
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.history.MultiplayerHistoryCard
 import uk.fernando.math.database.entity.PlayerQuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard

@@ -31,8 +31,8 @@ fun Int.mathOperatorIcon(): Int {
         DIVISION -> R.drawable.ic_math_division
         PERCENTAGE -> R.drawable.ic_math_percentage
         SQUARE -> R.drawable.ic_math_square_root
-        GREATER_THAN -> R.drawable.ic_math_square_root
-        else -> 1 // LESSER THAN
+        GREATER_THAN -> R.drawable.ic_math_more_than
+        else -> R.drawable.ic_math_less_than // LESSER THAN
     }
 }
 

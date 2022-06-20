@@ -1,4 +1,4 @@
-package uk.fernando.math.component
+package uk.fernando.math.component.game
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

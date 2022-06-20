@@ -28,13 +28,13 @@ import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyAnimation
+import uk.fernando.math.component.game.MyCountDown
+import uk.fernando.math.component.game.MyGameDialog
+import uk.fernando.math.component.game.MyQuestionDisplay
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.noRippleClickable
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.solo.CountDownStart
-import uk.fernando.math.page.solo.CustomDialog
-import uk.fernando.math.page.solo.QuestionDisplay
 import uk.fernando.math.ui.theme.orange
 import uk.fernando.math.ui.theme.star_red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
@@ -57,7 +57,10 @@ fun MultiplayerGamePage(
     Box {
         Column(Modifier.fillMaxSize()) {
 
-            Box(Modifier.weight(1f).rotate(180f)) {
+            Box(
+                Modifier
+                    .weight(1f)
+                    .rotate(180f)) {
                 Player2Screen(
                     viewModel = viewModel,
                     playSound = { isCorrectAnswer ->
@@ -70,7 +73,7 @@ fun MultiplayerGamePage(
                     }
                 )
 
-                CountDownStart { }
+                MyCountDown { }
             }
 
             Settings(viewModel)
@@ -89,7 +92,7 @@ fun MultiplayerGamePage(
                     }
                 )
 
-                CountDownStart { }
+                MyCountDown { }
             }
         }
 
@@ -107,7 +110,7 @@ fun MultiplayerGamePage(
 @Composable
 private fun PauseResumeGame(viewModel: MultiplayerGameViewModel, onExitGame: () -> Unit) {
     MyAnimation(viewModel.isGamePaused.value) {
-        CustomDialog(
+        MyGameDialog(
             image = R.drawable.coffee_break,
             message = R.string.resume_message,
             buttonText = R.string.resume_action,
@@ -130,7 +133,7 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
             viewModel.currentQuestion.value?.let { question ->
 
-                QuestionDisplay(question = question) { answer ->
+                MyQuestionDisplay(question = question) { answer ->
                     playSound(viewModel.registerAnswerPlayer1(answer))
                 }
             }
@@ -150,7 +153,7 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
 @Composable
 private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boolean?) -> Unit) {
-    Box{
+    Box {
         // Question & Multiple choice
         Column(
             Modifier
@@ -160,7 +163,7 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
             viewModel.currentQuestion.value?.let { question ->
 
-                QuestionDisplay(question = question) { answer ->
+                MyQuestionDisplay(question = question) { answer ->
                     playSound(viewModel.registerAnswerPlayer2(answer))
                 }
             }
@@ -187,7 +190,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
         if (!isPremium.value)
             fullScreenAd.showAdvert()
 
-        CustomDialog(
+        MyGameDialog(
             image = R.drawable.fireworks,
             message = R.string.result_message,
             buttonText = R.string.result_action

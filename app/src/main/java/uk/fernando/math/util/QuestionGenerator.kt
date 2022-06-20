@@ -33,14 +33,13 @@ object QuestionGenerator {
 
         for (i in 1..quantity) {
             val question = createQuestion(operatorList.random())
-//            Log.e("*****", "${question.second} - ${question.answer} ")
             questionList.add(question)
         }
 
         return true
     }
 
-    fun setPlayers(player1: String, player2: String){
+    fun setPlayers(player1: String, player2: String) {
         this.player1 = player1
         this.player2 = player2
     }
@@ -83,7 +82,8 @@ object QuestionGenerator {
             DIVISION, MULTIPLICATION -> getQuestionDivTimes(operator)
             PERCENTAGE -> getQuestionPercentage()
             SQUARE -> getQuestionSquareRoot()
-            else -> getQuestionPlusMinus(operator) // FRACTION
+            GREATER_THAN, LESSER_THAN -> getQuestionGreaterOrLess(operator)
+            else -> getQuestionPlusMinus(operator)
         }
     }
 
@@ -103,6 +103,7 @@ object QuestionGenerator {
                 minNumber = 100
                 maxNumber = 999
             }
+            else -> {}
         }
     }
 
@@ -125,6 +126,28 @@ object QuestionGenerator {
             value2 = second.toString(),
             answer = answer,
             multipleChoices = if (multipleChoice) generateMultipleChoices(answer) else null
+        )
+    }
+
+    // For Operators > and <
+    private fun getQuestionGreaterOrLess(operator: Int): Question {
+        val first = (minNumber..maxNumber).random()
+        val second = (minNumber..maxNumber).random()
+
+        if (first == second)
+            return getQuestionPlusMinus(operator)
+
+        val answer = if (operator == GREATER_THAN.value)
+            first > second
+        else
+            first < second
+
+        return Question(
+            value1 = first.toString(),
+            operator = operator,
+            value2 = second.toString(),
+            answer = if (answer) 1 else 0,
+            multipleChoices =  null
         )
     }
 

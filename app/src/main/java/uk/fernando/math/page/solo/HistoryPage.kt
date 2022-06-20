@@ -28,7 +28,11 @@ import androidx.paging.compose.items
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
-import uk.fernando.math.component.*
+import uk.fernando.math.component.MyAdBanner
+import uk.fernando.math.component.MyBackground
+import uk.fernando.math.component.MyButton
+import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.safeNav

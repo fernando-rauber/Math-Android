@@ -23,11 +23,11 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.creation.MyDifficulty
+import uk.fernando.math.component.creation.MyMathOperatorOptions
+import uk.fernando.math.component.creation.MyQuestionQuantity
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.page.solo.BasicMathOptions
-import uk.fernando.math.page.solo.Difficulty
-import uk.fernando.math.page.solo.QuestionQuantity
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
 
 @ExperimentalMaterialApi
@@ -59,7 +59,8 @@ fun MultiplayerCreateGamePage(
                     Column(
                         Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())) {
+                            .verticalScroll(rememberScrollState())
+                    ) {
 
                         PlayerName(
                             playerName = "Player 1",
@@ -75,19 +76,19 @@ fun MultiplayerCreateGamePage(
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        BasicMathOptions {
+                        MyMathOperatorOptions {
                             viewModel.setMathOptions(it)
                         }
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        QuestionQuantity { quantity ->
+                        MyQuestionQuantity { quantity ->
                             viewModel.setQuantity(quantity)
                         }
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        Difficulty { difficult ->
+                        MyDifficulty { difficult ->
                             viewModel.setDifficulty(difficult)
                         }
 

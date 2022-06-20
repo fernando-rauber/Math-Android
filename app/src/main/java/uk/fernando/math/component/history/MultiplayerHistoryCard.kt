@@ -1,4 +1,4 @@
-package uk.fernando.math.component
+package uk.fernando.math.component.history
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
