@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -102,10 +103,17 @@ private fun AnswerType(onChecked: (Boolean) -> Unit) {
         var checked by remember { mutableStateOf(true) }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Switch(checked = checked, onCheckedChange = {
-                onChecked(it)
-                checked = it
-            })
+            Switch(
+                checked = checked,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    uncheckedBorderColor = Color.Transparent,
+                    uncheckedThumbColor = Color.White,
+                ),
+                onCheckedChange = {
+                    onChecked(it)
+                    checked = it
+                })
 
             Text(
                 modifier = Modifier.padding(start = 10.dp),

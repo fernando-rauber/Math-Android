@@ -1,14 +1,13 @@
 package uk.fernando.math.component.creation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
@@ -26,19 +25,21 @@ fun MyDifficulty(onSelected: (Int) -> Unit) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(top = 5.dp)
+                .padding(top = 15.dp)
         ) {
+            val star = @Composable { Icon(painterResource(R.drawable.ic_star_outline), contentDescription = null) }
+
             Row(Modifier.weight(1f)) {
-                Icon(Icons.Filled.Star, contentDescription = null)
+                star()
             }
             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.Center) {
-                Icon(Icons.Filled.Star, contentDescription = null)
-                Icon(Icons.Filled.Star, contentDescription = null)
+                star()
+                star()
             }
             Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
-                Icon(Icons.Filled.Star, contentDescription = null)
-                Icon(Icons.Filled.Star, contentDescription = null)
-                Icon(Icons.Filled.Star, contentDescription = null)
+                star()
+                star()
+                star()
             }
         }
 
@@ -51,6 +52,5 @@ fun MyDifficulty(onSelected: (Int) -> Unit) {
             steps = 1,
             valueRange = 1f..3f,
         )
-
     }
 }

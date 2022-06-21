@@ -113,7 +113,7 @@ fun MultiplayerGamePage(
 private fun PauseResumeGame(viewModel: MultiplayerGameViewModel, onExitGame: () -> Unit) {
     MyAnimation(viewModel.isGamePaused.value) {
         MyGameDialog(
-            image = R.drawable.coffee_break,
+            image = R.drawable.ic_coffee_break,
             message = R.string.resume_message,
             buttonText = R.string.resume_action,
             onExitGame = onExitGame,
@@ -137,12 +137,17 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 modifier = Modifier.align(CenterHorizontally),
                 text = viewModel.player1Name.value,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             viewModel.currentQuestion.value?.let { question ->
 
-                MyQuestionDisplay(question = question, multipleChoice = question.getMultipleChoiceList()) { answer ->
+                MyQuestionDisplay(
+                    question = question,
+                    isMultiplayer = true,
+                    multipleChoice = question.getMultipleChoiceList()
+                ) { answer ->
                     playSound(viewModel.registerAnswerPlayer1(answer))
                 }
             }
@@ -174,12 +179,17 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 modifier = Modifier.align(CenterHorizontally),
                 text = viewModel.player2Name.value,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             viewModel.currentQuestion.value?.let { question ->
 
-                MyQuestionDisplay(question = question, multipleChoice = question.getMultipleChoiceList().shuffled()) { answer ->
+                MyQuestionDisplay(
+                    question = question,
+                    isMultiplayer = true,
+                    multipleChoice = question.getMultipleChoiceList().shuffled()
+                ) { answer ->
                     playSound(viewModel.registerAnswerPlayer2(answer))
                 }
             }
@@ -210,7 +220,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
             fullScreenAd.showAdvert()
 
         MyGameDialog(
-            image = R.drawable.fireworks,
+            image = R.drawable.ic_fireworks,
             message = R.string.result_message,
             buttonText = R.string.result_action
         ) {

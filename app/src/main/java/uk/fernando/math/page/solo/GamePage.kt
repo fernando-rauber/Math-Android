@@ -96,7 +96,7 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
             fullScreenAd.showAdvert()
 
         MyGameDialog(
-            image = R.drawable.fireworks,
+            image = R.drawable.ic_fireworks,
             message = R.string.result_message,
             buttonText = R.string.result_action
         ) {
@@ -169,7 +169,7 @@ private fun ColumnScope.QuestionAndAnswers(viewModel: GameViewModel, playSound: 
 private fun PauseResumeGame(viewModel: GameViewModel, onExitGame: () -> Unit) {
     MyAnimation(viewModel.isGamePaused.value) {
         MyGameDialog(
-            image = R.drawable.coffee_break,
+            image = R.drawable.ic_coffee_break,
             message = R.string.resume_message,
             buttonText = R.string.resume_action,
             onExitGame = onExitGame,

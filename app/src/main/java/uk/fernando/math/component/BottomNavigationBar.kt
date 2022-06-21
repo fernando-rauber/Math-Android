@@ -42,17 +42,17 @@ fun BottomNavigationBar(navController: NavController) {
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
-        NavigationItemCustom(currentRoute == Directions.history.name, R.drawable.ic_calculate, R.string.solo_action) {
+        NavigationItemCustom(currentRoute == Directions.history.name, R.drawable.ic_one_controller, R.string.solo_action) {
             if (currentRoute != Directions.history.name)
                 navController.safeNav(Directions.history.name)
         }
 
-        NavigationItemCustom(currentRoute == Directions.multiplayerHistory.name, R.drawable.ic_calculate, R.string.multiplayer_action) {
+        NavigationItemCustom(currentRoute == Directions.multiplayerHistory.name, R.drawable.ic_two_controller, R.string.multiplayer_action) {
             if (currentRoute != Directions.multiplayerHistory.name)
                 navController.safeNav(Directions.multiplayerHistory.name)
         }
 
-        NavigationItemCustom(currentRoute == Directions.settings.name, R.drawable.ic_calculate, R.string.settings_action) {
+        NavigationItemCustom(currentRoute == Directions.settings.name, R.drawable.ic_settings, R.string.settings_action) {
             if (currentRoute != Directions.settings.name)
                 navController.safeNav(Directions.settings.name)
         }

@@ -47,6 +47,7 @@ class MultiplayerCreateGameViewModel(private val rep: HistoryRepository, private
             rep.insertHistory(HistoryWithPLayers(history, listOf(player1, player2)))
 
             loading.value = false
+            resetViewModel()
             emit(true)
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())

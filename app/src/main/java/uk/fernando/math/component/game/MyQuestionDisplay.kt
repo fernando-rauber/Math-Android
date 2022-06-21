@@ -30,25 +30,25 @@ import uk.fernando.math.ui.theme.pastel_red
 import uk.fernando.math.ui.theme.purple
 
 @Composable
-fun ColumnScope.MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, onClick: (Int) -> Unit) {
-    Question(question)
+fun ColumnScope.MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMultiplayer: Boolean = false, onClick: (Int) -> Unit) {
+    Question(question, isMultiplayer)
 
     if (question.operator.isBooleanQuestion())
-        BooleanChoice(onClick = onClick)
+        BooleanChoice(isMultiplayer, onClick = onClick)
     else {
         if (multipleChoice != null && multipleChoice.isNotEmpty())
-            MultipleChoice(multipleChoice, onClick = onClick)
+            MultipleChoice(multipleChoice, isMultiplayer, onClick = onClick)
         else
             OpenAnswer(onClick = onClick)
     }
 }
 
 @Composable
-private fun ColumnScope.Question(question: QuestionEntity) {
+private fun ColumnScope.Question(question: QuestionEntity, isMultiplayer: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .weight(0.5f),
+            .weight(if (isMultiplayer) 0.3f else 0.6f),
         contentAlignment = Alignment.Center
     ) {
 
@@ -57,23 +57,26 @@ private fun ColumnScope.Question(question: QuestionEntity) {
             value2 = question.value2,
             operator = question.operator,
             result = "?",
-            size = 40
+            size = if (isMultiplayer) 30 else 40
         )
     }
 }
 
 @Composable
-private fun BooleanChoice(onClick: (Int) -> Unit) {
-    Row {
-        AnswerCard(1, green_pastel, onClick, true)
-        Spacer(Modifier.width(16.dp))
-        AnswerCard(0, pastel_red, onClick, true)
+private fun ColumnScope.BooleanChoice(isMultiplayer: Boolean, onClick: (Int) -> Unit) {
+    Column(Modifier.weight(if (isMultiplayer) 0.6f else 0.4f)) {
+        Spacer(Modifier.weight(0.8f))
+        Row(Modifier.weight(1f)) {
+            AnswerCard(1, green_pastel, onClick, true)
+            Spacer(Modifier.width(16.dp))
+            AnswerCard(0, pastel_red, onClick, true)
+        }
     }
 }
 
 @Composable
-private fun ColumnScope.MultipleChoice(answerList: List<Int>, onClick: (Int) -> Unit) {
-    Column(Modifier.weight(0.4f)) {
+private fun ColumnScope.MultipleChoice(answerList: List<Int>, isMultiplayer: Boolean, onClick: (Int) -> Unit) {
+    Column(Modifier.weight(if (isMultiplayer) 0.6f else 0.4f)) {
         Row(Modifier.weight(1f)) {
             AnswerCard(answerList[0], orange, onClick)
             Spacer(Modifier.width(16.dp))

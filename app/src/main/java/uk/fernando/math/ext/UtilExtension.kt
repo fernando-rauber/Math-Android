@@ -46,11 +46,11 @@ fun Int.generateMultipleChoices(): List<Int> {
         multipleChoice.add(createFakeAnswer(this, multipleChoice))
     }
 
-    return multipleChoice.shuffled()
+    return multipleChoice
 }
 
 private fun createFakeAnswer(answer: Int, existentAnswers: List<Int>): Int {
-    val value = (1..13).random()
+    val value = (1..9).random()
 
     val result = when ((1..2).random()) {
         1 -> answer.minus(value)

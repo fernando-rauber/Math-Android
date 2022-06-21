@@ -2,13 +2,14 @@ package uk.fernando.math.component.game
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,10 +35,11 @@ fun MyGameDialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Image(
-                modifier = Modifier.padding(vertical = 30.dp),
+            Icon(
+                modifier = Modifier.padding(vertical = 30.dp).fillMaxWidth(0.6f),
                 painter = painterResource(id = image),
-                contentDescription = null
+                contentDescription = null,
+                tint = Color.Unspecified
             )
 
             Text(
@@ -46,7 +48,7 @@ fun MyGameDialog(
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
-                lineHeight = 25.sp,
+                lineHeight = 40.sp,
                 letterSpacing = 0.30.sp
             )
 

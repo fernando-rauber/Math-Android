@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -73,13 +74,14 @@ private fun MathOperatorIcon(@DrawableRes icon: Int, hasPremium: Boolean = true,
             )
 
             if (!hasPremium)
-                Image(
+                Icon(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .rotate(45f)
                         .offset(y = (-20).dp),
                     painter = painterResource(id = R.drawable.ic_crown),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = Color.Unspecified
                 )
         }
     }

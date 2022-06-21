@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
@@ -39,15 +40,21 @@ fun SplashPage(
         ) {
 
             Image(
-                painter = painterResource(id = R.mipmap.ic_launcher),
+                painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(0.6f).aspectRatio(1f)
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .aspectRatio(1f)
             )
+
+            Spacer( Modifier.height(35.dp))
 
             Text(
                 text = stringResource(R.string.splash_title),
                 style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                lineHeight = 40.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

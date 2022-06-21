@@ -43,6 +43,3 @@ class CreateGameViewModel(private val rep: HistoryRepository, private val logger
         }
     }
 }
-
-
-

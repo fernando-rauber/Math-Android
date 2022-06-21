@@ -16,7 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
@@ -105,7 +107,7 @@ fun SummaryPage(
 }
 
 @Composable
-fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity) {
+fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity, size: Int = 16) {
 
     Surface(
         modifier = modifier
@@ -116,10 +118,7 @@ fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity) {
         shape = MaterialTheme.shapes.small
     ) {
 
-        Row(
-            Modifier.padding(15.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Column(Modifier.padding(15.dp)) {
 
             val isBooleanAnswer = question.operator.isBooleanQuestion()
 
@@ -133,16 +132,16 @@ fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity) {
                 operator = question.operator,
                 result = answer,
                 resultColor = if (question.answer != question.correctAnswer) red else null,
-                size = 16
+                size = size
             )
 
             if (question.answer != question.correctAnswer) {
                 val correctAnswer = if (isBooleanAnswer) stringResource(question.correctAnswer.toFalseTrue()) else question.correctAnswer
                 Text(
-                    modifier = Modifier.align(Alignment.Top),
-                    text = "($correctAnswer)",
+                    text = "Correct: $correctAnswer",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
+                    fontSize = size.sp
                 )
             }
         }
