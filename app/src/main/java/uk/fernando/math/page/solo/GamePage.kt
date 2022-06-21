@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -27,6 +28,7 @@ import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyAnimation
+import uk.fernando.math.component.OnLifecycleEvent
 import uk.fernando.math.component.game.MyCountDown
 import uk.fernando.math.component.game.MyGameDialog
 import uk.fernando.math.component.game.MyQuestionDisplay
@@ -48,6 +50,11 @@ fun GamePage(
 
     LaunchedEffect(Unit) {
         viewModel.createGame()
+    }
+
+    OnLifecycleEvent { _, event ->
+        if (event == Lifecycle.Event.ON_STOP)
+            viewModel.isGamePaused.value = true
     }
 
     Box {

@@ -1,6 +1,7 @@
 package uk.fernando.math.viewmodel.solo
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.ext.TAG
@@ -16,8 +17,10 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
     private val chronometer = object : CountDownTimer(30000000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
-            if (!isGamePaused.value)
+            if (!isGamePaused.value) {
                 chronometerSeconds.value++
+                Log.e(TAG, "onTick: ${chronometerSeconds.value}", )
+            }
         }
 
         override fun onFinish() {
@@ -26,6 +29,8 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
 
      fun createGame() {
         clean()
+
+         Log.e(TAG, "createGame: **************", )
 
         launchDefault {
             val historyWithPlayer = rep.getOpenGame()
@@ -46,7 +51,6 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
     fun startChronometer() {
         chronometer.start()
     }
-
 
     override fun clean() {
         super.clean()
@@ -91,5 +95,4 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
             }
         }
     }
-
 }
