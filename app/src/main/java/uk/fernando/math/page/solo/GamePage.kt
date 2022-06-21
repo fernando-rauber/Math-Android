@@ -87,6 +87,9 @@ private fun DialogResult(navController: NavController, viewModel: GameViewModel,
     val coroutine = rememberCoroutineScope()
     val dataStore: PrefsStore by inject()
     val isPremium = dataStore.isPremium().collectAsState(true)
+    val soundFinish = MediaPlayer.create(LocalContext.current, R.raw.sound_finish)
+
+    LaunchedEffect(Unit) { soundFinish.playAudio() }
 
     MyAnimation(viewModel.isGameFinished.value) {
         if (!isPremium.value)
