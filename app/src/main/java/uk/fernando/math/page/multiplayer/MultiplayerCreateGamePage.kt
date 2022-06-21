@@ -126,8 +126,10 @@ private fun PlayerName(playerName: String, @StringRes label: Int, onValueChange:
             modifier = Modifier.fillMaxWidth(),
             value = player,
             onValueChange = {
-                onValueChange(it)
-                player = it
+                if (player.count() < 20) {
+                    onValueChange(it)
+                    player = it
+                }
             },
         )
     }

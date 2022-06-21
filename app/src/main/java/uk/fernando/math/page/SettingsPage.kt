@@ -69,12 +69,19 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     onCheckedChange = viewModel::updateDarkMode
                 )
 
+//                CustomSettingsResourcesCard(
+//                    modifier = Modifier.padding(vertical = 10.dp),
+//                    text = R.string.allow_decimals,
+//                    subText = R.string.allow_decimals_subtext,
+//                    isChecked = allowDecimals.value,
+//                    onCheckedChange = viewModel::updateAllowDecimals
+//                )
+
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
-                    text = R.string.allow_decimals,
-                    subText = R.string.allow_decimals_subtext,
-                    isChecked = allowDecimals.value,
-                    onCheckedChange = viewModel::updateAllowDecimals
+                    text = R.string.notification,
+                    isChecked = notificationEnable.value,
+                    onCheckedChange = viewModel::updateNotification
                 )
 
                 CustomSettingsResourcesCard(
@@ -88,14 +95,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
-                    text = R.string.notification,
-                    isChecked = notificationEnable.value,
-                    onCheckedChange = viewModel::updateNotification
-                )
-
-                CustomSettingsResourcesCard(
                     modifierRow = Modifier
-                        .padding(vertical = 3.dp)
                         .clickable {
                             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/f51wgf4s"))
                             context.startActivity(browserIntent)
@@ -107,7 +107,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 )
 
                 CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(vertical = 10.dp),
+                    modifier = Modifier.padding(bottom = 10.dp),
                     modifierRow = Modifier
                         .clickable {
 

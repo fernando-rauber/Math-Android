@@ -16,9 +16,9 @@ class SettingsViewModel(
         launchIO { prefs.storeDarkMode(isDarkMode) }
     }
 
-    fun updateAllowDecimals(allow: Boolean) {
-        launchIO { prefs.storeAllowDecimals(allow) }
-    }
+//    fun updateAllowDecimals(allow: Boolean) {
+//        launchIO { prefs.storeAllowDecimals(allow) }
+//    }
 
     fun updatePremium(isPremium: Boolean) {
         launchIO { prefs.storePremium(isPremium) }

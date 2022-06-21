@@ -28,9 +28,8 @@ fun MultiplayerHistoryCard(modifier: Modifier = Modifier, history: HistoryWithPL
 
         history.playerList.forEach { player ->
             PlayerCard(player)
-            Divider()
+            Divider(Modifier.padding(3.dp))
         }
-
         Row(
             modifier = Modifier
                 .padding(10.dp)
@@ -135,7 +134,7 @@ private fun PlayerCard(player: PlayerEntity) {
                 .padding(horizontal = 5.dp)
                 .weight(0.7f),
             text = player.name,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium
         )
     }
