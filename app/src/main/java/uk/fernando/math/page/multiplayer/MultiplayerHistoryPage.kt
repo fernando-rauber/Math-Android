@@ -46,7 +46,7 @@ fun MultiplayerHistoryPage(
 
     MyBackground {
 
-        Column(Modifier.fillMaxSize()) {
+        Column {
 
             TopNavigationBar(
                 title = R.string.multiplayer_title,
@@ -64,7 +64,7 @@ fun MultiplayerHistoryPage(
 
             val historyList = viewModel.history.collectAsLazyPagingItems()
 
-            Box(Modifier.weight(1f)) {
+            Box(Modifier.fillMaxSize()) {
 
                 if (historyList.loadState.refresh == LoadState.Loading) {
                     MyLoadingHistory()

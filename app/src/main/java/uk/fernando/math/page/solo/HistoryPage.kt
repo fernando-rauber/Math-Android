@@ -47,7 +47,7 @@ fun HistoryPage(
 
     MyBackground {
 
-        Column(Modifier.fillMaxSize()) {
+        Column {
 
             TopNavigationBar(
                 title = R.string.solo_title,
@@ -65,7 +65,7 @@ fun HistoryPage(
 
             val historyList = viewModel.history.collectAsLazyPagingItems()
 
-            Box(Modifier.weight(1f)) {
+            Box(Modifier.fillMaxSize()) {
 
                 if (historyList.loadState.refresh == LoadState.Loading)
                     MyLoadingHistory()
