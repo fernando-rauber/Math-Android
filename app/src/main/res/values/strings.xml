@@ -67,6 +67,7 @@
     <string name="notification">Notification</string>
     <string name="premium">Premium</string>
     <string name="premium_subtext">Remove Ads and unlock features.</string>
+    <string name="terms_conditions">Terms and conditions</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="version">Version %s</string>
 

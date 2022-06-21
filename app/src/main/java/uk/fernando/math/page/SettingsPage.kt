@@ -1,5 +1,7 @@
 package uk.fernando.math.page
 
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,12 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
@@ -35,10 +39,11 @@ import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.greySuperLight
 import uk.fernando.math.viewmodel.SettingsViewModel
 
+
 @ExperimentalMaterialApi
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
-
+    val context = LocalContext.current
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
     val allowDecimals = viewModel.prefs.allowDecimals().collectAsState(initial = false)
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
@@ -89,9 +94,21 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 )
 
                 CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(bottom = 10.dp),
                     modifierRow = Modifier
                         .padding(vertical = 3.dp)
+                        .clickable {
+                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/f51wgf4s"))
+                            context.startActivity(browserIntent)
+                        },
+                    text = R.string.terms_conditions,
+                    isChecked = false,
+                    onCheckedChange = {},
+                    showArrow = true
+                )
+
+                CustomSettingsResourcesCard(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    modifierRow = Modifier
                         .clickable {
 
                         },
@@ -107,7 +124,9 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     text = stringResource(id = R.string.version, BuildConfig.VERSION_NAME),
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 15.dp),
                     textAlign = TextAlign.Center
                 )
             }
