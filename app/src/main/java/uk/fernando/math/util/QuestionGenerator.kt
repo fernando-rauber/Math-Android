@@ -2,51 +2,72 @@ package uk.fernando.math.util
 
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.model.enum.Difficulty
-import uk.fernando.math.model.enum.Difficulty.*
+import uk.fernando.math.model.enum.Difficulty.EASY
+import uk.fernando.math.model.enum.Difficulty.MEDIUM
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-//private val squareRootList = listOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
-
 class QuestionGenerator {
 
-    private var quantity = 10
     private var difficulty = 1
+    private var quantity = 10
 
-    private var minNumber = 1
-    private var maxNumber = 999
+    private val squareRootList by lazy {
+        listOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
+    }
 
-    private val difficultSquareRootList = mutableListOf<Int>()
+    private val minPlusMinus by lazy {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> 1
+            MEDIUM -> 10
+            else -> 100
+        }
+    }
+    private val maxPlusMinus by lazy {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> 50
+            MEDIUM -> 150
+            else -> 999
+        }
+    }
+
+    private val minDivTimes by lazy {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> 1
+            MEDIUM -> 10
+            else -> 15
+        }
+    }
+    private val maxDivTimes by lazy {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> 10
+            MEDIUM -> 50
+            else -> 99
+        }
+    }
+
+    private val difficultSquareRootList by lazy {
+        when (Difficulty.getByValue(difficulty)) {
+            EASY -> squareRootList.take(quantity + 5)
+            MEDIUM -> squareRootList.take(40)
+            else -> squareRootList.takeLast(quantity + 20)
+        }.shuffled().toMutableList()
+    }
 
     fun generateQuestions(operator: List<Int>, quantity: Int, difficulty: Int): List<QuestionEntity> {
         val questionList = mutableListOf<QuestionEntity>()
 
+        this.difficulty = difficulty
         this.quantity = quantity
-        setDifficulty(difficulty)
-
-//        getSquareRootByDifficult()
 
         for (i in 1..quantity) {
             questionList.add(createQuestion(operator.random()))
         }
 
         return questionList
-    }
-
-    private fun getSquareRootByDifficult() {
-//        if (operatorList.contains(SQUARE.value)) {
-//            difficultSquareRootList.clear()
-
-//            when (Difficulty.getByValue(difficulty)) {
-//                EASY -> difficultSquareRootList.addAll(squareRootList.take(30).shuffled())
-//                MEDIUM -> difficultSquareRootList.addAll(squareRootList.shuffled().take(30))
-//                HARD -> difficultSquareRootList.addAll(squareRootList.takeLast(30).shuffled())
-//                else -> {}
-//            }
-//        }
     }
 
 
@@ -64,30 +85,10 @@ class QuestionGenerator {
         }
     }
 
-    private fun setDifficulty(difficulty: Int) {
-        this.difficulty = difficulty
-
-        when (Difficulty.getByValue(difficulty)) {
-            EASY -> {
-                minNumber = 1
-                maxNumber = 50
-            }
-            MEDIUM -> {
-                minNumber = 10
-                maxNumber = 150
-            }
-            HARD -> {
-                minNumber = 100
-                maxNumber = 999
-            }
-            else -> {}
-        }
-    }
-
     // For Operators + and -
     private fun getQuestionPlusMinus(operator: Int): QuestionEntity {
-        val first = (minNumber..maxNumber).random()
-        val second = (minNumber..maxNumber).random()
+        val first = (minPlusMinus..maxPlusMinus).random()
+        val second = (minPlusMinus..maxPlusMinus).random()
 
         val answer = if (operator == ADDITION.value)
             first.plus(second)
@@ -107,8 +108,8 @@ class QuestionGenerator {
 
     // For Operators > and <
     private fun getQuestionGreaterOrLess(operator: Int): QuestionEntity {
-        val first = (minNumber..maxNumber).random()
-        val second = (minNumber..maxNumber).random()
+        val first = (minPlusMinus..maxPlusMinus).random()
+        val second = (minPlusMinus..maxPlusMinus).random()
 
         if (first == second)
             return getQuestionGreaterOrLess(operator)
@@ -128,8 +129,8 @@ class QuestionGenerator {
 
     // For Operators / and *
     private fun getQuestionDivTimes(operator: Int): QuestionEntity {
-        var first = (minNumber..maxNumber / 2).random()
-        val second = (minNumber..maxNumber / 3).random()
+        var first = (minDivTimes..maxDivTimes).random()
+        val second = (minDivTimes..maxDivTimes).random()
 
         val answer = if (operator == DIVISION.value) {
             first = second.times(first) // it won't end up with decimals
@@ -151,7 +152,7 @@ class QuestionGenerator {
     // For Operators %
     private fun getQuestionPercentage(): QuestionEntity {
         val first = (1..99).random()
-        val second = (minNumber..maxNumber).random()
+        val second = (minPlusMinus..maxPlusMinus).random()
 
         val answer = (first.toDouble() / 100) * second
 
@@ -179,6 +180,4 @@ class QuestionGenerator {
             correctAnswer = answer.toInt()
         )
     }
-
-
 }
