@@ -15,14 +15,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.component.history.MultiplayerHistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard
+import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
 
 @ExperimentalMaterialApi
@@ -32,8 +35,10 @@ fun MultiplayerSummaryPage(
     historyID: Int,
     viewModel: MultiplayerSummaryViewModel = getViewModel()
 ) {
+    val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = green_pastel)
         viewModel.getHistory(historyID)
     }
 

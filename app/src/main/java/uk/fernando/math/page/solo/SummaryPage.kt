@@ -8,6 +8,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,16 +18,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.component.game.MyQuestion
 import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
+import uk.fernando.math.ui.theme.green_pastel
 import uk.fernando.math.ui.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
@@ -37,8 +41,10 @@ fun SummaryPage(
     historyID: Int,
     viewModel: SummaryViewModel = getViewModel()
 ) {
+    val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = green_pastel)
         viewModel.getHistory(historyID)
     }
 

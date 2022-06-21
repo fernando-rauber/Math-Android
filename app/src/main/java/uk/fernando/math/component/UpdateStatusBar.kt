@@ -18,7 +18,6 @@ fun UpdateStatusBar(color: Color? = null) {
     SideEffect {
         systemUiController.setStatusBarColor(
             color = color ?: systemBarColor,
-//            color = if (isDarkMode.value) Color.Black else color
         )
     }
 }
