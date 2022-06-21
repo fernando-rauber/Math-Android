@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -132,6 +133,13 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 .padding(16.dp)
         ) {
 
+            Text(
+                modifier = Modifier.align(CenterHorizontally),
+                text = viewModel.player1Name.value,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+            )
+
             viewModel.currentQuestion.value?.let { question ->
 
                 MyQuestionDisplay(question = question, multipleChoice = question.getMultipleChoiceList()) { answer ->
@@ -161,6 +169,13 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
+
+            Text(
+                modifier = Modifier.align(CenterHorizontally),
+                text = viewModel.player2Name.value,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+            )
 
             viewModel.currentQuestion.value?.let { question ->
 

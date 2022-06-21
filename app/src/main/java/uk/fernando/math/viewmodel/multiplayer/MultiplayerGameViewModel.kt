@@ -12,6 +12,9 @@ class MultiplayerGameViewModel(private val rep: GameRepository, private val logg
     val player1Waiting = mutableStateOf(false)
     val player2Waiting = mutableStateOf(false)
 
+    val player1Name = mutableStateOf("")
+    val player2Name = mutableStateOf("")
+
     private var player1Counter = 1
     private var player2Counter = 1
 
@@ -24,11 +27,13 @@ class MultiplayerGameViewModel(private val rep: GameRepository, private val logg
             history = historyWithPlayer!!.history
 
             // Get Players
-            player1 = historyWithPlayer.playerList.first()
-            if (history.multiplayer)
-                player2 = historyWithPlayer.playerList[1]
+            player1 = historyWithPlayer.playerList[0]
+            player2 = historyWithPlayer.playerList[1]
 
-            maxQuestion = player1.questionList.count() ?: 0
+            player1Name.value = player1.name
+            player2Name.value = player2.name
+
+            maxQuestion = player1.questionList.count()
 
             nextQuestion()
         }

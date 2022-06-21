@@ -48,7 +48,7 @@ private fun ColumnScope.Question(question: QuestionEntity) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .weight(1f),
+            .weight(0.5f),
         contentAlignment = Alignment.Center
     ) {
 
@@ -72,14 +72,15 @@ private fun BooleanChoice(onClick: (Int) -> Unit) {
 }
 
 @Composable
-private fun MultipleChoice(answerList: List<Int>, onClick: (Int) -> Unit) {
-    Column {
-        Row {
+private fun ColumnScope.MultipleChoice(answerList: List<Int>, onClick: (Int) -> Unit) {
+    Column(Modifier.weight(0.4f)) {
+        Row(Modifier.weight(1f)) {
             AnswerCard(answerList[0], orange, onClick)
             Spacer(Modifier.width(16.dp))
             AnswerCard(answerList[1], green_pastel, onClick)
         }
-        Row(Modifier.padding(top = 16.dp)) {
+        Spacer(Modifier.height(16.dp))
+        Row(Modifier.weight(1f)) {
             AnswerCard(answerList[2], pastel_red, onClick)
             Spacer(Modifier.width(16.dp))
             AnswerCard(answerList[3], purple, onClick)
@@ -131,7 +132,7 @@ private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Uni
     Box(
         modifier = Modifier
             .weight(1f)
-            .defaultMinSize(minHeight = 100.dp)
+            .fillMaxHeight()
             .clip(MaterialTheme.shapes.medium)
             .background(color)
             .clickable { onClick(answer) },

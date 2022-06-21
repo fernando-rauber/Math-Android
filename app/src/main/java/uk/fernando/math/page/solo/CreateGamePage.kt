@@ -1,6 +1,8 @@
 package uk.fernando.math.page.solo
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -48,31 +50,38 @@ fun CreateGamePage(
                 shape = MaterialTheme.shapes.medium
             ) {
 
-                Column(Modifier.padding(16.dp)) {
+                Box(Modifier.padding(16.dp)) {
 
-                    MyMathOperatorOptions {
-                        viewModel.setMathOptions(it)
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+
+                        MyMathOperatorOptions {
+                            viewModel.setMathOptions(it)
+                        }
+
+                        Divider(Modifier.padding(vertical = 16.dp))
+
+                        MyQuestionQuantity { quantity ->
+                            viewModel.setQuantity(quantity)
+                        }
+
+                        Divider(Modifier.padding(vertical = 16.dp))
+
+                        AnswerType { multipleChoice ->
+                            viewModel.setTypeAnswer(multipleChoice)
+                        }
+
+                        Divider(Modifier.padding(vertical = 16.dp))
+
+                        MyDifficulty { difficult ->
+                            viewModel.setDifficulty(difficult)
+                        }
+
+                        Spacer(Modifier.height(60.dp))
                     }
-
-                    Divider(Modifier.padding(vertical = 16.dp))
-
-                    MyQuestionQuantity { quantity ->
-                        viewModel.setQuantity(quantity)
-                    }
-
-                    Divider(Modifier.padding(vertical = 16.dp))
-
-                    AnswerType { multipleChoice ->
-                        viewModel.setTypeAnswer(multipleChoice)
-                    }
-
-                    Divider(Modifier.padding(vertical = 16.dp))
-
-                    MyDifficulty { difficult ->
-                        viewModel.setDifficulty(difficult)
-                    }
-
-                    Spacer(Modifier.weight(1f))
 
                     CreateGameButton(viewModel) {
                         coroutine.launch {
@@ -108,10 +117,11 @@ private fun AnswerType(onChecked: (Boolean) -> Unit) {
 }
 
 @Composable
-private fun CreateGameButton(viewModel: CreateGameViewModel, onClick: () -> Unit) {
+private fun BoxScope.CreateGameButton(viewModel: CreateGameViewModel, onClick: () -> Unit) {
     MyButton(
         modifier = Modifier
             .fillMaxWidth()
+            .align(Alignment.BottomCenter)
             .defaultMinSize(minHeight = 50.dp),
         text = stringResource(id = R.string.start_action),
         isLoading = viewModel.loading.value,

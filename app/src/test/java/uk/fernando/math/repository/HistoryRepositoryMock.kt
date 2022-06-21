@@ -5,7 +5,7 @@ import uk.fernando.math.database.dao.HistoryDao
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
-import uk.fernando.math.database.entity.PlayerQuestionEntity
+import uk.fernando.math.database.entity.QuestionEntity
 
 open class HistoryRepositoryMock : HistoryDao {
 
@@ -21,7 +21,7 @@ open class HistoryRepositoryMock : HistoryDao {
         return 3
     }
 
-    override fun insertQuestion(item: PlayerQuestionEntity) {
+    override fun insertQuestion(item: QuestionEntity) {
 
     }
 
@@ -29,7 +29,7 @@ open class HistoryRepositoryMock : HistoryDao {
         return historyList().first()
     }
 
-    override fun getQuestionByFriend(playerID: Long): List<PlayerQuestionEntity> {
+    override fun getQuestionByFriend(playerID: Long): List<QuestionEntity> {
         TODO("Not yet implemented")
     }
 

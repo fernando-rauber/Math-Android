@@ -4,7 +4,9 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
@@ -48,7 +50,13 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
             TopNavigationBar(title = R.string.settings_title)
 
-            Column(Modifier.padding(horizontal = 20.dp, vertical = 30.dp)) {
+            Column(
+                Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+
                 CustomSettingsResourcesCard(
                     modifier = Modifier,
                     text = R.string.dark_mode,
@@ -99,7 +107,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     text = stringResource(id = R.string.version, BuildConfig.VERSION_NAME),
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 15.dp),
                     textAlign = TextAlign.Center
                 )
             }
@@ -128,11 +136,13 @@ private fun CustomSettingsResourcesCard(
             modifier = modifierRow.padding(16.dp)
         ) {
 
-            Column(Modifier
-                .padding(end = 20.dp)
-                .weight(1f),) {
+            Column(
+                Modifier
+                    .padding(end = 20.dp)
+                    .weight(1f),
+            ) {
 
-                Row{
+                Row {
 
                     Text(
                         text = stringResource(id = text),

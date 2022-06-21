@@ -28,8 +28,8 @@ fun MyQuestionQuantity(onSelected: (Int) -> Unit) {
                 quantity = it
                 onSelected(it.toInt())
             },
-            steps = 4,
-            valueRange = 5f..30f,
+            steps = 2,
+            valueRange = 5f..20f,
         )
     }
 }

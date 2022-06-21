@@ -108,7 +108,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: P
                 Text(
                     modifier = Modifier
                         .padding(start = 2.dp)
-                        .weight(1f),
+                        .weight(0.6f),
                     text = history.timer.timerFormat(),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyMedium
