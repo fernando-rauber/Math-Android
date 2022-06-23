@@ -12,7 +12,7 @@ class SplashViewModel(private val notificationHelper: NotificationHelper, privat
                 prefs.storeDarkMode(isDarkMode)
                 prefs.storeFirstTime(false)
 
-                notificationHelper.startNotification(R.string.notification_title, R.string.notification_text, 36)
+                notificationHelper.startNotification(R.string.notification_title, R.string.notification_text, 1)
             }
         }
     }

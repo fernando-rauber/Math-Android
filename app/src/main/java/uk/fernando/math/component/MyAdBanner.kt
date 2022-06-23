@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.inject
+import uk.fernando.advertising.component.AdBanner
 import uk.fernando.math.R
 import uk.fernando.math.datastore.PrefsStore
 
@@ -17,7 +18,7 @@ fun MyAdBanner(modifier: Modifier) {
     val isPremium = dataStore.isPremium().collectAsState(true)
 
     if (!isPremium.value)
-        uk.fernando.advertising.component.AdBanner(
+        AdBanner(
             unitId = stringResource(R.string.ad_banner),
             modifier = modifier.padding(bottom = 8.dp)
         )

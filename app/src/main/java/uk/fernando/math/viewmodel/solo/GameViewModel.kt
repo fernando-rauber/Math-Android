@@ -1,7 +1,6 @@
 package uk.fernando.math.viewmodel.solo
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.ext.TAG
@@ -13,24 +12,19 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
 
     val chronometerSeconds = mutableStateOf(0)
 
-    //TODO need to fix it, what happen if user go to background on the game? should pause
     private val chronometer = object : CountDownTimer(30000000, 1000) {
-
         override fun onTick(millisUntilFinished: Long) {
-            if (!isGamePaused.value) {
+            if (!isGamePaused.value)
                 chronometerSeconds.value++
-                Log.e(TAG, "onTick: ${chronometerSeconds.value}", )
-            }
         }
 
         override fun onFinish() {
+            chronometerSeconds.value = 0
         }
     }
 
-     fun createGame() {
+    fun createGame() {
         clean()
-
-         Log.e(TAG, "createGame: **************", )
 
         launchDefault {
             val historyWithPlayer = rep.getOpenGame()
@@ -52,15 +46,10 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
         chronometer.start()
     }
 
-    override fun clean() {
-        super.clean()
-        chronometerSeconds.value = 0
-    }
-
     fun registerAnswer(answer: Int): Boolean? {
         if (isGameFinished.value)
             return null
-        
+
         val isAnswerCorrect = updateQuestion(answer, player1, currentQuestion.value!!)
 
         nextQuestion()
@@ -80,8 +69,8 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
     private fun updateHistoryData() {
         launchDefault {
             try {
-                chronometer.cancel()
                 history.timer = chronometerSeconds.value
+                chronometer.cancel()
                 history.isFinished = true
 
                 updateHistory(history)

@@ -76,4 +76,12 @@
     <string name="notification_title">Let\'s Play</string>
     <string name="notification_text">Don\'t miss a chance to improve your skills</string>
 
+    // Purchase
+    <string name="purchase_success">Thank you, You are now a premium user!</string>
+    <string name="purchase_error">Something went wrong! Try it later</string>
+    <string name="owned">Owned</string>
+    <string name="restore_premium_action">Restore Premium</string>
+    <string name="restore_restored">Premium Product Restored. Enjoy!</string>
+    <string name="restore_not_found">Product premium not found to restore.</string>
+
 </resources>

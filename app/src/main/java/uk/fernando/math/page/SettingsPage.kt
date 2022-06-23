@@ -26,9 +26,12 @@ import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
+import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
+import uk.fernando.math.component.snackbar.CustomSnackBar
 import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.viewmodel.PREMIUM_PRODUCT
 import uk.fernando.math.viewmodel.SettingsViewModel
 
 
@@ -37,28 +40,28 @@ import uk.fernando.math.viewmodel.SettingsViewModel
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
-    val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
 
     MyBackground {
+        CustomSnackBar(viewModel.snackBar.value) {
 
-        Column(Modifier.fillMaxSize()) {
+            Column(Modifier.fillMaxSize()) {
 
-            TopNavigationBar(title = R.string.settings_title)
+                TopNavigationBar(title = R.string.settings_title)
 
-            Column(
-                Modifier
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 20.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
+                Column(
+                    Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
 
-                CustomSettingsResourcesCard(
-                    modifier = Modifier,
-                    text = R.string.dark_mode,
-                    isChecked = isDarkMode.value,
-                    onCheckedChange = viewModel::updateDarkMode
-                )
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier,
+                        text = R.string.dark_mode,
+                        isChecked = isDarkMode.value,
+                        onCheckedChange = viewModel::updateDarkMode
+                    )
 
 //                CustomSettingsResourcesCard(
 //                    modifier = Modifier.padding(vertical = 10.dp),
@@ -68,59 +71,68 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 //                    onCheckedChange = viewModel::updateAllowDecimals
 //                )
 
-                CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    text = R.string.notification,
-                    subText = R.string.notification_subtext,
-                    isChecked = notificationEnable.value,
-                    onCheckedChange = viewModel::updateNotification
-                )
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        text = R.string.notification,
+                        subText = R.string.notification_subtext,
+                        isChecked = notificationEnable.value,
+                        onCheckedChange = viewModel::updateNotification
+                    )
 
-                CustomSettingsResourcesCard(
-                    modifier = Modifier,
-                    text = R.string.premium,
-                    subText = R.string.premium_subtext,
-                    isPremium = true,
-                    isChecked = isPremium.value,
-                    onCheckedChange = viewModel::updatePremium
-                )
+                    CustomSettingsPremiumCard(
+                        text = R.string.premium,
+                        subText = R.string.premium_subtext,
+                        premiumPrice = viewModel.premiumPrice.value
+                    ) {
+                        viewModel.billingHelper?.launchBillingFlow(context as MainActivity, PREMIUM_PRODUCT)
+                    }
 
-                CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    modifierRow = Modifier
-                        .clickable {
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/f51wgf4s"))
-                            context.startActivity(browserIntent)
-                        },
-                    text = R.string.terms_conditions,
-                    isChecked = false,
-                    onCheckedChange = {},
-                    showArrow = true
-                )
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        modifierRow = Modifier.clickable { viewModel.restorePremium() },
+                        text = R.string.restore_premium_action,
+                        isChecked = false,
+                        onCheckedChange = {},
+                        showArrow = false
+                    )
 
-                CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    modifierRow = Modifier
-                        .clickable {
+                    CustomSettingsResourcesCard(
+                        modifierRow = Modifier
+                            .clickable {
+                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/f51wgf4s"))
+                                context.startActivity(browserIntent)
+                            },
+                        text = R.string.terms_conditions,
+                        isChecked = false,
+                        onCheckedChange = {},
+                        showArrow = true
+                    )
 
-                        },
-                    text = R.string.privacy_policy,
-                    isChecked = false,
-                    onCheckedChange = {},
-                    showArrow = true
-                )
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        modifierRow = Modifier
+                            .clickable {
+                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/internaltest/4701699549728134240"))
+                                context.startActivity(browserIntent)
+                            },
+                        text = R.string.privacy_policy,
+                        isChecked = false,
+                        onCheckedChange = {},
+                        showArrow = true
+                    )
 
-                Spacer(Modifier.weight(0.9f))
+                    Spacer(Modifier.weight(0.9f))
 
-                Text(
-                    text = stringResource(id = R.string.version, BuildConfig.VERSION_NAME),
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 15.dp),
-                    textAlign = TextAlign.Center
-                )
+                    Text(
+                        text = stringResource(id = R.string.version, BuildConfig.VERSION_NAME),
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 15.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
@@ -135,7 +147,7 @@ private fun CustomSettingsResourcesCard(
     isChecked: Boolean,
     isPremium: Boolean = false,
     onCheckedChange: (Boolean) -> Unit,
-    showArrow: Boolean = false
+    showArrow: Boolean? = null
 ) {
     Surface(
         modifier = modifier,
@@ -175,13 +187,7 @@ private fun CustomSettingsResourcesCard(
                 }
             }
 
-            if (showArrow)
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_forward),
-                    contentDescription = null,
-                    tint = green_pastel
-                )
-            else
+            if (showArrow == null)
                 Switch(
                     checked = isChecked,
                     onCheckedChange = onCheckedChange,
@@ -191,6 +197,72 @@ private fun CustomSettingsResourcesCard(
                         uncheckedThumbColor = Color.White,
                     )
                 )
+            else if (showArrow)
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_forward),
+                    contentDescription = null,
+                    tint = green_pastel
+                )
+
+        }
+    }
+}
+
+
+@Composable
+private fun CustomSettingsPremiumCard(
+    @StringRes text: Int,
+    @StringRes subText: Int? = null,
+    premiumPrice: String? = null,
+    onClick: () -> Unit
+) {
+    Surface(
+        shape = RoundedCornerShape(50),
+        shadowElevation = 4.dp
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable {
+                    if (premiumPrice != null)
+                        onClick()
+                }
+                .padding(16.dp)
+        ) {
+
+            Column(
+                Modifier
+                    .padding(end = 20.dp)
+                    .weight(1f),
+            ) {
+
+                Row {
+
+                    Text(
+                        text = stringResource(id = text),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(end = 5.dp)
+                    )
+
+                    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+                }
+
+                subText?.let {
+                    Text(
+                        text = stringResource(id = subText),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            Text(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                text = premiumPrice ?: stringResource(id = R.string.owned),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
         }
     }
 }

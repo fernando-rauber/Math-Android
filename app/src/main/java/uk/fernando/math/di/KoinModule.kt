@@ -76,7 +76,7 @@ object KoinModule {
             viewModel { MultiplayerCreateGameViewModel(get(), get()) }
             viewModel { MultiplayerGameViewModel(get(), get()) }
             viewModel { MultiplayerSummaryViewModel(get()) }
-            viewModel { SettingsViewModel(get(), get(), get()) }
+            viewModel { SettingsViewModel(androidApplication(),get(), get(), get()) }
             viewModel { SplashViewModel(get(), get()) }
         }
 
