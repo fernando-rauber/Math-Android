@@ -1,11 +1,11 @@
 package uk.fernando.math.viewmodel
 
+import android.app.Activity
 import android.app.Application
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import uk.fernando.billing.BillingHelper
 import uk.fernando.billing.BillingState
 import uk.fernando.logger.MyLogger
@@ -16,7 +16,7 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.TAG
 import uk.fernando.math.notification.NotificationHelper
 
-const val PREMIUM_PRODUCT = "funmath_subscription"
+const val PREMIUM_PRODUCT = "fun_math_premium"
 
 class SettingsViewModel(
     private val application: Application,
@@ -25,11 +25,12 @@ class SettingsViewModel(
     val prefs: PrefsStore
 ) : BaseViewModel() {
 
-    var billingHelper: BillingHelper? = null
-    val premiumPrice = mutableStateOf<String?>(null)
+    private var billingHelper: BillingHelper? = null
+    private var isPremium = false
 
-    init {
-        startInAppPurchaseJourney()
+    fun initialiseBillingHelper(isInternetAvailable: Boolean) {
+        if (isInternetAvailable)
+            startInAppPurchaseJourney()
     }
 
     fun updateDarkMode(isDarkMode: Boolean) {
@@ -55,6 +56,7 @@ class SettingsViewModel(
     private fun startInAppPurchaseJourney() {
         launchIO {
             val isPremium = prefs.isPremium().first()
+            this.isPremium = isPremium
 
             if (!isPremium) {
                 billingHelper = BillingHelper.getInstance(
@@ -65,33 +67,44 @@ class SettingsViewModel(
                     BuildConfig.BILLING_PUBLIC_KEY
                 )
 
-                getPremiumPrice()
-
                 observeBillingState()
             }
         }
     }
 
-    fun restorePremium() {
-        if (premiumPrice.value == null)
+    fun requestPayment(activity: Activity, isInternetAvailable: Boolean) {
+        if (!isInternetAvailable(isInternetAvailable))
+            return
+
+        launchIO {
+            if (billingHelper == null) {
+                startInAppPurchaseJourney()
+                delay(1000)
+            }
+            billingHelper?.launchBillingFlow(activity, PREMIUM_PRODUCT)
+        }
+    }
+
+    fun restorePremium(isInternetAvailable: Boolean) {
+        if (!isInternetAvailable(isInternetAvailable))
+            return
+
+        if (isPremium)
             snackBar.value = SnackBarSealed.Success(R.string.restore_restored)
         else
             launchIO {
+                if (billingHelper == null) {
+                    startInAppPurchaseJourney()
+                    delay(1000)
+                }
                 val isPurchased = billingHelper?.isPurchased(PREMIUM_PRODUCT)?.distinctUntilChanged()?.first()
                 if (isPurchased == true) {
                     prefs.storePremium(true)
-                    premiumPrice.value = null
                     snackBar.value = SnackBarSealed.Success(R.string.restore_restored)
                 } else {
                     snackBar.value = SnackBarSealed.Error(R.string.restore_not_found)
                 }
             }
-    }
-
-    private fun getPremiumPrice() {
-        launchIO {
-            premiumPrice.value = billingHelper?.getProductPrice(PREMIUM_PRODUCT)?.distinctUntilChanged()?.firstOrNull()
-        }
     }
 
     private fun observeBillingState() {
@@ -106,7 +119,6 @@ class SettingsViewModel(
                     is BillingState.Success -> {
                         snackBar.value = SnackBarSealed.Success(R.string.purchase_success, isLongDuration = true)
                         prefs.storePremium(true)
-                        premiumPrice.value = null
                     }
                     is BillingState.Crashlytics -> {
                         logger.e(TAG, state.message)
@@ -116,6 +128,13 @@ class SettingsViewModel(
                 }
             }
         }
+    }
+
+    private fun isInternetAvailable(isInternetAvailable: Boolean): Boolean {
+        if (!isInternetAvailable)
+            snackBar.value = SnackBarSealed.Error(R.string.internet_required)
+
+        return isInternetAvailable
     }
 }
 

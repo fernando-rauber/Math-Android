@@ -12,7 +12,7 @@ class GameViewModel(private val rep: GameRepository, private val logger: MyLogge
 
     val chronometerSeconds = mutableStateOf(0)
 
-    private val chronometer = object : CountDownTimer(30000000, 1000) {
+    private val chronometer = object : CountDownTimer(7200000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             if (!isGamePaused.value)
                 chronometerSeconds.value++

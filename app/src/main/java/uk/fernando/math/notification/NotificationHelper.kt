@@ -4,6 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 const val requestCode = 112
@@ -28,13 +30,26 @@ class NotificationHelper(val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.set(Calendar.HOUR_OF_DAY, 10)
+        calendar.set(Calendar.MINUTE, 30)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+//        val cur: Calendar = Calendar.getInstance()
+//
+//        if (cur.after(calendar)) {
+//            calendar.add(Calendar.MINUTE, 20)
+//        }
+        val timeInterval = TimeUnit.MINUTES.toMillis(30)
+
         alarmManager?.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            5000,
-            TimeUnit.HOURS.toMillis(hourDelay),
+            System.currentTimeMillis() + timeInterval,
+            timeInterval,
             pendingIntent
         )
-
     }
 
     fun stopNotification() {

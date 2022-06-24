@@ -1,6 +1,9 @@
 package uk.fernando.math.ext
 
+import android.content.Context
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.navigation.NavController
 import uk.fernando.math.R
 
@@ -34,31 +37,17 @@ fun MediaPlayer.playAudio() {
     start()
 }
 
-/**
- * Returns a list of random answer based on the original answer.
- */
-fun Int.generateMultipleChoices(): List<Int> {
-    val multipleChoice = mutableListOf<Int>()
-
-    multipleChoice.add(this)
-
-    for (i in 1..3) {
-        multipleChoice.add(createFakeAnswer(this, multipleChoice))
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    if (capabilities != null) {
+        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+            return true
+        }
     }
-
-    return multipleChoice
-}
-
-private fun createFakeAnswer(answer: Int, existentAnswers: List<Int>): Int {
-    val value = (1..9).random()
-
-    val result = when ((1..2).random()) {
-        1 -> answer.minus(value)
-        else -> answer.plus(value)
-    }
-
-    return if (result < 0 || existentAnswers.contains(result)) // can't have the same answer
-        createFakeAnswer(answer, existentAnswers)
-    else
-        result
+    return false
 }

@@ -8,15 +8,12 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -25,7 +22,6 @@ import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.component.game.MyQuestion
 import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
@@ -135,15 +131,17 @@ fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity, size: Int 
                 size = size
             )
 
-            if (question.answer != question.correctAnswer) {
-                val correctAnswer = if (isBooleanAnswer) stringResource(question.correctAnswer.toFalseTrue()) else question.correctAnswer
-                Text(
-                    text = "Correct: $correctAnswer",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = size.sp
-                )
+            val textValue = if (question.answer != question.correctAnswer) {
+                stringResource(R.string.correct_params, if (isBooleanAnswer) stringResource(question.correctAnswer.toFalseTrue()) else question.correctAnswer.toString())
+            } else {
+                stringResource(R.string.well_done)
             }
+
+            Text(
+                text = textValue,
+                style = MaterialTheme.typography.bodySmall,
+                fontSize = size.sp
+            )
         }
     }
 }

@@ -18,6 +18,7 @@ fun CustomSnackBar(snackBarSealed: SnackBarSealed?, content: @Composable () -> U
     when (snackBarSealed) {
         is SnackBarSealed.Success -> snackBarController.showSnackBar(scaffoldState = scaffoldState, longDuration = snackBarSealed.isLongDuration)
         is SnackBarSealed.Error -> snackBarController.showSnackBar(scaffoldState = scaffoldState, longDuration = snackBarSealed.isLongDuration)
+        else -> {}
     }
 
 //    LargeTopAppBar

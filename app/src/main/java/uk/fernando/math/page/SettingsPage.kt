@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +31,8 @@ import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.snackbar.CustomSnackBar
+import uk.fernando.math.ext.isNetworkAvailable
 import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.viewmodel.PREMIUM_PRODUCT
 import uk.fernando.math.viewmodel.SettingsViewModel
 
 
@@ -41,6 +42,11 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
+    val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
+
+    LaunchedEffect(Unit) {
+        viewModel.initialiseBillingHelper(context.isNetworkAvailable())
+    }
 
     MyBackground {
         CustomSnackBar(viewModel.snackBar.value) {
@@ -82,14 +88,14 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     CustomSettingsPremiumCard(
                         text = R.string.premium,
                         subText = R.string.premium_subtext,
-                        premiumPrice = viewModel.premiumPrice.value
+                        isPremium = isPremium.value,
                     ) {
-                        viewModel.billingHelper?.launchBillingFlow(context as MainActivity, PREMIUM_PRODUCT)
+                        viewModel.requestPayment(context as MainActivity, context.isNetworkAvailable())
                     }
 
                     CustomSettingsResourcesCard(
                         modifier = Modifier.padding(vertical = 10.dp),
-                        modifierRow = Modifier.clickable { viewModel.restorePremium() },
+                        modifierRow = Modifier.clickable { viewModel.restorePremium(context.isNetworkAvailable()) },
                         text = R.string.restore_premium_action,
                         isChecked = false,
                         onCheckedChange = {},
@@ -112,7 +118,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                         modifier = Modifier.padding(vertical = 10.dp),
                         modifierRow = Modifier
                             .clickable {
-                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/internaltest/4701699549728134240"))
+                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/o2172rhj"))
                                 context.startActivity(browserIntent)
                             },
                         text = R.string.privacy_policy,
@@ -213,7 +219,7 @@ private fun CustomSettingsResourcesCard(
 private fun CustomSettingsPremiumCard(
     @StringRes text: Int,
     @StringRes subText: Int? = null,
-    premiumPrice: String? = null,
+    isPremium: Boolean,
     onClick: () -> Unit
 ) {
     Surface(
@@ -224,7 +230,7 @@ private fun CustomSettingsPremiumCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
-                    if (premiumPrice != null)
+                    if (!isPremium)
                         onClick()
                 }
                 .padding(16.dp)
@@ -259,7 +265,7 @@ private fun CustomSettingsPremiumCard(
 
             Text(
                 modifier = Modifier.padding(horizontal = 10.dp),
-                text = premiumPrice ?: stringResource(id = R.string.owned),
+                text = if (isPremium) stringResource(id = R.string.purchased) else "£4.99",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )

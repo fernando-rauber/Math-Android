@@ -12,6 +12,7 @@ interface GameDao {
     @Query("SELECT * FROM ${QuestionEntity.NAME} WHERE player_id = :playerID")
     fun getQuestionByPlayer(playerID: Long): List<QuestionEntity>
 
+    @Transaction
     @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE is_finished = 0")
     fun getHistoryOpen(): HistoryWithPLayers?
 

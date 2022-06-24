@@ -53,7 +53,7 @@ fun GamePage(
     }
 
     OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_STOP)
+        if (event == Lifecycle.Event.ON_STOP && !viewModel.isGameFinished.value)
             viewModel.isGamePaused.value = true
     }
 

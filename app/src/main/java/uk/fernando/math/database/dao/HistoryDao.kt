@@ -13,6 +13,7 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: HistoryEntity): Long
 
+    @Transaction
     @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE multiplayer = :isMultiplayer AND is_finished = 1 ORDER BY date DESC")
     fun getHistory(isMultiplayer: Boolean): PagingSource<Int, HistoryWithPLayers>
 
@@ -40,6 +41,7 @@ interface HistoryDao {
         return historyID
     }
 
+    @Transaction
     @Query("SELECT * FROM ${HistoryEntity.NAME} WHERE id = :historyId")
     fun getHistoryById(historyId: Int): HistoryWithPLayers
 

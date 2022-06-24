@@ -20,7 +20,6 @@ import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.component.history.MultiplayerHistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
@@ -83,7 +82,6 @@ fun MultiplayerSummaryPage(
                             textAlign = TextAlign.Center
                         )
 
-
                         val player1 = history.playerList[0]
                         val player2 = history.playerList[1]
 
@@ -124,8 +122,8 @@ fun MultiplayerSummaryPage(
 @Composable
 private fun ResultMathCard(player1Question: QuestionEntity, player2Question: QuestionEntity) {
     Row {
-        MathCard(Modifier.weight(1f), player1Question, size = 12)
+        MathCard(Modifier.weight(1f), player1Question, size = 16)
         Spacer(Modifier.width(8.dp))
-        MathCard(Modifier.weight(1f), player2Question, size = 12)
+        MathCard(Modifier.weight(1f), player2Question, size = 16)
     }
 }

@@ -31,6 +31,7 @@ fun DefaultSnackBar(
             when (snackBarSealed) {
                 is SnackBarSealed.Success -> CreateSnackBar(star_green, if (snackBarSealed.messageID != null) stringResource(id = snackBarSealed.messageID) else snackBarSealed.messageText ?: "")
                 is SnackBarSealed.Error -> CreateSnackBar(red, if (snackBarSealed.messageID != null) stringResource(id = snackBarSealed.messageID) else snackBarSealed.messageText ?: "")
+                else -> {}
             }
         },
         modifier = modifier

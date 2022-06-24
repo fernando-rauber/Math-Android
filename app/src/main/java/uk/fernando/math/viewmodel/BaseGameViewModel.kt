@@ -53,7 +53,7 @@ open class BaseGameViewModel(private val rep: GameRepository, private val logger
         return answer == question.correctAnswer
     }
 
-    fun updateQuestion(question: QuestionEntity) {
+    private fun updateQuestion(question: QuestionEntity) {
         launchDefault {
             rep.updateQuestion(question)
         }
