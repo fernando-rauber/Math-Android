@@ -3,8 +3,7 @@ package uk.fernando.math.page
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,10 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
@@ -34,7 +30,7 @@ fun SplashPage(
         Column(
             Modifier
                 .offset(y = (-50).dp)
-                .fillMaxWidth(0.8f)
+                .fillMaxWidth(0.4f)
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -43,18 +39,15 @@ fun SplashPage(
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.4f)
+                    .fillMaxWidth()
                     .aspectRatio(1f)
             )
 
-            Spacer(Modifier.height(35.dp))
-
-            Text(
-                text = stringResource(R.string.splash_title),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                lineHeight = 40.sp,
-                color = MaterialTheme.colorScheme.onBackground
+            CircularProgressIndicator(
+                strokeWidth = 5.dp,
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .padding(top = 35.dp)
             )
         }
     }

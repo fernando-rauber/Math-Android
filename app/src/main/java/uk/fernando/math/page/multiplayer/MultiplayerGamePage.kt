@@ -256,7 +256,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
         IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
             Icon(
                 painterResource(id = R.drawable.ic_pause),
-                contentDescription = "pause",
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
