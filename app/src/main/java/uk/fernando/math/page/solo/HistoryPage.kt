@@ -4,19 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -31,6 +26,7 @@ import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.history.HistoryCard
 import uk.fernando.math.component.history.MyEmptyHistory
 import uk.fernando.math.component.history.MyLoadingHistory
+import uk.fernando.math.component.history.NewGameButton
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.safeNav
@@ -50,18 +46,8 @@ fun HistoryPage(
         Column {
 
             TopNavigationBar(
-                title = R.string.solo_title,
-                rightIcon = {
-                    TextButton(onClick = { navController.safeNav(Directions.createGame.name) }) {
-                        Text(
-                            text = stringResource(R.string.new_game_action),
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            letterSpacing = (-0.80).sp
-                        )
-                    }
-                })
+                title = R.string.score_title,
+                rightIcon = { NewGameButton { navController.safeNav(Directions.createGame.name) } })
 
             val historyList = viewModel.history.collectAsLazyPagingItems()
 

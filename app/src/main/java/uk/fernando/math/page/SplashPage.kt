@@ -47,7 +47,7 @@ fun SplashPage(
                     .aspectRatio(1f)
             )
 
-            Spacer( Modifier.height(35.dp))
+            Spacer(Modifier.height(35.dp))
 
             Text(
                 text = stringResource(R.string.splash_title),
