@@ -188,7 +188,7 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 MyQuestionDisplay(
                     question = question,
                     isMultiplayer = true,
-                    multipleChoice = question.getMultipleChoiceList().shuffled()
+                    multipleChoice = question.getMultipleChoiceList()
                 ) { answer ->
                     playSound(viewModel.registerAnswerPlayer2(answer))
                 }

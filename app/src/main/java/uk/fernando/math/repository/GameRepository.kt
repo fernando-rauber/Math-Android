@@ -7,7 +7,7 @@ import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.QuestionEntity
 
-class GameRepository(private val dao: GameDao) {
+open class GameRepository(private val dao: GameDao) {
 
     suspend fun getOpenGame() = withContext(Dispatchers.IO) {
         dao.getOpenGame()

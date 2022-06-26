@@ -1,5 +1,6 @@
 package uk.fernando.math.component.game
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,17 +30,31 @@ import uk.fernando.math.ui.theme.orange
 import uk.fernando.math.ui.theme.pastel_red
 import uk.fernando.math.ui.theme.purple
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ColumnScope.MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMultiplayer: Boolean = false, onClick: (Int) -> Unit) {
-    Question(question, isMultiplayer)
+fun MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMultiplayer: Boolean = false, onClick: (Int) -> Unit) {
+    AnimatedContent(
+        targetState = question,
+        transitionSpec = {
+            (slideInHorizontally { height -> height } + fadeIn() with
+                    slideOutHorizontally { height -> -height } + fadeOut()).using(
+                SizeTransform(clip = false)
+            )
+        }
+    ) { quest ->
+        Column {
 
-    if (question.operator.isBooleanQuestion())
-        BooleanChoice(isMultiplayer, onClick = onClick)
-    else {
-        if (multipleChoice != null && multipleChoice.isNotEmpty())
-            MultipleChoice(multipleChoice, isMultiplayer, onClick = onClick)
-        else
-            OpenAnswer(onClick = onClick)
+            Question(quest, isMultiplayer)
+
+            if (question.operator.isBooleanQuestion())
+                BooleanChoice(isMultiplayer, onClick = onClick)
+            else {
+                if (multipleChoice != null && multipleChoice.isNotEmpty())
+                    MultipleChoice(multipleChoice, isMultiplayer, onClick = onClick)
+                else
+                    OpenAnswer(onClick = onClick)
+            }
+        }
     }
 }
 

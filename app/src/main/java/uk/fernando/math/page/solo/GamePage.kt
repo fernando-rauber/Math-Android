@@ -159,7 +159,7 @@ private fun Timer(viewModel: GameViewModel) {
 }
 
 @Composable
-private fun ColumnScope.QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -> Unit) {
+private fun QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -> Unit) {
     viewModel.currentQuestion.value?.let { question ->
 
         MyQuestionDisplay(

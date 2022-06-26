@@ -19,10 +19,6 @@ import kotlin.test.assertEquals
 class SoloGameUnitTest : KoinTestCase() {
     private val gameViewModel: GameViewModel by inject()
 
-    init {
-        QuestionGenerator.generateQuestions(listOf(1, 2, 3), 3, false, 1)
-    }
-
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
@@ -33,7 +29,7 @@ class SoloGameUnitTest : KoinTestCase() {
 
     @Before
     fun setup() {
-        gameViewModel.createGame()
+//        gameViewModel.createGame()
     }
 
     @Test
@@ -49,32 +45,37 @@ class SoloGameUnitTest : KoinTestCase() {
 
     @Test
     fun `check if jump to next question`() = runTest {
-        assertEquals(1, gameViewModel.nextQuestion.value)
+        gameViewModel.createGame()
+
+        delay(2000)
+        assertEquals(1, gameViewModel.nextQuestionCounter.value)
 
         gameViewModel.registerAnswer(1)
 
-        assertEquals(2, gameViewModel.nextQuestion.value)
+        assertEquals(2, gameViewModel.nextQuestionCounter.value)
     }
 
     @Test
     fun `check if clean session and create a new session`() = runTest {
+        delay(2000)
         gameViewModel.registerAnswer(1)
-        assertEquals(2, gameViewModel.nextQuestion.value)
+        assertEquals(2, gameViewModel.nextQuestionCounter.value)
 
         gameViewModel.createGame()
 
-        assertEquals(1, gameViewModel.nextQuestion.value)
+        assertEquals(1, gameViewModel.nextQuestionCounter.value)
     }
 
     @Test
     fun `check if create data into database`() = runTest {
         gameViewModel.registerAnswer(1)
         gameViewModel.registerAnswer(2)
-        gameViewModel.registerAnswer(3)
+//        gameViewModel.registerAnswer(3)
 
-        assertEquals(3, gameViewModel.nextQuestion.value)
+        assertEquals(3, gameViewModel.nextQuestionCounter.value)
 
         delay(2000)
-        assertEquals(5, gameViewModel.historyId.value)
+        assertEquals(true, gameViewModel.history.isFinished)
+        assertEquals(true, gameViewModel.isGameFinished.value)
     }
 }

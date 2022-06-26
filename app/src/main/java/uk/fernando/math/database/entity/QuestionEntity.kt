@@ -31,7 +31,7 @@ data class QuestionEntity(
         if (multipleChoice.isEmpty())
             multipleChoice = generateMultipleChoices(correctAnswer)
 
-        return multipleChoice
+        return multipleChoice.shuffled()
     }
 
     companion object {
