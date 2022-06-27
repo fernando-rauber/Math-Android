@@ -36,8 +36,8 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.noRippleClickable
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.orange
-import uk.fernando.math.ui.theme.star_red
+import uk.fernando.math.theme.orange
+import uk.fernando.math.theme.star_red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
 import kotlin.time.Duration.Companion.seconds
 

@@ -29,9 +29,9 @@ data class QuestionEntity(
 
     fun getMultipleChoiceList(): List<Int> {
         if (multipleChoice.isEmpty())
-            multipleChoice = generateMultipleChoices(correctAnswer)
+            multipleChoice = generateMultipleChoices(correctAnswer).shuffled()
 
-        return multipleChoice.shuffled()
+        return multipleChoice
     }
 
     companion object {

@@ -7,7 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.green_pastel
 
 @Composable
 fun MyBackground(content: @Composable () -> Unit) {

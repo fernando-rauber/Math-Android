@@ -42,7 +42,7 @@ class SettingsViewModel(
             kotlin.runCatching {
                 prefs.storeNotification(notification)
                 if (notification)
-                    notificationHelper.startNotification(R.string.notification_title, R.string.notification_text, 1)
+                    notificationHelper.startNotification(R.string.notification_title, R.string.notification_text)
                 else
                     notificationHelper.stopNotification()
             }.onFailure { e ->

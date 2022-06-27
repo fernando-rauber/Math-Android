@@ -1,4 +1,4 @@
-package uk.fernando.math.ui.theme
+package uk.fernando.math.theme
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily

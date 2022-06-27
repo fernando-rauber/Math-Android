@@ -1,4 +1,4 @@
-package uk.fernando.math.ui.theme
+package uk.fernando.math.theme
 
 import androidx.compose.ui.graphics.Color
 

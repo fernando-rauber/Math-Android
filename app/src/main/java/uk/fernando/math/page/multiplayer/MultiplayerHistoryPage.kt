@@ -75,7 +75,7 @@ fun MultiplayerHistoryPage(
                         )
                 }
 
-                MyAdBanner(Modifier.align(Alignment.BottomCenter))
+                MyAdBanner(Modifier.align(Alignment.BottomCenter), unitId = R.string.ad_banner_multiplayer)
             }
         }
     }

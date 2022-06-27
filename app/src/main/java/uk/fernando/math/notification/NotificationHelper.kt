@@ -4,9 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 const val requestCode = 112
 
@@ -19,7 +17,7 @@ class NotificationHelper(val context: Context) {
         Intent(context, NotificationReceiver::class.java)
     }
 
-    fun startNotification(title: Int, message: Int, hourDelay: Long) {
+    fun startNotification(title: Int, message: Int) {
         intent.putExtra(titleExtra, context.resources.getString(title))
         intent.putExtra(messageExtra, context.resources.getString(message))
 
@@ -30,24 +28,14 @@ class NotificationHelper(val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val calendar: Calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar[Calendar.HOUR_OF_DAY] = 10
 
-        calendar.set(Calendar.HOUR_OF_DAY, 10)
-        calendar.set(Calendar.MINUTE, 30)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-
-//        val cur: Calendar = Calendar.getInstance()
-//
-//        if (cur.after(calendar)) {
-//            calendar.add(Calendar.MINUTE, 20)
-//        }
-        val timeInterval = TimeUnit.MINUTES.toMillis(30)
-
-        alarmManager?.setRepeating(
+        alarmManager?.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + timeInterval,
-            timeInterval,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
             pendingIntent
         )
     }

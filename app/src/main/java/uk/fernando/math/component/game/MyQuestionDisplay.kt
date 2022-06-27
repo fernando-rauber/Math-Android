@@ -25,10 +25,10 @@ import uk.fernando.math.component.MyTextField
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
-import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.orange
-import uk.fernando.math.ui.theme.pastel_red
-import uk.fernando.math.ui.theme.purple
+import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.orange
+import uk.fernando.math.theme.pastel_red
+import uk.fernando.math.theme.purple
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

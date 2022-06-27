@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
-import uk.fernando.math.ui.theme.star_red
+import uk.fernando.math.theme.star_red
 
 @Composable
 fun MyGameDialog(

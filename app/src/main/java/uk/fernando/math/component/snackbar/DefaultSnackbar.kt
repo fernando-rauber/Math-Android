@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import uk.fernando.math.ui.theme.red
-import uk.fernando.math.ui.theme.star_green
+import uk.fernando.math.theme.red
+import uk.fernando.math.theme.star_green
 
 @Composable
 fun DefaultSnackBar(

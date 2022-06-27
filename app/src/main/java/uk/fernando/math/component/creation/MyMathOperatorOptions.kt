@@ -1,7 +1,6 @@
 package uk.fernando.math.component.creation
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.inject
 import uk.fernando.math.R
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.green_pastel
 
 @Composable
 fun MyMathOperatorOptions(onItemSelected: (Int) -> Unit) {

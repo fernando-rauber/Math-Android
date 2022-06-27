@@ -2,7 +2,8 @@
     <string name="app_name">FunMath</string>
 
     // ADs IDs
-    <string name="ad_banner">ca-app-pub-5791754615168338/8853075395</string>
+    <string name="ad_banner_solo">ca-app-pub-5791754615168338/8853075395</string>
+    <string name="ad_banner_multiplayer">ca-app-pub-5791754615168338/5129811593</string>
     <string name="ad_full_page">ca-app-pub-5791754615168338/3600748714</string>
 
     // Bottom Bar

@@ -21,8 +21,10 @@ import uk.fernando.math.component.UpdateStatusBar
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
-import uk.fernando.math.ui.theme.MyMathTheme
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.MyMathTheme
+import uk.fernando.math.theme.dark
+import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.whiteBackGround
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 class MainActivity : ComponentActivity() {
@@ -34,10 +36,13 @@ class MainActivity : ComponentActivity() {
             val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
             val isDarkMode = dataStore.isDarkMode().collectAsState(true)
+            val backgroundStatusBar = if (isDarkMode.value) dark else whiteBackGround
 
+            // Status Bar color
             when (navBackStackEntry?.destination?.route) {
-                Directions.splash.name, Directions.game.name, Directions.multiplayerGame.name -> UpdateStatusBar()
-                Directions.history.name, Directions.multiplayerHistory.name -> UpdateStatusBar(green_pastel)
+                Directions.splash.name, Directions.game.name, Directions.multiplayerGame.name -> UpdateStatusBar(backgroundStatusBar)
+                Directions.history.name, Directions.multiplayerHistory.name,
+                Directions.createGame.name, Directions.multiplayerCreateGame.name -> UpdateStatusBar(green_pastel)
             }
 
             MyMathTheme(darkTheme = isDarkMode.value) {

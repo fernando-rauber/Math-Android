@@ -21,8 +21,8 @@ import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.difficultyColor
 import uk.fernando.math.ext.mathOperatorIcon
 import uk.fernando.math.ext.timerFormat
-import uk.fernando.math.ui.theme.star_green
-import uk.fernando.math.ui.theme.star_red
+import uk.fernando.math.theme.star_green
+import uk.fernando.math.theme.star_red
 
 @Composable
 fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: PlayerEntity) {

@@ -28,8 +28,8 @@ import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
-import uk.fernando.math.ui.theme.green_pastel
-import uk.fernando.math.ui.theme.red
+import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
 @ExperimentalMaterialApi

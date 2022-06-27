@@ -1,4 +1,4 @@
-package uk.fernando.math.ui.theme
+package uk.fernando.math.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

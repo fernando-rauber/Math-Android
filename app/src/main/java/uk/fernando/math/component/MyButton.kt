@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import uk.fernando.math.ui.theme.grey
-import uk.fernando.math.ui.theme.orange
+import uk.fernando.math.theme.grey
+import uk.fernando.math.theme.orange
 
 @Composable
 fun MyButton(

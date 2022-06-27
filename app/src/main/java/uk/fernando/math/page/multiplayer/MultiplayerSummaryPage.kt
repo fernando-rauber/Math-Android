@@ -24,7 +24,7 @@ import uk.fernando.math.component.history.MultiplayerHistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.green_pastel
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
 
 @ExperimentalMaterialApi

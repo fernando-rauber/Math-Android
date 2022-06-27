@@ -32,7 +32,7 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.snackbar.CustomSnackBar
 import uk.fernando.math.ext.isNetworkAvailable
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.green_pastel
 import uk.fernando.math.viewmodel.SettingsViewModel
 
 

@@ -21,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.fernando.math.R
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.ui.theme.green_pastel
+import uk.fernando.math.theme.green_pastel
 
 
 @Composable
