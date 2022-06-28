@@ -23,7 +23,7 @@ import uk.fernando.math.navigation.Directions
 import uk.fernando.math.navigation.buildGraph
 import uk.fernando.math.theme.MyMathTheme
 import uk.fernando.math.theme.dark
-import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.whiteBackGround
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
             when (navBackStackEntry?.destination?.route) {
                 Directions.splash.name, Directions.game.name, Directions.multiplayerGame.name -> UpdateStatusBar(backgroundStatusBar)
                 Directions.history.name, Directions.multiplayerHistory.name,
-                Directions.createGame.name, Directions.multiplayerCreateGame.name -> UpdateStatusBar(green_pastel)
+                Directions.createGame.name, Directions.multiplayerCreateGame.name -> UpdateStatusBar(game_green)
             }
 
             MyMathTheme(darkTheme = isDarkMode.value) {

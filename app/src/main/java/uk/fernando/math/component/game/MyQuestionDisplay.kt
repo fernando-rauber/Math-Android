@@ -25,36 +25,40 @@ import uk.fernando.math.component.MyTextField
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
-import uk.fernando.math.theme.green_pastel
-import uk.fernando.math.theme.orange
-import uk.fernando.math.theme.pastel_red
-import uk.fernando.math.theme.purple
+import uk.fernando.math.theme.game_green
+import uk.fernando.math.theme.game_orange
+import uk.fernando.math.theme.game_purple
+import uk.fernando.math.theme.game_red
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMultiplayer: Boolean = false, onClick: (Int) -> Unit) {
-    AnimatedContent(
-        targetState = question,
-        transitionSpec = {
-            (slideInHorizontally { height -> height } + fadeIn() with
-                    slideOutHorizontally { height -> -height } + fadeOut()).using(
-                SizeTransform(clip = false)
-            )
-        }
-    ) { quest ->
-        Column {
 
-            Question(quest, isMultiplayer)
+    Column {
 
-            if (question.operator.isBooleanQuestion())
-                BooleanChoice(isMultiplayer, onClick = onClick)
+        Question(question, isMultiplayer)
+
+        AnimatedContent(
+            targetState = question,
+            modifier = Modifier.weight(if (isMultiplayer) 0.6f else 0.4f),
+            transitionSpec = {
+                (slideInHorizontally { height -> height } + fadeIn() with
+                        slideOutHorizontally { height -> -height } + fadeOut()).using(
+                    SizeTransform(clip = false)
+                )
+            }
+        ) { quest ->
+
+            if (quest.operator.isBooleanQuestion())
+                BooleanChoice(onClick = onClick)
             else {
                 if (multipleChoice != null && multipleChoice.isNotEmpty())
-                    MultipleChoice(multipleChoice, isMultiplayer, onClick = onClick)
-                else
-                    OpenAnswer(onClick = onClick)
+                    MultipleChoice(multipleChoice, onClick = onClick)
             }
         }
+
+        if (!question.operator.isBooleanQuestion() && multipleChoice == null)
+            OpenAnswer(onClick = onClick)
     }
 }
 
@@ -78,30 +82,30 @@ private fun ColumnScope.Question(question: QuestionEntity, isMultiplayer: Boolea
 }
 
 @Composable
-private fun ColumnScope.BooleanChoice(isMultiplayer: Boolean, onClick: (Int) -> Unit) {
-    Column(Modifier.weight(if (isMultiplayer) 0.6f else 0.4f)) {
+private fun BooleanChoice(onClick: (Int) -> Unit) {
+    Column {
         Spacer(Modifier.weight(0.8f))
         Row(Modifier.weight(1f)) {
-            AnswerCard(1, green_pastel, onClick, true)
+            AnswerCard(1, game_green, onClick, true)
             Spacer(Modifier.width(16.dp))
-            AnswerCard(0, pastel_red, onClick, true)
+            AnswerCard(0, game_red, onClick, true)
         }
     }
 }
 
 @Composable
-private fun ColumnScope.MultipleChoice(answerList: List<Int>, isMultiplayer: Boolean, onClick: (Int) -> Unit) {
-    Column(Modifier.weight(if (isMultiplayer) 0.6f else 0.4f)) {
+private fun MultipleChoice(answerList: List<Int>, onClick: (Int) -> Unit) {
+    Column {
         Row(Modifier.weight(1f)) {
-            AnswerCard(answerList[0], orange, onClick)
+            AnswerCard(answerList[0], game_orange, onClick)
             Spacer(Modifier.width(16.dp))
-            AnswerCard(answerList[1], green_pastel, onClick)
+            AnswerCard(answerList[1], game_green, onClick)
         }
         Spacer(Modifier.height(16.dp))
         Row(Modifier.weight(1f)) {
-            AnswerCard(answerList[2], pastel_red, onClick)
+            AnswerCard(answerList[2], game_red, onClick)
             Spacer(Modifier.width(16.dp))
-            AnswerCard(answerList[3], purple, onClick)
+            AnswerCard(answerList[3], game_purple, onClick)
         }
     }
 }
@@ -123,8 +127,10 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    onClick(textField.toInt())
-                    textField = ""
+                    if (textField.isNotEmpty()) {
+                        onClick(textField.toInt())
+                        textField = ""
+                    }
                 }
             )
         )

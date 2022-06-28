@@ -36,8 +36,8 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.noRippleClickable
 import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.theme.orange
-import uk.fernando.math.theme.star_red
+import uk.fernando.math.theme.game_orange
+import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -238,7 +238,7 @@ private fun DialogResult(navController: NavController, viewModel: MultiplayerGam
 private fun Settings(viewModel: MultiplayerGameViewModel) {
     Row(
         modifier = Modifier
-            .background(orange)
+            .background(game_orange)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -274,7 +274,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
 
 @Composable
 private fun QuestionCountDown(onFinish: () -> Unit) {
-    var countDown by remember { mutableStateOf(10) }
+    var countDown by remember { mutableStateOf(5) }
 
     LaunchedEffect(Unit) {
         while (countDown >= 0) {
@@ -288,13 +288,13 @@ private fun QuestionCountDown(onFinish: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
-            .background(star_red.copy(0.6f))
+            .background(red.copy(0.6f))
     ) {
 
         Text(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(vertical = 10.dp),
+                .padding(vertical = 4.dp),
             text = "$countDown",
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 35.sp,

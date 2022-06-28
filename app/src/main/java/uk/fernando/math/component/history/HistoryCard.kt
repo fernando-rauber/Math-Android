@@ -21,8 +21,8 @@ import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.difficultyColor
 import uk.fernando.math.ext.mathOperatorIcon
 import uk.fernando.math.ext.timerFormat
-import uk.fernando.math.theme.star_green
-import uk.fernando.math.theme.star_red
+import uk.fernando.math.theme.green
+import uk.fernando.math.theme.red
 
 @Composable
 fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: PlayerEntity) {
@@ -51,12 +51,12 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: P
                     modifier = Modifier
                         .fillMaxHeight()
                         .aspectRatio(1f)
-                        .border(2.dp, star_green, MaterialTheme.shapes.small)
+                        .border(2.dp, green, MaterialTheme.shapes.small)
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = "${player.correct}",
-                        color = star_green,
+                        color = green,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -67,12 +67,12 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: P
                         .padding(start = 5.dp)
                         .fillMaxHeight()
                         .aspectRatio(1f)
-                        .border(2.dp, star_red, MaterialTheme.shapes.small)
+                        .border(2.dp, red, MaterialTheme.shapes.small)
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = "${player.incorrect}",
-                        color = star_red,
+                        color = red,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )

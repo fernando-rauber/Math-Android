@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.inject
 import uk.fernando.math.R
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.game_green
 
 @Composable
 fun MyMathOperatorOptions(onItemSelected: (Int) -> Unit) {
@@ -68,7 +68,7 @@ private fun MathOperatorIcon(@DrawableRes icon: Int, hasPremium: Boolean = true,
         Box {
             Icon(
                 painterResource(id = icon),
-                tint = if (checked) green_pastel else LocalContentColor.current,
+                tint = if (checked) game_green else LocalContentColor.current,
                 contentDescription = null
             )
 

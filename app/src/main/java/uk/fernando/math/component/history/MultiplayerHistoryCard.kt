@@ -20,8 +20,8 @@ import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.difficultyColor
 import uk.fernando.math.ext.mathOperatorIcon
-import uk.fernando.math.theme.star_green
-import uk.fernando.math.theme.star_red
+import uk.fernando.math.theme.green
+import uk.fernando.math.theme.red
 
 @Composable
 fun MultiplayerHistoryCard(modifier: Modifier = Modifier, history: HistoryWithPLayers) {
@@ -146,12 +146,12 @@ private fun ScorePlayer(modifier: Modifier, correct: Int, incorrect: Int) {
             modifier = Modifier
                 .defaultMinSize(minWidth = 35.dp)
                 .aspectRatio(1f)
-                .border(2.dp, star_green, MaterialTheme.shapes.small)
+                .border(2.dp, green, MaterialTheme.shapes.small)
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = "$correct",
-                color = star_green,
+                color = green,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -163,12 +163,12 @@ private fun ScorePlayer(modifier: Modifier, correct: Int, incorrect: Int) {
             modifier = Modifier
                 .defaultMinSize(minWidth = 35.dp)
                 .aspectRatio(1f)
-                .border(2.dp, star_red, MaterialTheme.shapes.small)
+                .border(2.dp, red, MaterialTheme.shapes.small)
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = "$incorrect",
-                color = star_red,
+                color = red,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColorScheme(
-    primary = green_pastel,
+    primary = game_green,
     background = dark,
     surface = lightDark,
 //    onSurface = red,
@@ -21,7 +21,7 @@ private val DarkColorPalette = darkColorScheme(
 
 private val LightColorPalette = lightColorScheme(
 
-    primary = green_pastel,
+    primary = game_green,
     surface = Color.White,
     background = whiteBackGround,
     onBackground = Color.Black,

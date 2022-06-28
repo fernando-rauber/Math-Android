@@ -21,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.fernando.math.R
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
-import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.game_green
 
 
 @Composable
@@ -72,7 +72,7 @@ fun RowScope.NavigationItemCustom(
             Icon(
                 painter = painterResource(id = iconID),
                 contentDescription = null,
-                tint = if (isSelected) green_pastel else MaterialTheme.colorScheme.onBackground
+                tint = if (isSelected) game_green else MaterialTheme.colorScheme.onBackground
             )
         },
         selected = isSelected,
@@ -80,7 +80,7 @@ fun RowScope.NavigationItemCustom(
             Text(
                 text = stringResource(id = stringID),
                 style = MaterialTheme.typography.labelSmall,
-                color = if (isSelected) green_pastel else MaterialTheme.colorScheme.onBackground
+                color = if (isSelected) game_green else MaterialTheme.colorScheme.onBackground
             )
         },
         onClick = onClick

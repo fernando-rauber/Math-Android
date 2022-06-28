@@ -17,6 +17,3 @@ class SplashViewModel(private val notificationHelper: NotificationHelper, privat
         }
     }
 }
-
-
-

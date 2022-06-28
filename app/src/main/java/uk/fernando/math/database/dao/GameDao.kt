@@ -34,16 +34,8 @@ interface GameDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateQuestion(item: QuestionEntity)
 
-
     @Transaction
     fun deleteGame(historyWithPLayers: HistoryWithPLayers) {
-
-//
-//        historyWithPLayers.playerList.forEach { player ->
-//            deleteQuestion(player.questionList)
-//            deletePlayer(player)
-//        }
-
         deleteHistory(historyWithPLayers.history)
     }
 

@@ -7,9 +7,9 @@ import uk.fernando.math.model.enum.Difficulty.EASY
 import uk.fernando.math.model.enum.Difficulty.MEDIUM
 import uk.fernando.math.model.enum.MathOperator.*
 import uk.fernando.math.model.enum.MathOperator.Companion.getByValue
-import uk.fernando.math.theme.star_green
-import uk.fernando.math.theme.star_orange
-import uk.fernando.math.theme.star_red
+import uk.fernando.math.theme.green
+import uk.fernando.math.theme.orange
+import uk.fernando.math.theme.red
 
 fun Int.mathOperatorIcon(): Int {
     return when (getByValue(this)) {
@@ -46,8 +46,8 @@ fun Int.isBooleanQuestion(): Boolean {
 
 fun Int.difficultyColor(): Color {
     return when (Difficulty.getByValue(this)) {
-        EASY -> star_green
-        MEDIUM -> star_orange
-        else -> star_red
+        EASY -> green
+        MEDIUM -> orange
+        else -> red
     }
 }

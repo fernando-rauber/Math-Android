@@ -22,30 +22,30 @@ class QuestionGenerator {
     private val minPlusMinus by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 1
-            MEDIUM -> 10
-            else -> 100
+            MEDIUM -> 200
+            else -> 1001
         }
     }
     private val maxPlusMinus by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 50
-            MEDIUM -> 150
-            else -> 999
+            MEDIUM -> 999
+            else -> 9999
         }
     }
 
     private val minDivTimes by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 1
-            MEDIUM -> 10
-            else -> 15
+            MEDIUM -> 23
+            else -> 60
         }
     }
     private val maxDivTimes by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 10
-            MEDIUM -> 50
-            else -> 99
+            MEDIUM -> 70
+            else -> 200
         }
     }
 
@@ -64,7 +64,7 @@ class QuestionGenerator {
         this.quantity = quantity
 
         for (i in 1..quantity) {
-            questionList.add(createQuestion(operator.random()))
+            questionList.add(createQuestion(operator.shuffled().first()))
         }
 
         return questionList
@@ -87,8 +87,8 @@ class QuestionGenerator {
 
     // For Operators + and -
     private fun getQuestionPlusMinus(operator: Int): QuestionEntity {
-        val first = (minPlusMinus..maxPlusMinus).random()
-        val second = (minPlusMinus..maxPlusMinus).random()
+        val first = (minPlusMinus..maxPlusMinus).shuffled().first()
+        val second = (minPlusMinus..maxPlusMinus).shuffled().first()
 
         val answer = if (operator == ADDITION.value)
             first.plus(second)
@@ -108,8 +108,8 @@ class QuestionGenerator {
 
     // For Operators > and <
     private fun getQuestionGreaterOrLess(operator: Int): QuestionEntity {
-        val first = (minPlusMinus..maxPlusMinus).random()
-        val second = (minPlusMinus..maxPlusMinus).random()
+        val first = (minPlusMinus..maxPlusMinus).shuffled().first()
+        val second = (minPlusMinus..maxPlusMinus).shuffled().first()
 
         if (first == second)
             return getQuestionGreaterOrLess(operator)
@@ -129,8 +129,8 @@ class QuestionGenerator {
 
     // For Operators / and *
     private fun getQuestionDivTimes(operator: Int): QuestionEntity {
-        var first = (minDivTimes..maxDivTimes).random()
-        val second = (minDivTimes..maxDivTimes).random()
+        var first = (minDivTimes..maxDivTimes).shuffled().first()
+        val second = (minDivTimes..maxDivTimes).shuffled().first()
 
         val answer = if (operator == DIVISION.value) {
             first = second.times(first) // it won't end up with decimals
@@ -151,8 +151,8 @@ class QuestionGenerator {
 
     // For Operators %
     private fun getQuestionPercentage(): QuestionEntity {
-        val first = (1..99).random()
-        val second = (minPlusMinus..maxPlusMinus).random()
+        val first = (1..99).shuffled().first()
+        val second = (minPlusMinus..maxPlusMinus).shuffled().first()
 
         val answer = (first.toDouble() / 100) * second
 

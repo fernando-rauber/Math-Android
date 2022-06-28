@@ -24,7 +24,7 @@ import uk.fernando.math.component.history.MultiplayerHistoryCard
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard
-import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
 
 @ExperimentalMaterialApi
@@ -37,7 +37,7 @@ fun MultiplayerSummaryPage(
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
-        systemUiController.setStatusBarColor(color = green_pastel)
+        systemUiController.setStatusBarColor(color = game_green)
         viewModel.getHistory(historyID)
     }
 
@@ -122,8 +122,8 @@ fun MultiplayerSummaryPage(
 @Composable
 private fun ResultMathCard(player1Question: QuestionEntity, player2Question: QuestionEntity) {
     Row {
-        MathCard(Modifier.weight(1f), player1Question, size = 16)
+        MathCard(Modifier.weight(1f), player1Question, size = 13)
         Spacer(Modifier.width(8.dp))
-        MathCard(Modifier.weight(1f), player2Question, size = 16)
+        MathCard(Modifier.weight(1f), player2Question, size = 13)
     }
 }

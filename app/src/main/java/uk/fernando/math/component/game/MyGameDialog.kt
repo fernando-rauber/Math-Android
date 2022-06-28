@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyDialog
-import uk.fernando.math.theme.star_red
+import uk.fernando.math.theme.red
 
 @Composable
 fun MyGameDialog(
@@ -69,7 +69,7 @@ fun MyGameDialog(
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 50.dp),
                     onClick = onExitGame,
-                    color = star_red,
+                    color = red,
                     text = stringResource(R.string.exit_game_action)
                 )
         }

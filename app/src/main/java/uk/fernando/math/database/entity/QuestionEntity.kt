@@ -54,7 +54,7 @@ data class QuestionEntity(
     }
 
     private fun createFakeAnswer(answer: Int, existentAnswers: List<Int>): Int {
-        val value = (1..9).random()
+        val value = (1..5).random()
 
         val result = when ((1..2).random()) {
             1 -> answer.minus(value)

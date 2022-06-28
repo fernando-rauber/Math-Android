@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.fernando.math.theme.grey
-import uk.fernando.math.theme.orange
+import uk.fernando.math.theme.game_orange
 
 @Composable
 fun MyButton(
@@ -21,7 +21,7 @@ fun MyButton(
     onClick: () -> Unit,
     text: String,
     enabled: Boolean = true,
-    color: Color = orange,
+    color: Color = game_orange,
     fontSize: TextUnit = 17.sp,
     isLoading: Boolean = false,
     textModifier: Modifier = Modifier,

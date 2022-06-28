@@ -32,7 +32,7 @@ import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.snackbar.CustomSnackBar
 import uk.fernando.math.ext.isNetworkAvailable
-import uk.fernando.math.theme.green_pastel
+import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.SettingsViewModel
 
 
@@ -207,7 +207,7 @@ private fun CustomSettingsResourcesCard(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_forward),
                     contentDescription = null,
-                    tint = green_pastel
+                    tint = game_green
                 )
 
         }
