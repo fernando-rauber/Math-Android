@@ -8,11 +8,11 @@ class SplashViewModel(private val notificationHelper: NotificationHelper, privat
 
     fun firstSetUp(isDarkMode: Boolean) {
         launchIO {
-            if (prefs.isFirstTime()) {
+            if (prefs.getVersion() == 1) {
                 prefs.storeDarkMode(isDarkMode)
-                prefs.storeFirstTime(false)
+                prefs.storeVersion(2)
 
-                notificationHelper.startNotification(R.string.notification_title, R.string.notification_text)
+//                notificationHelper.startNotification(R.string.notification_title, R.string.notification_text)
             }
         }
     }

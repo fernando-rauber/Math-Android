@@ -448,9 +448,8 @@ class BillingHelper private constructor(
         reconnectMilliseconds = min(reconnectMilliseconds * 2, RECONNECT_TIMER_MAX_TIME_MILLISECONDS)
     }
 
-
     companion object {
-        private const val TAG = "*****************************"
+        private const val TAG = "BillingHelper"
 
         private val handler = Handler(Looper.getMainLooper())
 

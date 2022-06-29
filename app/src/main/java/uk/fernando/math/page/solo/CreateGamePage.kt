@@ -3,7 +3,6 @@ package uk.fernando.math.page.solo
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,7 +25,6 @@ import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.CreateGameViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun CreateGamePage(
     navController: NavController = NavController(LocalContext.current),

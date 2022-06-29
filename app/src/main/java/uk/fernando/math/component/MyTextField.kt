@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,7 +50,7 @@ fun MyTextField(
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         readOnly = readOnly,
         enabled = enable,
-        textStyle = LocalTextStyle.current.copy(
+        textStyle = TextStyle.Default.copy(
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 18.sp
         ),

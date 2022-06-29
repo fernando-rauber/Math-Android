@@ -3,7 +3,6 @@ package uk.fernando.math.page.multiplayer
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +40,6 @@ import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
 import kotlin.time.Duration.Companion.seconds
 
-@ExperimentalMaterialApi
 @Composable
 fun MultiplayerGamePage(
     navController: NavController = NavController(LocalContext.current),

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +31,6 @@ import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun SummaryPage(
     navController: NavController = NavController(LocalContext.current),

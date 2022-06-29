@@ -2,7 +2,6 @@ package uk.fernando.math.page.solo
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +37,6 @@ import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.GameViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),

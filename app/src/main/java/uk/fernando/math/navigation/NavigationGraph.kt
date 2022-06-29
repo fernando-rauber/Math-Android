@@ -1,7 +1,6 @@
 package uk.fernando.math.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -16,7 +15,6 @@ import uk.fernando.math.page.multiplayer.MultiplayerSummaryPage
 
 
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.name) {
         SplashPage(navController)

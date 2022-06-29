@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,7 +26,7 @@ import uk.fernando.math.theme.dark
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.whiteBackGround
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                                 BottomNavigationBar(controller)
                         }
                     },
-                    backgroundColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {

@@ -37,21 +37,21 @@ class SettingsViewModel(
         launchIO { prefs.storeDarkMode(isDarkMode) }
     }
 
-    fun updateNotification(notification: Boolean) {
-        launchIO {
-            kotlin.runCatching {
-                prefs.storeNotification(notification)
-                if (notification)
-                    notificationHelper.startNotification(R.string.notification_title, R.string.notification_text)
-                else
-                    notificationHelper.stopNotification()
-            }.onFailure { e ->
-                logger.e(TAG, e.message.toString())
-                logger.addMessageToCrashlytics(TAG, "Error to start/stop notifications: msg: ${e.message}")
-                logger.addExceptionToCrashlytics(e)
-            }
-        }
-    }
+//    fun updateNotification(notification: Boolean) {
+//        launchIO {
+//            kotlin.runCatching {
+//                prefs.storeNotification(notification)
+//                if (notification)
+//                    notificationHelper.startNotification(R.string.notification_title, R.string.notification_text)
+//                else
+//                    notificationHelper.stopNotification()
+//            }.onFailure { e ->
+//                logger.e(TAG, e.message.toString())
+//                logger.addMessageToCrashlytics(TAG, "Error to start/stop notifications: msg: ${e.message}")
+//                logger.addExceptionToCrashlytics(e)
+//            }
+//        }
+//    }
 
     private fun startInAppPurchaseJourney() {
         launchIO {

@@ -4,11 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -23,11 +19,10 @@ import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.theme.game_green
 
-
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
-    BottomNavigation(
+    NavigationBar(
         modifier = Modifier
             .shadow(
                 elevation = 14.dp,
@@ -38,7 +33,7 @@ fun BottomNavigationBar(navController: NavController) {
                 ambientColor = Color.Black,
                 spotColor = Color.Black
             ),
-        backgroundColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surface
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -67,7 +62,7 @@ fun RowScope.NavigationItemCustom(
     @StringRes stringID: Int,
     onClick: () -> Unit
 ) {
-    BottomNavigationItem(
+    NavigationBarItem(
         icon = {
             Icon(
                 painter = painterResource(id = iconID),
@@ -75,6 +70,7 @@ fun RowScope.NavigationItemCustom(
                 tint = if (isSelected) game_green else MaterialTheme.colorScheme.onBackground
             )
         },
+        colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.surface),
         selected = isSelected,
         label = {
             Text(

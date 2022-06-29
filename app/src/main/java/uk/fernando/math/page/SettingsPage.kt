@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,8 +34,6 @@ import uk.fernando.math.ext.isNetworkAvailable
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.SettingsViewModel
 
-
-@ExperimentalMaterialApi
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
@@ -63,7 +60,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 ) {
 
                     CustomSettingsResourcesCard(
-                        modifier = Modifier,
+                        modifier = Modifier.padding(bottom = 10.dp),
                         text = R.string.dark_mode,
                         isChecked = isDarkMode.value,
                         onCheckedChange = viewModel::updateDarkMode
@@ -77,13 +74,13 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 //                    onCheckedChange = viewModel::updateAllowDecimals
 //                )
 
-                    CustomSettingsResourcesCard(
-                        modifier = Modifier.padding(vertical = 10.dp),
-                        text = R.string.notification,
-                        subText = R.string.notification_subtext,
-                        isChecked = notificationEnable.value,
-                        onCheckedChange = viewModel::updateNotification
-                    )
+//                    CustomSettingsResourcesCard(
+//                        modifier = Modifier.padding(vertical = 10.dp),
+//                        text = R.string.notification,
+//                        subText = R.string.notification_subtext,
+//                        isChecked = notificationEnable.value,
+//                        onCheckedChange = viewModel::updateNotification
+//                    )
 
                     CustomSettingsPremiumCard(
                         text = R.string.premium,

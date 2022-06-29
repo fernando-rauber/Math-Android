@@ -3,7 +3,6 @@ package uk.fernando.math.page.multiplayer
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -32,7 +31,6 @@ import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerHistoryViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun MultiplayerHistoryPage(
     navController: NavController = NavController(LocalContext.current),

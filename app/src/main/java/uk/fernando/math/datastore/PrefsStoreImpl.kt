@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.*
 
@@ -15,8 +16,8 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(STORE_NAME
 class PrefsStoreImpl(context: Context) : PrefsStore {
 
     private val dataStore = context.dataStore
-    override suspend fun isFirstTime(): Boolean {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.FIRST_TIME] ?: true }.first()
+    override suspend fun getVersion(): Int {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.VERSION] ?: 1 }.first()
     }
 
     override fun isDarkMode(): Flow<Boolean> {
@@ -35,8 +36,8 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.NOTIFICATION] ?: true }
     }
 
-    override suspend fun storeFirstTime(value: Boolean) {
-        dataStore.edit { prefs -> prefs[PreferencesKeys.FIRST_TIME] = value }
+    override suspend fun storeVersion(value: Int) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.VERSION] = value }
     }
 
     override suspend fun storeDarkMode(value: Boolean) {
@@ -56,7 +57,7 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     private object PreferencesKeys {
-        val FIRST_TIME = booleanPreferencesKey("first_time")
+        val VERSION = intPreferencesKey("version")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val ALLOW_DECIMALS = booleanPreferencesKey("allow_decimals")
         val PREMIUM = booleanPreferencesKey("premium")
