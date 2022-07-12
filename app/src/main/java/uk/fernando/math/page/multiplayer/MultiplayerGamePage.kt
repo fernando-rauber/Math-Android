@@ -46,10 +46,12 @@ fun MultiplayerGamePage(
     viewModel: MultiplayerGameViewModel = getViewModel()
 ) {
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
+    val soundCountDown = MediaPlayer.create(LocalContext.current, R.raw.sound_countdown)
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
 
     LaunchedEffect(Unit) {
+        soundCountDown.playAudio()
         viewModel.createGame()
     }
 

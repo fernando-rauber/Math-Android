@@ -55,7 +55,7 @@
     <string name="notification_subtext">Lembre-se de mim para praticar.</string>
     <string name="terms_conditions">Termos e Condições</string>
     <string name="premium">Premium</string>
-    <string name="premium_subtext">Remover anúncios.</string>
+    <string name="premium_subtext">Remova anúncios e desbloqueie funcionalidades.</string>
     <string name="restore_premium_action">Restaurar Premium</string>
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="version">Versão %s</string>

@@ -51,7 +51,7 @@
     <string name="settings_title">Ajustes</string>
     <string name="dark_mode">Modo Oscuro</string>
     <string name="premium">Premium</string>
-    <string name="premium_subtext">Eliminar anuncios.</string>
+    <string name="premium_subtext">Eliminar anuncios y desbloquear funciones.</string>
     <string name="restore_premium_action">Restaurar Premium</string>
     <string name="privacy_policy">Política de privacidad</string>
     <string name="version">Versión %s</string>
