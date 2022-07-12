@@ -63,7 +63,6 @@ fun SummaryPage(
             Surface(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
                     .fillMaxSize(),
                 shadowElevation = 7.dp,
                 shape = MaterialTheme.shapes.medium.copy(bottomEnd = CornerSize(0f), bottomStart = CornerSize(0f))
@@ -106,7 +105,7 @@ fun MathCard(modifier: Modifier = Modifier, question: QuestionEntity, size: Int 
 
     Surface(
         modifier = modifier
-            .padding(top = 10.dp)
+            .padding(bottom = 10.dp)
             .fillMaxWidth(),
         shadowElevation = 5.dp,
         tonalElevation = 5.dp,

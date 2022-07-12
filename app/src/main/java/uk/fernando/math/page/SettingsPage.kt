@@ -53,8 +53,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
                 Column(
                     Modifier
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 20.dp)
+                        .padding(horizontal = 16.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
 

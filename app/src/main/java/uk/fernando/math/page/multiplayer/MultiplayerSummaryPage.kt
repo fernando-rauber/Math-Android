@@ -58,7 +58,6 @@ fun MultiplayerSummaryPage(
             Surface(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
                     .fillMaxSize(),
                 shadowElevation = 7.dp,
                 shape = MaterialTheme.shapes.medium.copy(bottomEnd = CornerSize(0f), bottomStart = CornerSize(0f))

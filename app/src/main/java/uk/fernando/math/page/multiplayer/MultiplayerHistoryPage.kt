@@ -44,7 +44,8 @@ fun MultiplayerHistoryPage(
 
             TopNavigationBar(
                 title = R.string.score_title,
-                rightIcon = { NewGameButton { navController.safeNav(Directions.multiplayerCreateGame.name) } })
+                rightIcon = { NewGameButton { navController.safeNav(Directions.multiplayerCreateGame.name) } }
+            )
 
             val historyList = viewModel.history.collectAsLazyPagingItems()
 
@@ -61,9 +62,7 @@ fun MultiplayerHistoryPage(
                         )
                     else
                         HistoryList(
-                            modifier = Modifier
-                                .padding(top = 30.dp)
-                                .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                             historyList = historyList,
                             onItemClick = { historyID ->
                                 coroutine.launch {
@@ -99,7 +98,7 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
 @Composable
 private fun HistoryCardCustom(history: HistoryWithPLayers, onClick: () -> Unit) {
     Surface(
-        modifier = Modifier.padding(top = 10.dp),
+        modifier = Modifier.padding(bottom = 10.dp),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
