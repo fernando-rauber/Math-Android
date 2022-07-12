@@ -2,6 +2,7 @@ package uk.fernando.math.page
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -46,8 +47,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     }
 
     MyBackground {
-        CustomSnackBar(viewModel.snackBar.value) {
-
+        Box {
             Column(Modifier.fillMaxSize()) {
 
                 TopNavigationBar(title = R.string.settings_title)
@@ -137,8 +137,16 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     )
                 }
             }
+
+            SnackBarDisplay(viewModel)
         }
     }
+}
+
+
+@Composable
+private fun BoxScope.SnackBarDisplay(viewModel: SettingsViewModel) {
+    CustomSnackBar(snackBarSealed = viewModel.snackBar.value)
 }
 
 @Composable
@@ -155,6 +163,7 @@ private fun CustomSettingsResourcesCard(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(50),
+        tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
         Row(
@@ -221,6 +230,7 @@ private fun CustomSettingsPremiumCard(
 ) {
     Surface(
         shape = RoundedCornerShape(50),
+        tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
         Row(

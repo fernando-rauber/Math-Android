@@ -128,7 +128,10 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
             keyboardActions = KeyboardActions(
                 onDone = {
                     if (textField.isNotEmpty()) {
-                        onClick(textField.toInt())
+                        val userAnswer = textField.toIntOrNull()
+                        if (userAnswer != null)
+                            onClick(userAnswer)
+
                         textField = ""
                     }
                 }
@@ -142,7 +145,10 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
                 .defaultMinSize(minHeight = 50.dp),
             enabled = textField.isNotEmpty(),
             onClick = {
-                onClick(textField.toInt())
+                val userAnswer = textField.toIntOrNull()
+                if (userAnswer != null)
+                    onClick(userAnswer)
+
                 textField = ""
             },
             text = stringResource(R.string.check_action)

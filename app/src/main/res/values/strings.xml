@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">FunMath</string>
+    <string name="app_name">Fun Math</string>
 
     // ADs IDs
-    <string name="ad_banner_solo">ca-app-pub-5791754615168338/8853075395</string>
-    <string name="ad_banner_multiplayer">ca-app-pub-5791754615168338/5129811593</string>
-    <string name="ad_full_page">ca-app-pub-5791754615168338/3600748714</string>
+    <string name="ad_banner_solo" translatable="false">ca-app-pub-5791754615168338/8853075395</string>
+    <string name="ad_banner_multiplayer" translatable="false">ca-app-pub-5791754615168338/5129811593</string>
+    <string name="ad_full_page" translatable="false">ca-app-pub-5791754615168338/3600748714</string>
 
     // Bottom Bar
     <string name="solo_action">Solo</string>
@@ -20,7 +20,6 @@
     <string name="new_game_action">New Game</string>
     <string name="empty_history_text">Start a new game and test your math skill</string>
 
-    // Difficulty
     <string name="correct_boolean">True</string>
     <string name="incorrect_boolean">False</string>
 
@@ -30,17 +29,17 @@
 
     // Question Creation
     <string name="question_creation_title">Question Creation</string>
-    <string name="select_operator">Select Math\'s Operators</string>
+    <string name="select_operator">Maths Operators</string>
     <string name="quantity">Quantity: %s</string>
     <string name="select_difficulty">Difficulty</string>
     <string name="start_action">Start Game</string>
-    <string name="player_one">Player One</string>
-    <string name="player_two">Player Two</string>
-    <string name="waiting_player">Waiting for other player</string>
+    <string name="player_one">Player 1</string>
+    <string name="player_two">Player 2</string>
+    <string name="waiting_player">Please wait</string>
 
     // Game
     <string name="resume_action">Resume Game</string>
-    <string name="resume_message">Coffee Break\nCome back soon</string>
+    <string name="resume_message">Game paused</string>
     <string name="result_action">See Score</string>
     <string name="result_message">Well done!\nLet\'s check the score.</string>
     <string name="check_action">Check Answer</string>

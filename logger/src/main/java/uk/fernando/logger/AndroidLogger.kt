@@ -6,15 +6,15 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 class AndroidLogger(override val logLevel: MyLogger.LogLevel = MyLogger.LogLevel.DEBUG) : MyLogger {
 
     override fun d(tag: String, msg: String) {
-        if (isDebugEnabled()) Log.d(tag, msg)
+        if (isDebugEnabled()) Log.d("$tag 👍", msg)
     }
 
     override fun e(tag: String, msg: String) {
-        if (isDebugEnabled()) Log.e(tag, msg)
+        if (isDebugEnabled()) Log.e("$tag 💀", msg)
     }
 
     override fun e(tag: String, msg: String, throwable: Throwable) {
-        if (isDebugEnabled()) Log.e(tag, msg, throwable)
+        if (isDebugEnabled()) Log.e("$tag 💀", msg, throwable)
     }
 
     override fun addMessageToCrashlytics(tag: String, msg: String) {

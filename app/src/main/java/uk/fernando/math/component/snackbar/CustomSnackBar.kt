@@ -1,18 +1,24 @@
 package uk.fernando.math.component.snackbar
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomSnackBar(snackBarSealed: SnackBarSealed?, content: @Composable () -> Unit) {
+fun BoxScope.CustomSnackBar(
+    modifier: Modifier = Modifier
+        .align(Alignment.TopCenter)
+        .padding(16.dp),
+    snackBarSealed: SnackBarSealed?
+) {
     val lifecycleScope = rememberCoroutineScope()
-    val snackBarController = SnackBarController(lifecycleScope)
+    val snackBarController = remember { SnackBarController(lifecycleScope) }
     val scaffoldState = remember { SnackbarHostState() }
 
     when (snackBarSealed) {
@@ -21,24 +27,10 @@ fun CustomSnackBar(snackBarSealed: SnackBarSealed?, content: @Composable () -> U
         else -> {}
     }
 
-//    LargeTopAppBar
-//    MediumTopAppBar
-//    SmallTopAppBar
-//    CenterAlignedTopAppBar() {
-//
-//    }
-//    IconToggleButton(checked = , onCheckedChange = ) {
-//
-//    }
+    DefaultSnackBar(
+        snackBarHostState = scaffoldState,
+        snackBarSealed = snackBarSealed,
+        modifier = modifier
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        content()
-
-        DefaultSnackBar(
-            snackBarHostState = scaffoldState,
-            snackBarSealed = snackBarSealed,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
-    }
+    )
 }
