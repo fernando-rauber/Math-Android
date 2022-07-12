@@ -68,7 +68,7 @@ object KoinModule {
     private val viewModelModule: Module
         get() = module {
 
-            viewModel { CreateGameViewModel(get(),get()) }
+            viewModel { CreateGameViewModel(get(), get()) }
             viewModel { GameViewModel(get(), get()) }
             viewModel { SummaryViewModel(get()) }
             viewModel { HistoryViewModel(get()) }
@@ -76,7 +76,7 @@ object KoinModule {
             viewModel { MultiplayerCreateGameViewModel(get(), get()) }
             viewModel { MultiplayerGameViewModel(get(), get()) }
             viewModel { MultiplayerSummaryViewModel(get()) }
-            viewModel { SettingsViewModel(androidApplication(),get(), get(), get()) }
+            viewModel { SettingsViewModel(androidApplication(), get(), get(), get()) }
             viewModel { SplashViewModel(get(), get()) }
         }
 

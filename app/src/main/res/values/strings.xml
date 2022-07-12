@@ -54,6 +54,8 @@
     // Settings
     <string name="settings_title">Settings</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="sound">Disable Sound</string>
+    <string name="sound_subtext">Mute sound effects</string>
 <!--    <string name="allow_decimals">Allow Decimals</string>-->
 <!--    <string name="allow_decimals_subtext">Questions/Answer may contain decimals.</string>-->
     <string name="notification">Notification</string>

@@ -38,6 +38,7 @@ import uk.fernando.snackbar.CustomSnackBar
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
     val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
+    val isSoundEnable = viewModel.prefs.soundEnable().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
 
@@ -58,10 +59,17 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                 ) {
 
                     CustomSettingsResourcesCard(
-                        modifier = Modifier.padding(bottom = 10.dp),
                         text = R.string.dark_mode,
                         isChecked = isDarkMode.value,
                         onCheckedChange = viewModel::updateDarkMode
+                    )
+
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        text = R.string.sound,
+                        subText = R.string.sound_subtext,
+                        isChecked = isSoundEnable.value,
+                        onCheckedChange = viewModel::updateSound
                     )
 
 //                CustomSettingsResourcesCard(

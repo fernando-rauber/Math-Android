@@ -40,6 +40,10 @@ class SettingsViewModel(
         launchIO { prefs.storeDarkMode(isDarkMode) }
     }
 
+    fun updateSound(enable: Boolean) {
+        launchIO { prefs.storeSound(enable) }
+    }
+
 //    fun updateNotification(notification: Boolean) {
 //        launchIO {
 //            kotlin.runCatching {

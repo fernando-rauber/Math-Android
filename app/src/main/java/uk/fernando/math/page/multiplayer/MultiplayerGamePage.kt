@@ -29,6 +29,7 @@ import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyAnimation
 import uk.fernando.math.component.game.MyCountDown
+import uk.fernando.math.component.game.MyDialogResult
 import uk.fernando.math.component.game.MyGameDialog
 import uk.fernando.math.component.game.MyQuestionDisplay
 import uk.fernando.math.datastore.PrefsStore
@@ -45,13 +46,17 @@ fun MultiplayerGamePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: MultiplayerGameViewModel = getViewModel()
 ) {
+    val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
     val soundCountDown = MediaPlayer.create(LocalContext.current, R.raw.sound_countdown)
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+    val prefs: PrefsStore by inject()
+    val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
+    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        soundCountDown.playAudio()
+        soundCountDown.playAudio(isSoundEnable.value)
         viewModel.createGame()
     }
 
@@ -68,9 +73,9 @@ fun MultiplayerGamePage(
                     playSound = { isCorrectAnswer ->
                         isCorrectAnswer?.let {
                             if (isCorrectAnswer)
-                                soundCorrect.playAudio()
+                                soundCorrect.playAudio(isSoundEnable.value)
                             else
-                                soundIncorrect.playAudio()
+                                soundIncorrect.playAudio(isSoundEnable.value)
                         }
                     }
                 )
@@ -87,9 +92,9 @@ fun MultiplayerGamePage(
                     playSound = { isCorrectAnswer ->
                         isCorrectAnswer?.let {
                             if (isCorrectAnswer)
-                                soundCorrect.playAudio()
+                                soundCorrect.playAudio(isSoundEnable.value)
                             else
-                                soundIncorrect.playAudio()
+                                soundIncorrect.playAudio(isSoundEnable.value)
                         }
                     }
                 )
@@ -101,11 +106,19 @@ fun MultiplayerGamePage(
         // Dialogs
         PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 
-        DialogResult(
-            navController = navController,
+        MyDialogResult(
             viewModel = viewModel,
+            isPremium = isPremium.value,
+            disableSound = isSoundEnable.value,
             fullScreenAd = fullScreenAd
-        )
+        ) {
+            coroutine.launch {
+                navController.navigate("${Directions.multiplayerSummary.name}/${viewModel.getHistoryId()}") {
+                    popUpTo(Directions.multiplayerGame.name) { inclusive = true }
+                    popUpTo(Directions.multiplayerCreateGame.name) { inclusive = true }
+                }
+            }
+        }
     }
 }
 
@@ -203,34 +216,6 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
 
         // Block screen until other player choose their answer
         MyAnimation(viewModel.player2Waiting.value) { AwaitingPlayer() }
-    }
-}
-
-@Composable
-private fun DialogResult(navController: NavController, viewModel: MultiplayerGameViewModel, fullScreenAd: AdInterstitial) {
-    val coroutine = rememberCoroutineScope()
-    val dataStore: PrefsStore by inject()
-    val isPremium = dataStore.isPremium().collectAsState(true)
-    val soundFinish = MediaPlayer.create(LocalContext.current, R.raw.sound_finish)
-
-    MyAnimation(viewModel.isGameFinished.value) {
-        LaunchedEffect(Unit) { soundFinish.playAudio() }
-
-        if (!isPremium.value)
-            fullScreenAd.showAdvert()
-
-        MyGameDialog(
-            image = R.drawable.ic_fireworks,
-            message = R.string.result_message,
-            buttonText = R.string.result_action
-        ) {
-            coroutine.launch {
-                navController.navigate("${Directions.multiplayerSummary.name}/${viewModel.getHistoryId()}") {
-                    popUpTo(Directions.multiplayerGame.name) { inclusive = true }
-                    popUpTo(Directions.multiplayerCreateGame.name) { inclusive = true }
-                }
-            }
-        }
     }
 }
 

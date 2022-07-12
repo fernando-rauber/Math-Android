@@ -29,7 +29,10 @@ fun Int.toFalseTrue(): Int {
     return if (this == 1) R.string.correct_boolean else R.string.incorrect_boolean
 }
 
-fun MediaPlayer.playAudio() {
+fun MediaPlayer.playAudio(disableSound: Boolean = false) {
+    if (disableSound)
+        return
+
     if (isPlaying) {
         stop()
         prepare()
