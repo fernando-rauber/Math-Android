@@ -38,14 +38,14 @@ fun TopNavigationBar(
                 Icon(
                     painter = painterResource(leftIcon),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = Color.White
                 )
         }
 
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(title),
-            color = MaterialTheme.colorScheme.onBackground,
+            color = Color.White,
             style = MaterialTheme.typography.titleLarge
         )
 

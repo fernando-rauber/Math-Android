@@ -247,7 +247,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 26.sp,
-            color = MaterialTheme.colorScheme.onBackground
+            color = Color.White
         )
 
 
@@ -255,7 +255,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
             Icon(
                 painterResource(id = R.drawable.ic_pause),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = Color.White
             )
         }
 
@@ -265,7 +265,7 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 26.sp,
-            color = MaterialTheme.colorScheme.onBackground
+            color = Color.White
         )
     }
 }

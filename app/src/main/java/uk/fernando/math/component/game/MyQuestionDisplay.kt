@@ -171,6 +171,7 @@ private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Uni
         Text(
             text = if (isBoolean) stringResource(answer.toFalseTrue()) else "$answer",
             fontSize = 25.sp,
+            color = Color.White,
             fontWeight = FontWeight.Bold
         )
     }
