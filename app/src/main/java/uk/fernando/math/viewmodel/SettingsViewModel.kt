@@ -2,6 +2,8 @@ package uk.fernando.math.viewmodel
 
 import android.app.Activity
 import android.app.Application
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -11,10 +13,10 @@ import uk.fernando.billing.BillingState
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
-import uk.fernando.math.component.snackbar.SnackBarSealed
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.TAG
 import uk.fernando.math.notification.NotificationHelper
+import uk.fernando.snackbar.SnackBarSealed
 
 const val PREMIUM_PRODUCT = "fun_math_premium"
 
@@ -25,6 +27,7 @@ class SettingsViewModel(
     val prefs: PrefsStore
 ) : BaseViewModel() {
 
+    val snackBar: MutableState<SnackBarSealed?> = mutableStateOf(null)
     private var billingHelper: BillingHelper? = null
     private var isPremium = false
 

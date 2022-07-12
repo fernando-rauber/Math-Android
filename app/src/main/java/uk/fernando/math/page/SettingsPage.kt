@@ -2,7 +2,6 @@ package uk.fernando.math.page
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,10 +29,10 @@ import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.component.snackbar.CustomSnackBar
 import uk.fernando.math.ext.isNetworkAvailable
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.SettingsViewModel
+import uk.fernando.snackbar.CustomSnackBar
 
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
