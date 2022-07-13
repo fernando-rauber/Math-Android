@@ -1,39 +1,29 @@
 package uk.fernando.math.viewmodel
 
 import android.app.Activity
-import android.app.Application
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import uk.fernando.billing.BillingHelper
-import uk.fernando.billing.BillingState
-import uk.fernando.logger.MyLogger
-import uk.fernando.math.BuildConfig
-import uk.fernando.math.R
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.TAG
 import uk.fernando.math.notification.NotificationHelper
+import uk.fernando.math.usecase.PurchaseUseCase
+import uk.fernando.math.util.Resource
 import uk.fernando.snackbar.SnackBarSealed
 
-const val PREMIUM_PRODUCT = "fun_math_premium"
-
 class SettingsViewModel(
-    private val application: Application,
     private val notificationHelper: NotificationHelper,
-    private val logger: MyLogger,
+    private val useCase: PurchaseUseCase,
     val prefs: PrefsStore
 ) : BaseViewModel() {
 
-    val snackBar: MutableState<SnackBarSealed?> = mutableStateOf(null)
-    private var billingHelper: BillingHelper? = null
-    private var isPremium = false
+    private val _snackBar = MutableStateFlow<SnackBarSealed?>(null)
+    private val scope = CoroutineScope(Job() + Dispatchers.Main)
+    val snackBar: StateFlow<SnackBarSealed?>
+        get() = _snackBar.asStateFlow()
 
-    fun initialiseBillingHelper(isInternetAvailable: Boolean) {
-        if (isInternetAvailable)
-            startInAppPurchaseJourney()
+    init {
+        initialiseBillingHelper()
     }
 
     fun updateDarkMode(isDarkMode: Boolean) {
@@ -60,88 +50,31 @@ class SettingsViewModel(
 //        }
 //    }
 
-    private fun startInAppPurchaseJourney() {
-        launchIO {
-            val isPremium = prefs.isPremium().first()
-            this.isPremium = isPremium
+    private fun initialiseBillingHelper() {
+        useCase.startInAppPurchaseJourney(scope)
 
-            if (!isPremium) {
-                billingHelper = BillingHelper.getInstance(
-                    application,
-                    viewModelScope,
-                    arrayOf(PREMIUM_PRODUCT), // one only purchase
-                    arrayOf(), // subscription
-                    BuildConfig.BILLING_PUBLIC_KEY
-                )
+        scope.launch {
+            useCase.billingState.collect() { state ->
 
-                observeBillingState()
-            }
-        }
-    }
-
-    fun requestPayment(activity: Activity, isInternetAvailable: Boolean) {
-        if (!isInternetAvailable(isInternetAvailable))
-            return
-
-        launchIO {
-            if (billingHelper == null) {
-                startInAppPurchaseJourney()
-                delay(1000)
-            }
-            billingHelper?.launchBillingFlow(activity, PREMIUM_PRODUCT)
-        }
-    }
-
-    fun restorePremium(isInternetAvailable: Boolean) {
-        if (!isInternetAvailable(isInternetAvailable))
-            return
-
-        if (isPremium)
-            snackBar.value = SnackBarSealed.Success(R.string.restore_restored)
-        else
-            launchIO {
-                if (billingHelper == null) {
-                    startInAppPurchaseJourney()
-                    delay(1000)
-                }
-                val isPurchased = billingHelper?.isPurchased(PREMIUM_PRODUCT)?.distinctUntilChanged()?.first()
-                if (isPurchased == true) {
-                    prefs.storePremium(true)
-                    snackBar.value = SnackBarSealed.Success(R.string.restore_restored)
-                } else {
-                    snackBar.value = SnackBarSealed.Error(R.string.restore_not_found)
-                }
-            }
-    }
-
-    private fun observeBillingState() {
-        launchIO {
-            billingHelper?.getBillingState()?.collect { state ->
                 when (state) {
-                    is BillingState.Error -> {
-                        snackBar.value = SnackBarSealed.Error(R.string.purchase_error)
-                        logger.e(TAG, state.message)
-                        logger.addMessageToCrashlytics(TAG, "Error - Purchase In App: msg: ${state.message}")
-                    }
-                    is BillingState.Success -> {
-                        snackBar.value = SnackBarSealed.Success(R.string.purchase_success, isLongDuration = true)
-                        prefs.storePremium(true)
-                    }
-                    is BillingState.Crashlytics -> {
-                        logger.e(TAG, state.message)
-                        logger.addMessageToCrashlytics(TAG, "CrashAnalytics - Purchase In App: msg: ${state.message}")
-                    }
+                    is Resource.Error -> _snackBar.value = SnackBarSealed.Error(state.data)
+                    is Resource.Success -> _snackBar.value = SnackBarSealed.Success(state.data)
                     else -> {}
                 }
             }
         }
     }
 
-    private fun isInternetAvailable(isInternetAvailable: Boolean): Boolean {
-        if (!isInternetAvailable)
-            snackBar.value = SnackBarSealed.Error(R.string.internet_required)
+    fun requestPayment(activity: Activity) {
+        useCase.requestPayment(activity, scope)
+    }
 
-        return isInternetAvailable
+    fun restorePremium() {
+        useCase.restorePremium(scope)
+    }
+
+    override fun onCleared() {
+        scope.cancel()
     }
 }
 

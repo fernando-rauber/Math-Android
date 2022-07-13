@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +28,6 @@ import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.ext.isNetworkAvailable
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.SettingsViewModel
 import uk.fernando.snackbar.CustomSnackBar
@@ -41,10 +39,6 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val isSoundEnable = viewModel.prefs.soundEnable().collectAsState(initial = false)
     val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
     val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
-
-    LaunchedEffect(Unit) {
-        viewModel.initialiseBillingHelper(context.isNetworkAvailable())
-    }
 
     MyBackground {
         Box {
@@ -93,12 +87,12 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                         subText = R.string.premium_subtext,
                         isPremium = isPremium.value,
                     ) {
-                        viewModel.requestPayment(context as MainActivity, context.isNetworkAvailable())
+                        viewModel.requestPayment(context as MainActivity)
                     }
 
                     CustomSettingsResourcesCard(
                         modifier = Modifier.padding(vertical = 10.dp),
-                        modifierRow = Modifier.clickable { viewModel.restorePremium(context.isNetworkAvailable()) },
+                        modifierRow = Modifier.clickable { viewModel.restorePremium() },
                         text = R.string.restore_premium_action,
                         isChecked = false,
                         onCheckedChange = {},
@@ -152,7 +146,8 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
 
 @Composable
 private fun BoxScope.SnackBarDisplay(viewModel: SettingsViewModel) {
-    CustomSnackBar(snackBarSealed = viewModel.snackBar.value)
+    val snackBar = viewModel.snackBar.collectAsState()
+    CustomSnackBar(snackBarSealed = snackBar.value)
 }
 
 @Composable

@@ -17,6 +17,7 @@ import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.notification.NotificationHelper
 import uk.fernando.math.repository.GameRepositoryImpl
 import uk.fernando.math.repository.HistoryRepositoryImpl
+import uk.fernando.math.usecase.PurchaseUseCase
 import uk.fernando.math.viewmodel.*
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
@@ -34,7 +35,7 @@ object KoinModule {
      * @return List<Module>
      */
     fun allModules(): List<Module> =
-        listOf(coreModule, databaseModule, repositoryModule, viewModelModule)
+        listOf(coreModule, databaseModule, repositoryModule, useCaseModule, viewModelModule)
 
     private val coreModule = module {
         fun provideDataStore(app: Context): PrefsStore {
@@ -65,6 +66,11 @@ object KoinModule {
             factory { GameRepositoryImpl(get()) }
         }
 
+    private val useCaseModule: Module
+        get() = module {
+            single { PurchaseUseCase(get(), get(), get()) }
+        }
+
     private val viewModelModule: Module
         get() = module {
 
@@ -76,7 +82,7 @@ object KoinModule {
             viewModel { MultiplayerCreateGameViewModel(get(), get()) }
             viewModel { MultiplayerGameViewModel(get(), get()) }
             viewModel { MultiplayerSummaryViewModel(get()) }
-            viewModel { SettingsViewModel(androidApplication(), get(), get(), get()) }
+            viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SplashViewModel(get(), get()) }
         }
 
