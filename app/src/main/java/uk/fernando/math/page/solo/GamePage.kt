@@ -50,7 +50,6 @@ fun GamePage(
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
-    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     LaunchedEffect(Unit) {
         soundCountDown.playAudio(isSoundEnable.value)
@@ -88,8 +87,6 @@ fun GamePage(
 
         MyDialogResult(
             viewModel = viewModel,
-            isPremium = isPremium.value,
-            disableSound = isSoundEnable.value,
             fullScreenAd = fullScreenAd
         ) {
             coroutine.launch {
