@@ -159,7 +159,7 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 MyQuestionDisplay(
                     question = question,
                     isMultiplayer = true,
-                    multipleChoice = question.getMultipleChoiceList()
+                    multipleChoice = question.getMultipleChoicePlayerOne()
                 ) { answer ->
                     playSound(viewModel.registerAnswerPlayer1(answer))
                 }
@@ -201,7 +201,7 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
                 MyQuestionDisplay(
                     question = question,
                     isMultiplayer = true,
-                    multipleChoice = question.getMultipleChoiceList()
+                    multipleChoice = question.getMultipleChoicePlayerTwo()
                 ) { answer ->
                     playSound(viewModel.registerAnswerPlayer2(answer))
                 }

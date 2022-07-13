@@ -149,7 +149,7 @@ private fun QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -
 
         MyQuestionDisplay(
             question = question,
-            multipleChoice = if (viewModel.isMultipleChoice()) question.getMultipleChoiceList() else null,
+            multipleChoice = if (viewModel.isMultipleChoice()) question.getMultipleChoicePlayerOne() else null,
             onClick = { answer ->
                 playSound(viewModel.registerAnswer(answer))
             }
