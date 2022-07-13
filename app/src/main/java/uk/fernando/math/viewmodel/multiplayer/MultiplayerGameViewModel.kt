@@ -3,11 +3,11 @@ package uk.fernando.math.viewmodel.multiplayer
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.repository.GameRepositoryImpl
+import uk.fernando.math.repository.GameRepository
 import uk.fernando.math.viewmodel.BaseGameViewModel
 
 
-class MultiplayerGameViewModel(private val rep: GameRepositoryImpl, private val logger: MyLogger) : BaseGameViewModel(rep, logger) {
+class MultiplayerGameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseGameViewModel(rep, logger) {
 
     val player1Waiting = mutableStateOf(false)
     val player2Waiting = mutableStateOf(false)

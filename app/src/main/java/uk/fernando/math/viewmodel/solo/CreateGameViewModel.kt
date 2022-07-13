@@ -6,13 +6,13 @@ import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.repository.HistoryRepositoryImpl
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.util.QuestionGenerator
 import uk.fernando.math.viewmodel.BaseCreateGameViewModel
 import java.util.*
 
 
-class CreateGameViewModel(private val rep: HistoryRepositoryImpl, private val logger: MyLogger) : BaseCreateGameViewModel() {
+class CreateGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseCreateGameViewModel() {
 
     fun generateQuestion() = flow {
         loading.value = true
