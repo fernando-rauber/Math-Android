@@ -1,38 +1,11 @@
 package uk.fernando.math.repository
 
 import androidx.paging.PagingSource
-import uk.fernando.math.database.dao.HistoryDao
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
-import uk.fernando.math.database.entity.QuestionEntity
 
-open class HistoryRepositoryMock : HistoryDao {
-
-    override fun insert(item: HistoryEntity): Long {
-        return 5
-    }
-
-    override fun getHistory(isMultiplayer: Boolean): PagingSource<Int, HistoryWithPLayers> {
-        TODO("Not yet implemented")
-    }
-
-    override fun insertPlayer(item: PlayerEntity): Long {
-        return 3
-    }
-
-    override fun insertQuestion(item: QuestionEntity) {
-
-    }
-
-    override fun getHistoryById(historyId: Int): HistoryWithPLayers {
-        return historyList().first()
-    }
-
-    override fun getQuestionByFriend(playerID: Long): List<QuestionEntity> {
-        TODO("Not yet implemented")
-    }
-
+open class HistoryRepositoryMock : HistoryRepository {
 
     private fun historyList(): List<HistoryWithPLayers> {
         val player = PlayerEntity()
@@ -40,6 +13,22 @@ open class HistoryRepositoryMock : HistoryDao {
         val playerQuestion = HistoryWithPLayers(history, listOf(player, player))
 
         return listOf(playerQuestion)
+    }
+
+    override suspend fun insertHistory(history: HistoryWithPLayers): Int {
+        return 5
+    }
+
+    override fun getAllHistory(isMultiplayer: Boolean): PagingSource<Int, HistoryWithPLayers> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getQuestionByHistory(id: Int): HistoryWithPLayers {
+        return historyList().first()
+    }
+
+    override suspend fun deleteOpenGame() {
+
     }
 }
 

@@ -7,12 +7,17 @@ import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.ext.TAG
 import uk.fernando.math.repository.HistoryRepository
+import uk.fernando.math.usecase.GamePrefsUseCase
 import uk.fernando.math.util.QuestionGenerator
 import uk.fernando.math.viewmodel.BaseCreateGameViewModel
 import java.util.*
 
 
-class MultiplayerCreateGameViewModel(private val rep: HistoryRepository, private val logger: MyLogger) : BaseCreateGameViewModel() {
+class MultiplayerCreateGameViewModel(
+    private val rep: HistoryRepository,
+    private val logger: MyLogger,
+    private val useCase: GamePrefsUseCase
+) : BaseCreateGameViewModel(useCase) {
 
     private var player1 = "Player 1"
     private var player2 = "Player 2"
@@ -31,23 +36,25 @@ class MultiplayerCreateGameViewModel(private val rep: HistoryRepository, private
             // Delete Previous Game if still open
             rep.deleteOpenGame()
 
+            val difficulty = useCase.getDifficulty()
+            val operatorOptions = useCase.getOperator()
+
             val player1 = PlayerEntity(name = player1)
             val player2 = PlayerEntity(name = player2)
             val history = HistoryEntity(
                 date = Date(),
-                difficulty = difficultyLevel,
+                difficulty = difficulty,
                 operatorList = operatorOptions,
                 multiplayer = true
             )
 
-            val questionList = QuestionGenerator().generateQuestions(operatorOptions, quantityQuestion, difficultyLevel)
+            val questionList = QuestionGenerator().generateQuestions(operatorOptions, useCase.getQuantity(), difficulty)
             player1.questionList.addAll(questionList)
             player2.questionList.addAll(questionList)
 
             rep.insertHistory(HistoryWithPLayers(history, listOf(player1, player2)))
 
             loading.value = false
-            resetViewModel()
             emit(true)
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())

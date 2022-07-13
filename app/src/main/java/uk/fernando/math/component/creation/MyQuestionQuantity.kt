@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
 
 @Composable
-fun MyQuestionQuantity(onSelected: (Int) -> Unit) {
-    var quantity by remember { mutableStateOf(10f) }
+fun MyQuestionQuantity(oldQuantity: Int, onSelected: (Int) -> Unit) {
+    var quantity by mutableStateOf(oldQuantity.toFloat())
 
     Column {
         Text(

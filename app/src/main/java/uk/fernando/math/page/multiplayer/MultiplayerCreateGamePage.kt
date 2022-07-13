@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.MyButton
@@ -25,6 +26,8 @@ import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.creation.MyDifficulty
 import uk.fernando.math.component.creation.MyMathOperatorOptions
 import uk.fernando.math.component.creation.MyQuestionQuantity
+import uk.fernando.math.datastore.GamePrefsStore
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
@@ -35,6 +38,13 @@ fun MultiplayerCreateGamePage(
     viewModel: MultiplayerCreateGameViewModel = getViewModel()
 ) {
     val coroutine = rememberCoroutineScope()
+    val prefs: PrefsStore by inject()
+    val isPremiumUser = prefs.isPremium().collectAsState(initial = false)
+
+    val gamePrefs: GamePrefsStore by inject()
+    val quantity = gamePrefs.quantity().collectAsState(initial = 10)
+    val difficulty = gamePrefs.difficulty().collectAsState(initial = 1)
+    val operators = gamePrefs.getOperators().collectAsState(initial = listOf(1, 2, 3, 4))
 
     MyBackground {
 
@@ -74,19 +84,19 @@ fun MultiplayerCreateGamePage(
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        MyMathOperatorOptions {
+                        MyMathOperatorOptions(operators.value, isPremiumUser.value) {
                             viewModel.setMathOptions(it)
                         }
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        MyQuestionQuantity { quantity ->
+                        MyQuestionQuantity(quantity.value) { quantity ->
                             viewModel.setQuantity(quantity)
                         }
 
                         Divider(Modifier.padding(vertical = 10.dp))
 
-                        MyDifficulty { difficult ->
+                        MyDifficulty(difficulty.value) { difficult ->
                             viewModel.setDifficulty(difficult)
                         }
 

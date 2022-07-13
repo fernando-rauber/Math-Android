@@ -7,13 +7,12 @@ import androidx.room.Room
 import io.mockk.every
 import io.mockk.mockk
 import org.koin.core.qualifier.StringQualifier
-import org.koin.dsl.bind
 import org.koin.dsl.module
 import uk.fernando.math.database.MyDatabase
-import uk.fernando.math.database.dao.GameDao
-import uk.fernando.math.database.dao.HistoryDao
 import uk.fernando.math.di.KoinModule.allModules
+import uk.fernando.math.repository.GameRepository
 import uk.fernando.math.repository.GameRepositoryMock
+import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.repository.HistoryRepositoryMock
 
 val mockModule = module {
@@ -31,8 +30,8 @@ val mockModule = module {
 }
 
 val mockedDAOModule = module {
-    single<GameDao> { GameRepositoryMock() } bind GameDao::class
-    single<HistoryDao> { HistoryRepositoryMock() } bind HistoryDao::class
+    single<GameRepository> { GameRepositoryMock() }
+    single<HistoryRepository> { HistoryRepositoryMock() }
 }
 
 fun allMockedModules() = allModules() + mockModule + mockedDAOModule

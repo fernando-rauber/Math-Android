@@ -1,44 +1,32 @@
 package uk.fernando.math.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
+import uk.fernando.math.usecase.GamePrefsUseCase
 
 
-open class BaseCreateGameViewModel : BaseViewModel() {
+open class BaseCreateGameViewModel(private val useCase: GamePrefsUseCase) : BaseViewModel() {
 
-    val operatorOptions = mutableListOf(1, 2, 3, 4)
-    var quantityQuestion = 10
-    var isMultipleChoice = true
-    var difficultyLevel = 1 // Easy
     val loading = mutableStateOf(false)
-    val isGameValid = mutableStateOf(true)
+    val isGameValid = mutableStateOf(false)
+
+    init {
+        launchDefault { isGameValid.value = useCase.getOperator().isNotEmpty() }
+    }
 
     fun setMathOptions(option: Int) {
-        if (operatorOptions.contains(option))
-            operatorOptions.remove(option)
-        else
-            operatorOptions.add(option)
-
-        isGameValid.value = operatorOptions.size > 0
+        launchDefault { isGameValid.value = useCase.storeOperator(option) }
     }
 
     fun setQuantity(quantity: Int) {
-        this.quantityQuestion = quantity
+        launchDefault { useCase.storeQuantity(quantity) }
     }
 
     fun setTypeAnswer(isMultipleChoice: Boolean) {
-        this.isMultipleChoice = isMultipleChoice
+        launchDefault { useCase.storeMultipleChoice(isMultipleChoice) }
     }
 
     fun setDifficulty(difficulty: Int) {
-        this.difficultyLevel = difficulty
-    }
-
-    fun resetViewModel() {
-        operatorOptions.clear()
-        operatorOptions.addAll(listOf(1, 2, 3, 4))
-        quantityQuestion = 10
-        isMultipleChoice = true
-        difficultyLevel = 1
+        launchDefault { useCase.storeDifficulty(difficulty) }
     }
 }
 

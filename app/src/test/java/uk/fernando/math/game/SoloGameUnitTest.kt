@@ -3,7 +3,6 @@ package uk.fernando.math.game
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTestRule
@@ -11,7 +10,6 @@ import org.koin.test.inject
 import uk.fernando.math.KoinTestCase
 import uk.fernando.math.MainCoroutineRule
 import uk.fernando.math.di.allMockedModules
-import uk.fernando.math.util.QuestionGenerator
 import uk.fernando.math.viewmodel.solo.GameViewModel
 import kotlin.test.assertEquals
 
@@ -25,11 +23,6 @@ class SoloGameUnitTest : KoinTestCase() {
     @get:Rule
     override val koinRule = KoinTestRule.create {
         modules(allMockedModules())
-    }
-
-    @Before
-    fun setup() {
-//        gameViewModel.createGame()
     }
 
     @Test
