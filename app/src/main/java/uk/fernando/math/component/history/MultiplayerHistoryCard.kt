@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -106,15 +107,30 @@ private fun PlayerCard(player1: PlayerEntity, player2: PlayerEntity) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Text(
-            modifier = Modifier
+        Row(
+            Modifier
                 .weight(1f)
                 .padding(5.dp),
-            text = player1.name,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            if (player1.correct >= player2.correct)
+                Icon(
+                    modifier = Modifier.padding(end = 5.dp),
+                    painter = painterResource(R.drawable.ic_crown),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+
+            Text(
+                text = player1.name,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+        }
+
 
         Divider(
             Modifier
@@ -122,16 +138,29 @@ private fun PlayerCard(player1: PlayerEntity, player2: PlayerEntity) {
                 .width(1.dp)
         )
 
-        Text(
-            modifier = Modifier
+        Row(
+            Modifier
                 .weight(1f)
                 .padding(5.dp),
-            text = player2.name,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
 
+            if (player2.correct >= player1.correct)
+                Icon(
+                    modifier = Modifier.padding(end = 5.dp),
+                    painter = painterResource(R.drawable.ic_crown),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+
+            Text(
+                text = player2.name,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 

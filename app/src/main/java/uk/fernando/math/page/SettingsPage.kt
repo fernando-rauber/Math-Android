@@ -264,7 +264,11 @@ private fun CustomSettingsPremiumCard(
                         modifier = Modifier.padding(end = 5.dp)
                     )
 
-                    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_crown),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
                 }
 
                 subText?.let {
