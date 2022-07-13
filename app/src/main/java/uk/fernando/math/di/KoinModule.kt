@@ -15,8 +15,8 @@ import uk.fernando.math.database.MyDatabase
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.datastore.PrefsStoreImpl
 import uk.fernando.math.notification.NotificationHelper
-import uk.fernando.math.repository.GameRepository
-import uk.fernando.math.repository.HistoryRepository
+import uk.fernando.math.repository.GameRepositoryImpl
+import uk.fernando.math.repository.HistoryRepositoryImpl
 import uk.fernando.math.viewmodel.*
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
@@ -61,8 +61,8 @@ object KoinModule {
 
     private val repositoryModule: Module
         get() = module {
-            factory { HistoryRepository(get(), get()) }
-            factory { GameRepository(get()) }
+            factory { HistoryRepositoryImpl(get(), get()) }
+            factory { GameRepositoryImpl(get()) }
         }
 
     private val viewModelModule: Module

@@ -7,10 +7,10 @@ import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.TAG
-import uk.fernando.math.repository.GameRepository
+import uk.fernando.math.repository.GameRepositoryImpl
 
 
-open class BaseGameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseViewModel() {
+open class BaseGameViewModel(private val rep: GameRepositoryImpl, private val logger: MyLogger) : BaseViewModel() {
 
     lateinit var history: HistoryEntity
     lateinit var player1: PlayerEntity
