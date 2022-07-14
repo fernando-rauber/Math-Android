@@ -39,8 +39,8 @@ class MultiplayerCreateGameViewModel(
             val difficulty = useCase.getDifficulty()
             val operatorOptions = useCase.getOperator()
 
-            val player1 = PlayerEntity(name = player1)
-            val player2 = PlayerEntity(name = player2)
+            val player1 = PlayerEntity(name = player1.ifEmpty { "Player 1" })
+            val player2 = PlayerEntity(name = player2.ifEmpty { "Player 2" })
             val history = HistoryEntity(
                 date = Date(),
                 difficulty = difficulty,
