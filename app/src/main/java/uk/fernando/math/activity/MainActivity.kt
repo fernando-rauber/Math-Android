@@ -14,7 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.component.UpdateStatusBar
@@ -32,9 +33,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val dataStore: PrefsStore by inject()
-            val controller = rememberNavController()
+            val controller = rememberAnimatedNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
+
+            val dataStore: PrefsStore by inject()
             val isDarkMode = dataStore.isDarkMode().collectAsState(true)
             val backgroundStatusBar = if (isDarkMode.value) dark else whiteBackGround
 
@@ -58,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {
-                        NavHost(
+                        AnimatedNavHost(
                             navController = controller,
                             startDestination = Directions.splash.name
                         ) {

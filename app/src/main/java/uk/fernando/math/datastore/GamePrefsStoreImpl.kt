@@ -20,7 +20,7 @@ class GamePrefsStoreImpl(context: Context) : GamePrefsStore {
             val operators = prefs[PreferencesKeys.OPERATORS]
             if (operators == null)
                 listOf(1, 2, 3, 4)
-            if (operators != null && operators.isNotEmpty())
+            else if (operators.isNotEmpty())
                 operators.split("*").map { it.toInt() }
             else
                 emptyList()
