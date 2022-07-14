@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -79,7 +80,11 @@ fun MultiplayerGamePage(
                     }
                 )
 
-                MyCountDown { }
+                MyCountDown(startSoundEffect = {
+                    coroutine.launch(Dispatchers.IO) {
+                        soundCountDown.playAudio(isSoundEnable.value)
+                    }
+                }) {}
             }
 
             Settings(viewModel)
@@ -98,7 +103,7 @@ fun MultiplayerGamePage(
                     }
                 )
 
-                MyCountDown { }
+                MyCountDown({}) { }
             }
         }
 

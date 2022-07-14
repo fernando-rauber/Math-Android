@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
@@ -52,7 +53,6 @@ fun GamePage(
     val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        soundCountDown.playAudio(isSoundEnable.value)
         viewModel.createGame()
     }
 
@@ -81,7 +81,14 @@ fun GamePage(
         }
 
         // Dialogs
-        MyCountDown { viewModel.startChronometer() }
+        MyCountDown(
+            startSoundEffect = {
+                coroutine.launch(Dispatchers.IO) {
+                    soundCountDown.playAudio(isSoundEnable.value)
+                }
+            },
+            onStart = { viewModel.startChronometer() }
+        )
 
         PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 

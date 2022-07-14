@@ -39,7 +39,7 @@ fun MultiplayerHistoryCard(modifier: Modifier = Modifier, history: HistoryWithPL
         Row(
             modifier = Modifier
                 .padding(horizontal = 10.dp)
-                .padding(top = 5.dp)
+                .padding(top = 7.dp)
                 .weight(1f),
             verticalAlignment = Alignment.CenterVertically
         ) {

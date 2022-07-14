@@ -18,10 +18,13 @@ import uk.fernando.math.ext.noRippleClickable
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun MyCountDown(onStart: () -> Unit) {
+fun MyCountDown(startSoundEffect: () -> Unit, onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(3) }
 
     LaunchedEffect(Unit) {
+        if (countDown == 3)
+            startSoundEffect()
+
         while (countDown >= 0) {
             delay(1.seconds)
             countDown--
@@ -37,7 +40,7 @@ fun MyCountDown(onStart: () -> Unit) {
         Box(
             Modifier
                 .fillMaxSize()
-                .noRippleClickable {  }
+                .noRippleClickable { }
                 .background(Color.Black.copy(0.6f))
         ) {
 

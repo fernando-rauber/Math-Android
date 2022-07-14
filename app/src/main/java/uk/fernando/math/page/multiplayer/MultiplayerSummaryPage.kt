@@ -68,7 +68,7 @@ fun MultiplayerSummaryPage(
 
                         MultiplayerHistoryCard(history = history)
 
-                        Divider(Modifier.padding(vertical = 5.dp))
+                        Divider(Modifier.padding(bottom = 5.dp))
 
                         Text(
                             modifier = Modifier
@@ -88,7 +88,7 @@ fun MultiplayerSummaryPage(
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
                         ) {
                             item {
-                                Row {
+                                Row(Modifier.padding(bottom = 10.dp)) {
                                     Text(
                                         modifier = Modifier.weight(1f),
                                         text = player1.name,
