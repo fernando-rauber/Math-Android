@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.android.ads.mediationtestsuite.MediationTestSuite
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.component.UpdateStatusBar
@@ -32,6 +33,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        MediationTestSuite.launch(this)
+
         setContent {
             val controller = rememberAnimatedNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()

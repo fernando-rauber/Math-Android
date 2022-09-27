@@ -23,22 +23,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.theme.game_green
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.viewmodel.SettingsViewModel
 import uk.fernando.snackbar.CustomSnackBar
 
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
-    val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
-    val isSoundEnable = viewModel.prefs.soundEnable().collectAsState(initial = false)
-    val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
-    val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
+    val prefs: PrefsStore by inject()
+    val isDarkMode = prefs.isDarkMode().collectAsState(initial = false)
+    val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
+    //val notificationEnable = prefs.notificationEnable().collectAsState(initial = true)
+    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     MyBackground {
         Box {
@@ -214,7 +216,7 @@ private fun CustomSettingsResourcesCard(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_forward),
                     contentDescription = null,
-                    tint = game_green
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
         }

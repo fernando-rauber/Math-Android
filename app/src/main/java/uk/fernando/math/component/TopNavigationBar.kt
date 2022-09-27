@@ -1,6 +1,5 @@
 package uk.fernando.math.component
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import uk.fernando.math.R
 
 @Composable
 fun TopNavigationBar(
     @StringRes title: Int,
-    @DrawableRes leftIcon: Int? = null,
-    onLeftIconClick: () -> Unit = {},
+    onLeftIconClick: (() -> Unit)? = null,
     rightIcon: (@Composable () -> Unit)? = null
 ) {
 
@@ -31,14 +30,14 @@ fun TopNavigationBar(
             .padding(10.dp)
     ) {
 
-        IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {
-            if (leftIcon != null)
+        if (onLeftIconClick != null)
+            IconButton(onClick = onLeftIconClick, modifier = Modifier.align(Alignment.CenterStart)) {
                 Icon(
-                    painter = painterResource(leftIcon),
+                    painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = null,
                     tint = Color.White
                 )
-        }
+            }
 
         Text(
             modifier = Modifier.align(Alignment.Center),

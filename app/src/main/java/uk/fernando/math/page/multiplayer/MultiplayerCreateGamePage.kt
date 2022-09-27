@@ -52,7 +52,6 @@ fun MultiplayerCreateGamePage(
 
             TopNavigationBar(
                 title = R.string.question_creation_title,
-                leftIcon = R.drawable.ic_arrow_back,
                 onLeftIconClick = { navController.popBackStack() }
             )
 

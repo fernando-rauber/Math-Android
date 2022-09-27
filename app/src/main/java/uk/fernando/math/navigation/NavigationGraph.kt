@@ -19,8 +19,7 @@ import uk.fernando.math.page.multiplayer.MultiplayerSummaryPage
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
-    composable(Directions.splash.name,
-        exitTransition = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700)) }) {
+    composable(Directions.splash.name) {
         SplashPage(navController)
     }
     composableSlideAnim(

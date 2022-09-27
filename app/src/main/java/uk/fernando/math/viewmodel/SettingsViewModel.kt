@@ -14,7 +14,7 @@ import uk.fernando.snackbar.SnackBarSealed
 class SettingsViewModel(
     private val notificationHelper: NotificationHelper,
     private val useCase: PurchaseUseCase,
-    val prefs: PrefsStore
+    private val prefs: PrefsStore
 ) : BaseViewModel() {
 
     private val _snackBar = MutableStateFlow<SnackBarSealed?>(null)
