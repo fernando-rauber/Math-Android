@@ -29,7 +29,7 @@ fun MyGameDialog(
     onExitGame: (() -> Unit)? = null,
     onClick: () -> Unit,
 ) {
-    MyDialog {
+    MyDialog(MaterialTheme.shapes.medium) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
