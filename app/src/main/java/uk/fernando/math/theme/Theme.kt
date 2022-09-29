@@ -10,31 +10,16 @@ private val DarkColorPalette = darkColorScheme(
     primary = game_green,
     background = dark,
     surface = lightDark,
-//    onSurface = red,
     onBackground = Color.White,
-//    onPrimary = Color.Red,
-    onSecondary = Color.Yellow,
-    onPrimaryContainer = Color.Blue,
-    secondary = Color.Green,
     primaryContainer = Color.White
 )
 
 private val LightColorPalette = lightColorScheme(
-
     primary = game_green,
     surface = Color.White,
     background = whiteBackGround,
     onBackground = Color.Black,
     onSurfaceVariant = grey
-
-    /* Other default colors to override
-    background = Color.White,
-//    surface = Color.White,
-//    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable

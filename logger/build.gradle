@@ -25,6 +25,5 @@ android {
 
 dependencies {
 
-    implementation platform('com.google.firebase:firebase-bom:30.0.2')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.11'
 }

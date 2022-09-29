@@ -27,11 +27,21 @@ data class QuestionEntity(
     @Ignore
     var multipleChoice = emptyList<Int>()
 
-    fun getMultipleChoiceList(): List<Int> {
+    @Ignore
+    var multipleChoicePlayer2 = emptyList<Int>()
+
+    fun getMultipleChoicePlayerOne(): List<Int> {
         if (multipleChoice.isEmpty())
             multipleChoice = generateMultipleChoices(correctAnswer).shuffled()
 
         return multipleChoice
+    }
+
+    fun getMultipleChoicePlayerTwo(): List<Int> {
+        if (multipleChoicePlayer2.isEmpty())
+            multipleChoicePlayer2 = getMultipleChoicePlayerOne().shuffled()
+        
+        return multipleChoicePlayer2
     }
 
     companion object {

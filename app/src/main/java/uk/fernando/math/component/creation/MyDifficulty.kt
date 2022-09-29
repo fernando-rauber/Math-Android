@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
 
 @Composable
-fun MyDifficulty(onSelected: (Int) -> Unit) {
-    var difficulty by remember { mutableStateOf(1f) }
+fun MyDifficulty(oldDifficulty: Int, onSelected: (Int) -> Unit) {
+    var difficulty by mutableStateOf(oldDifficulty.toFloat())
 
     Column {
         Text(

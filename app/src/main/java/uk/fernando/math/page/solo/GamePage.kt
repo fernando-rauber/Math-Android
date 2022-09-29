@@ -3,7 +3,6 @@ package uk.fernando.math.page.solo
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,31 +19,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
-import uk.fernando.math.component.MyAnimation
 import uk.fernando.math.component.OnLifecycleEvent
 import uk.fernando.math.component.game.MyCountDown
+import uk.fernando.math.component.game.MyDialogResult
 import uk.fernando.math.component.game.MyGameDialog
 import uk.fernando.math.component.game.MyQuestionDisplay
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.playAudio
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.GameViewModel
+import uk.fernando.util.component.MyAnimatedVisibility
+import uk.fernando.util.component.MyIconButton
+import uk.fernando.util.ext.playAudio
 
 @Composable
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: GameViewModel = getViewModel()
 ) {
+    val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_full_page))
+    val soundCountDown = MediaPlayer.create(LocalContext.current, R.raw.sound_countdown)
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+    val prefs: PrefsStore by inject()
+    val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
 
     LaunchedEffect(Unit) {
         viewModel.createGame()
@@ -67,43 +73,28 @@ fun GamePage(
             QuestionAndAnswers(viewModel) { isCorrectAnswer ->
                 isCorrectAnswer?.let {
                     if (isCorrectAnswer)
-                        soundCorrect.playAudio()
+                        soundCorrect.playAudio(isSoundEnable.value)
                     else
-                        soundIncorrect.playAudio()
+                        soundIncorrect.playAudio(isSoundEnable.value)
                 }
             }
         }
 
         // Dialogs
-        MyCountDown { viewModel.startChronometer() }
+        MyCountDown(
+            startSoundEffect = {
+                coroutine.launch(Dispatchers.IO) {
+                    soundCountDown.playAudio(isSoundEnable.value)
+                }
+            },
+            onStart = { viewModel.startChronometer() }
+        )
 
         PauseResumeGame(viewModel, onExitGame = { navController.popBackStack() })
 
-        DialogResult(
-            navController = navController,
+        MyDialogResult(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd
-        )
-    }
-}
-
-@Composable
-private fun DialogResult(navController: NavController, viewModel: GameViewModel, fullScreenAd: AdInterstitial) {
-    val coroutine = rememberCoroutineScope()
-    val dataStore: PrefsStore by inject()
-    val isPremium = dataStore.isPremium().collectAsState(true)
-    val soundFinish = MediaPlayer.create(LocalContext.current, R.raw.sound_finish)
-
-    MyAnimation(viewModel.isGameFinished.value) {
-        LaunchedEffect(Unit) { soundFinish.playAudio() }
-
-        if (!isPremium.value)
-            fullScreenAd.showAdvert()
-
-        MyGameDialog(
-            image = R.drawable.ic_fireworks,
-            message = R.string.result_message,
-            buttonText = R.string.result_action
         ) {
             coroutine.launch {
                 navController.navigate("${Directions.summary.name}/${viewModel.getHistoryId()}") {
@@ -136,13 +127,11 @@ private fun Timer(viewModel: GameViewModel) {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
-                Icon(
-                    painterResource(id = R.drawable.ic_pause),
-                    contentDescription = "pause",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
+            MyIconButton(
+                icon = R.drawable.ic_pause,
+                onClick = { viewModel.pauseUnpauseGame() },
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
 
         Text(
@@ -162,7 +151,7 @@ private fun QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -
 
         MyQuestionDisplay(
             question = question,
-            multipleChoice = if (viewModel.isMultipleChoice()) question.getMultipleChoiceList() else null,
+            multipleChoice = if (viewModel.isMultipleChoice()) question.getMultipleChoicePlayerOne() else null,
             onClick = { answer ->
                 playSound(viewModel.registerAnswer(answer))
             }
@@ -172,7 +161,7 @@ private fun QuestionAndAnswers(viewModel: GameViewModel, playSound: (Boolean?) -
 
 @Composable
 private fun PauseResumeGame(viewModel: GameViewModel, onExitGame: () -> Unit) {
-    MyAnimation(viewModel.isGamePaused.value) {
+    MyAnimatedVisibility(viewModel.isGamePaused.value) {
         MyGameDialog(
             image = R.drawable.ic_coffee_break,
             message = R.string.resume_message,

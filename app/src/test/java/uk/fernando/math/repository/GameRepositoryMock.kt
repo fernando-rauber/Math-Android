@@ -1,12 +1,11 @@
 package uk.fernando.math.repository
 
-import uk.fernando.math.database.dao.GameDao
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.QuestionEntity
 
-open class GameRepositoryMock : GameDao {
+open class GameRepositoryMock : GameRepository {
 
     private fun historyList(): List<HistoryWithPLayers> {
         val question1 = QuestionEntity(1, "", "", 1, 1, 1, 1)
@@ -22,36 +21,17 @@ open class GameRepositoryMock : GameDao {
         return listOf(playerQuestion)
     }
 
-    override fun getQuestionByPlayer(playerID: Long): List<QuestionEntity> {
-        return listOf(QuestionEntity(5, "", "", 1, 1, 1, 1))
-    }
-
-    override fun getHistoryOpen(): HistoryWithPLayers? {
+    override suspend fun getOpenGame(): HistoryWithPLayers? {
         return historyList().first()
     }
 
-    override fun updateHistory(item: HistoryEntity) {
-
+    override suspend fun updateHistory(history: HistoryEntity) {
     }
 
-    override fun updatePlayer(item: PlayerEntity) {
-
+    override suspend fun updatePlayer(player: PlayerEntity) {
     }
 
-    override fun updateQuestion(item: QuestionEntity) {
-
-    }
-
-    override fun deleteHistory(item: HistoryEntity) {
-
-    }
-
-    override fun deletePlayer(item: PlayerEntity) {
-
-    }
-
-    override fun deleteQuestion(item: List<QuestionEntity>) {
-
+    override suspend fun updateQuestion(question: QuestionEntity) {
     }
 }
 

@@ -28,9 +28,9 @@ import uk.fernando.math.component.history.MyLoadingHistory
 import uk.fernando.math.component.history.NewGameButton
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.firstPlayer
-import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.HistoryViewModel
+import uk.fernando.util.ext.safeNav
 
 @Composable
 fun HistoryPage(
@@ -45,7 +45,8 @@ fun HistoryPage(
 
             TopNavigationBar(
                 title = R.string.score_title,
-                rightIcon = { NewGameButton { navController.safeNav(Directions.createGame.name) } })
+                rightIcon = { NewGameButton { navController.safeNav(Directions.createGame.name) } }
+            )
 
             val historyList = viewModel.history.collectAsLazyPagingItems()
 
@@ -62,9 +63,7 @@ fun HistoryPage(
                         )
                     else
                         HistoryList(
-                            modifier = Modifier
-                                .padding(top = 30.dp)
-                                .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                             historyList = historyList,
                             onItemClick = { historyID ->
                                 coroutine.launch {
@@ -101,7 +100,7 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
 private fun HistoryCardCustom(history: HistoryWithPLayers, onClick: () -> Unit) {
 
     Surface(
-        modifier = Modifier.padding(top = 10.dp),
+        modifier = Modifier.padding(bottom = 10.dp),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {

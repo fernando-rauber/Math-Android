@@ -9,12 +9,13 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
         mavenCentral()
     }
 }
 rootProject.name = "MyMath"
 include ':app'
-include ':billing'
-include ':logger'
-include ':advertising'
+//include ':billing'
+//include ':logger'
+//include ':advertising'
 //include ':notification'

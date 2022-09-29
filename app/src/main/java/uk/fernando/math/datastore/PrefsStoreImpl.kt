@@ -36,6 +36,10 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.NOTIFICATION] ?: true }
     }
 
+    override fun isSoundEnabled(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.SOUND] ?: true }
+    }
+
     override suspend fun storeVersion(value: Int) {
         dataStore.edit { prefs -> prefs[PreferencesKeys.VERSION] = value }
     }
@@ -56,11 +60,16 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         dataStore.edit { prefs -> prefs[PreferencesKeys.NOTIFICATION] = value }
     }
 
+    override suspend fun storeSound(value: Boolean) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.SOUND] = value }
+    }
+
     private object PreferencesKeys {
         val VERSION = intPreferencesKey("version")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val ALLOW_DECIMALS = booleanPreferencesKey("allow_decimals")
         val PREMIUM = booleanPreferencesKey("premium")
         val NOTIFICATION = booleanPreferencesKey("notification")
+        val SOUND = booleanPreferencesKey("sound")
     }
 }

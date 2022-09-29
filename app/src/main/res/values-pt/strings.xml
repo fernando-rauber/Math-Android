@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Matemática Divertida</string>
+
+    // Bottom Bar
+    <string name="solo_action">1 jogador</string>
+    <string name="multiplayer_action">2 jogadores</string>
+    <string name="settings_action">Configurações</string>
+
+    // Answer Choices
+    <string name="multiple_choice">Múltipla escolha</string>
+
+    // Solo History
+    <string name="result">Resultado</string>
+    <string name="start_new_game_action">Começar Novo Jogo</string>
+    <string name="new_game_action">Novo Jogo</string>
+    <string name="empty_history_text">Inicie um novo jogo e teste suas habilidades matemáticas</string>
+
+    <string name="correct_boolean">Verdade</string>
+    <string name="incorrect_boolean">Falso</string>
+
+    // Multiplayer History
+    <string name="score_title">Pontuação</string>
+    <string name="empty_multiplayer_history_text">Desafie um amigo e teste suas habilidades em matemática</string>
+
+    // Question Creation
+    <string name="question_creation_title">Criação de perguntas</string>
+    <string name="select_operator">Operadores matemáticos</string>
+    <string name="quantity">Quantidade: %s</string>
+    <string name="select_difficulty">Dificuldade</string>
+    <string name="start_action">Começar jogo</string>
+    <string name="player_one">Jogador 1</string>
+    <string name="player_two">Jogador 2</string>
+    <string name="waiting_player">Por favor, espere</string>
+
+    // Game
+    <string name="resume_action">Retomar jogo</string>
+    <string name="resume_message">Jogo pausado</string>
+    <string name="result_action">Ver Pontuação</string>
+    <string name="result_message">Bom trabalho! \nVamos conferir a pontuação.</string>
+    <string name="check_action">Verificar Resposta</string>
+    <string name="exit_game_action">Sair do jogo</string>
+
+    // Result
+    <string name="summary_title">Resumo</string>
+    <string name="question_answer">Perguntas &amp; respostas</string>
+    <string name="correct_params">Correto: %s</string>
+    <string name="well_done">Muito bem!</string>
+
+    // Settings
+    <string name="settings_title">Configuração</string>
+    <string name="dark_mode">Modo Escuro</string>
+    <string name="sound">Som Ativado</string>
+    <string name="sound_subtext">Ativar efeitos sonoros</string>
+    <string name="notification">Notificação</string>
+    <string name="notification_subtext">Lembre-se de mim para praticar.</string>
+    <string name="terms_conditions">Termos e Condições</string>
+    <string name="premium">Premium</string>
+    <string name="premium_subtext">Remova anúncios e desbloqueie funcionalidades.</string>
+    <string name="restore_premium_action">Restaurar Premium</string>
+    <string name="privacy_policy">Política de Privacidade</string>
+    <string name="version">Versão %s</string>
+
+    // Purchase
+    <string name="purchase_success">Obrigado, agora você é um usuário premium!</string>
+    <string name="purchase_error">Algo deu errado! Tente mais tarde</string>
+    <string name="purchased">Comprado</string>
+    <string name="restore_restored">Produto premium restaurado. Aproveite!</string>
+    <string name="restore_not_found">Produto premium não encontrado para restaurar.</string>
+    <string name="internet_required">Internet necessária para continuar com esta ação.</string>
+
+    // Notification Messages
+    <string name="notification_title">Vamos jogar</string>
+    <string name="notification_text">Não perca a chance de melhorar suas habilidades.</string>
+
+</resources>

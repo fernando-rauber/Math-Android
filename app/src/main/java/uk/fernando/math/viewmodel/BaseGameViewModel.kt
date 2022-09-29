@@ -6,8 +6,8 @@ import uk.fernando.logger.MyLogger
 import uk.fernando.math.database.entity.HistoryEntity
 import uk.fernando.math.database.entity.PlayerEntity
 import uk.fernando.math.database.entity.QuestionEntity
-import uk.fernando.math.ext.TAG
 import uk.fernando.math.repository.GameRepository
+import uk.fernando.util.ext.TAG
 
 
 open class BaseGameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseViewModel() {

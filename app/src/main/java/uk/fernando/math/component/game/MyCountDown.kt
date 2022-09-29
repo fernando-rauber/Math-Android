@@ -14,13 +14,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import uk.fernando.util.ext.noRippleClickable
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun MyCountDown(onStart: () -> Unit) {
+fun MyCountDown(startSoundEffect: () -> Unit, onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(3) }
 
     LaunchedEffect(Unit) {
+        if (countDown == 3)
+            startSoundEffect()
+
         while (countDown >= 0) {
             delay(1.seconds)
             countDown--
@@ -36,6 +40,7 @@ fun MyCountDown(onStart: () -> Unit) {
         Box(
             Modifier
                 .fillMaxSize()
+                .noRippleClickable { }
                 .background(Color.Black.copy(0.6f))
         ) {
 

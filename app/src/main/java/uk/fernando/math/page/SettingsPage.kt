@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,46 +23,49 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
 import uk.fernando.math.component.MyBackground
 import uk.fernando.math.component.TopNavigationBar
-import uk.fernando.math.component.snackbar.CustomSnackBar
-import uk.fernando.math.ext.isNetworkAvailable
-import uk.fernando.math.theme.game_green
+import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.viewmodel.SettingsViewModel
+import uk.fernando.snackbar.CustomSnackBar
 
 @Composable
 fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
-    val isDarkMode = viewModel.prefs.isDarkMode().collectAsState(initial = false)
-    val notificationEnable = viewModel.prefs.notificationEnable().collectAsState(initial = true)
-    val isPremium = viewModel.prefs.isPremium().collectAsState(initial = false)
-
-    LaunchedEffect(Unit) {
-        viewModel.initialiseBillingHelper(context.isNetworkAvailable())
-    }
+    val prefs: PrefsStore by inject()
+    val isDarkMode = prefs.isDarkMode().collectAsState(initial = false)
+    val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
+    //val notificationEnable = prefs.notificationEnable().collectAsState(initial = true)
+    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     MyBackground {
-        CustomSnackBar(viewModel.snackBar.value) {
-
+        Box {
             Column(Modifier.fillMaxSize()) {
 
                 TopNavigationBar(title = R.string.settings_title)
 
                 Column(
                     Modifier
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 20.dp)
+                        .padding(horizontal = 16.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
 
                     CustomSettingsResourcesCard(
-                        modifier = Modifier.padding(bottom = 10.dp),
                         text = R.string.dark_mode,
                         isChecked = isDarkMode.value,
                         onCheckedChange = viewModel::updateDarkMode
+                    )
+
+                    CustomSettingsResourcesCard(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        text = R.string.sound,
+                        subText = R.string.sound_subtext,
+                        isChecked = isSoundEnable.value,
+                        onCheckedChange = viewModel::updateSound
                     )
 
 //                CustomSettingsResourcesCard(
@@ -87,12 +89,12 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                         subText = R.string.premium_subtext,
                         isPremium = isPremium.value,
                     ) {
-                        viewModel.requestPayment(context as MainActivity, context.isNetworkAvailable())
+                        viewModel.requestPayment(context as MainActivity)
                     }
 
                     CustomSettingsResourcesCard(
                         modifier = Modifier.padding(vertical = 10.dp),
-                        modifierRow = Modifier.clickable { viewModel.restorePremium(context.isNetworkAvailable()) },
+                        modifierRow = Modifier.clickable { viewModel.restorePremium() },
                         text = R.string.restore_premium_action,
                         isChecked = false,
                         onCheckedChange = {},
@@ -137,8 +139,17 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
                     )
                 }
             }
+
+            SnackBarDisplay(viewModel)
         }
     }
+}
+
+
+@Composable
+private fun BoxScope.SnackBarDisplay(viewModel: SettingsViewModel) {
+    val snackBar = viewModel.snackBar.collectAsState()
+    CustomSnackBar(snackBarSealed = snackBar.value)
 }
 
 @Composable
@@ -155,6 +166,7 @@ private fun CustomSettingsResourcesCard(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(50),
+        tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
         Row(
@@ -204,7 +216,7 @@ private fun CustomSettingsResourcesCard(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_forward),
                     contentDescription = null,
-                    tint = game_green
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
         }
@@ -221,6 +233,7 @@ private fun CustomSettingsPremiumCard(
 ) {
     Surface(
         shape = RoundedCornerShape(50),
+        tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
         Row(
@@ -248,7 +261,11 @@ private fun CustomSettingsPremiumCard(
                         modifier = Modifier.padding(end = 5.dp)
                     )
 
-                    Image(painter = painterResource(id = R.drawable.ic_crown), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_crown),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
                 }
 
                 subText?.let {

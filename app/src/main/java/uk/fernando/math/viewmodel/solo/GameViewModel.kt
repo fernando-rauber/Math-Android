@@ -3,9 +3,9 @@ package uk.fernando.math.viewmodel.solo
 import android.os.CountDownTimer
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
-import uk.fernando.math.ext.TAG
 import uk.fernando.math.repository.GameRepository
 import uk.fernando.math.viewmodel.BaseGameViewModel
+import uk.fernando.util.ext.TAG
 
 
 class GameViewModel(private val rep: GameRepository, private val logger: MyLogger) : BaseGameViewModel(rep, logger) {
