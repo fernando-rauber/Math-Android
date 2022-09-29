@@ -36,8 +36,8 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.NOTIFICATION] ?: true }
     }
 
-    override fun soundEnable(): Flow<Boolean> {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.SOUND] ?: false }
+    override fun isSoundEnabled(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.SOUND] ?: true }
     }
 
     override suspend fun storeVersion(value: Int) {

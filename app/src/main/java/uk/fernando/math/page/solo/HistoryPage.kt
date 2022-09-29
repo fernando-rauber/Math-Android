@@ -28,9 +28,9 @@ import uk.fernando.math.component.history.MyLoadingHistory
 import uk.fernando.math.component.history.NewGameButton
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.database.entity.firstPlayer
-import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.HistoryViewModel
+import uk.fernando.util.ext.safeNav
 
 @Composable
 fun HistoryPage(

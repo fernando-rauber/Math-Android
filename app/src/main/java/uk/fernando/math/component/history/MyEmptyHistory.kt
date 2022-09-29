@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
-import uk.fernando.math.component.MyButton
+import uk.fernando.util.component.MyButton
 
 @Composable
 fun MyEmptyHistory(modifier: Modifier, @StringRes message: Int, onClick: () -> Unit) {

@@ -9,7 +9,7 @@ interface PrefsStore {
     fun allowDecimals(): Flow<Boolean>
     fun isPremium(): Flow<Boolean>
     fun notificationEnable(): Flow<Boolean>
-    fun soundEnable(): Flow<Boolean>
+    fun isSoundEnabled(): Flow<Boolean>
 
     suspend fun storeVersion(value: Int)
     suspend fun storeDarkMode(value: Boolean)

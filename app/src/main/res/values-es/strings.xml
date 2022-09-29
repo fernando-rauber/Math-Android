@@ -50,8 +50,8 @@
     // Settings
     <string name="settings_title">Ajustes</string>
     <string name="dark_mode">Modo Oscuro</string>
-    <string name="sound">Desactivar Sonido</string>
-    <string name="sound_subtext">Silenciar efeitos sonoros</string>
+    <string name="sound">Sonido Habilitado</string>
+    <string name="sound_subtext">Habilitar efectos de sonido</string>
     <string name="premium">Premium</string>
     <string name="premium_subtext">Eliminar anuncios y desbloquear funciones.</string>
     <string name="restore_premium_action">Restaurar Premium</string>

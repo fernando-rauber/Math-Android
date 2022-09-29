@@ -16,7 +16,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
-import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
@@ -25,6 +24,7 @@ import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.game_orange
 import uk.fernando.math.theme.game_purple
 import uk.fernando.math.theme.game_red
+import uk.fernando.util.component.MyButton
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

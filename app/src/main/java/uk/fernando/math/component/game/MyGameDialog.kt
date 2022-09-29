@@ -17,9 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
-import uk.fernando.math.component.MyButton
-import uk.fernando.math.component.MyDialog
 import uk.fernando.math.theme.red
+import uk.fernando.util.component.MyButton
+import uk.fernando.util.component.MyDialog
 
 @Composable
 fun MyGameDialog(
@@ -36,7 +36,9 @@ fun MyGameDialog(
         ) {
 
             Icon(
-                modifier = Modifier.padding(vertical = 30.dp).fillMaxWidth(0.6f),
+                modifier = Modifier
+                    .padding(vertical = 30.dp)
+                    .fillMaxWidth(0.6f),
                 painter = painterResource(id = image),
                 contentDescription = null,
                 tint = Color.Unspecified

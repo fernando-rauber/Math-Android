@@ -4,20 +4,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
@@ -31,6 +32,8 @@ import uk.fernando.math.ext.toFalseTrue
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
+import uk.fernando.util.component.MyIconButton
+import uk.fernando.util.component.UpdateStatusBar
 
 @Composable
 fun SummaryPage(
@@ -38,10 +41,10 @@ fun SummaryPage(
     historyID: Int,
     viewModel: SummaryViewModel = getViewModel()
 ) {
-    val systemUiController = rememberSystemUiController()
+
+    UpdateStatusBar(color = game_green)
 
     LaunchedEffect(Unit) {
-        systemUiController.setStatusBarColor(color = game_green)
         viewModel.getHistory(historyID)
     }
 
@@ -51,13 +54,11 @@ fun SummaryPage(
 
             TopNavigationBar(title = R.string.summary_title,
                 rightIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_close),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+                    MyIconButton(
+                        icon = R.drawable.ic_close,
+                        onClick = { navController.popBackStack() },
+                        tint = Color.White
+                    )
                 })
 
             Surface(

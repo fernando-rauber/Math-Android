@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.fernando.math.R
-import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
+import uk.fernando.util.ext.safeNav
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {

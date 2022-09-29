@@ -20,7 +20,6 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
 import uk.fernando.math.R
 import uk.fernando.math.component.MyBackground
-import uk.fernando.math.component.MyButton
 import uk.fernando.math.component.MyTextField
 import uk.fernando.math.component.TopNavigationBar
 import uk.fernando.math.component.creation.MyDifficulty
@@ -28,9 +27,10 @@ import uk.fernando.math.component.creation.MyMathOperatorOptions
 import uk.fernando.math.component.creation.MyQuestionQuantity
 import uk.fernando.math.datastore.GamePrefsStore
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.safeNav
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
+import uk.fernando.util.component.MyButton
+import uk.fernando.util.ext.safeNav
 
 @Composable
 fun MultiplayerCreateGamePage(

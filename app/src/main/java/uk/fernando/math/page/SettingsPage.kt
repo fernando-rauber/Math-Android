@@ -38,7 +38,7 @@ fun SettingsPage(viewModel: SettingsViewModel = getViewModel()) {
     val context = LocalContext.current
     val prefs: PrefsStore by inject()
     val isDarkMode = prefs.isDarkMode().collectAsState(initial = false)
-    val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
+    val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
     //val notificationEnable = prefs.notificationEnable().collectAsState(initial = true)
     val isPremium = prefs.isPremium().collectAsState(initial = false)
 

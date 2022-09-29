@@ -3,8 +3,6 @@ package uk.fernando.math.page.multiplayer
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -14,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,18 +25,19 @@ import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
-import uk.fernando.math.component.MyAnimation
 import uk.fernando.math.component.game.MyCountDown
 import uk.fernando.math.component.game.MyDialogResult
 import uk.fernando.math.component.game.MyGameDialog
 import uk.fernando.math.component.game.MyQuestionDisplay
 import uk.fernando.math.datastore.PrefsStore
-import uk.fernando.math.ext.noRippleClickable
-import uk.fernando.math.ext.playAudio
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.theme.game_orange
 import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
+import uk.fernando.util.component.MyAnimatedVisibility
+import uk.fernando.util.component.MyIconButton
+import uk.fernando.util.ext.noRippleClickable
+import uk.fernando.util.ext.playAudio
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -53,7 +51,7 @@ fun MultiplayerGamePage(
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
     val prefs: PrefsStore by inject()
-    val isSoundEnable = prefs.soundEnable().collectAsState(initial = false)
+    val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
 
     LaunchedEffect(Unit) {
         soundCountDown.playAudio(isSoundEnable.value)
@@ -126,7 +124,7 @@ fun MultiplayerGamePage(
 
 @Composable
 private fun PauseResumeGame(viewModel: MultiplayerGameViewModel, onExitGame: () -> Unit) {
-    MyAnimation(viewModel.isGamePaused.value) {
+    MyAnimatedVisibility(viewModel.isGamePaused.value) {
         MyGameDialog(
             image = R.drawable.ic_coffee_break,
             message = R.string.resume_message,
@@ -168,14 +166,14 @@ private fun Player1Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
             }
         }
 
-        MyAnimation(viewModel.player2Waiting.value) {
+        MyAnimatedVisibility(viewModel.player2Waiting.value) {
             QuestionCountDown {
                 viewModel.registerAnswerPlayer1(null)
             }
         }
 
         // Block screen until other player choose their answer
-        MyAnimation(viewModel.player1Waiting.value) { AwaitingPlayer() }
+        MyAnimatedVisibility(viewModel.player1Waiting.value) { AwaitingPlayer() }
 
     }
 }
@@ -210,14 +208,14 @@ private fun Player2Screen(viewModel: MultiplayerGameViewModel, playSound: (Boole
             }
         }
 
-        MyAnimation(viewModel.player1Waiting.value) {
+        MyAnimatedVisibility(viewModel.player1Waiting.value) {
             QuestionCountDown {
                 viewModel.registerAnswerPlayer2(null)
             }
         }
 
         // Block screen until other player choose their answer
-        MyAnimation(viewModel.player2Waiting.value) { AwaitingPlayer() }
+        MyAnimatedVisibility(viewModel.player2Waiting.value) { AwaitingPlayer() }
     }
 }
 
@@ -239,14 +237,11 @@ private fun Settings(viewModel: MultiplayerGameViewModel) {
             color = Color.White
         )
 
-
-        IconButton(onClick = { viewModel.pauseUnpauseGame() }) {
-            Icon(
-                painterResource(id = R.drawable.ic_pause),
-                contentDescription = null,
-                tint = Color.White
-            )
-        }
+        MyIconButton(
+            icon = R.drawable.ic_pause,
+            onClick = { viewModel.pauseUnpauseGame() },
+            tint = Color.White
+        )
 
         Text(
             modifier = Modifier.rotate(180f),
