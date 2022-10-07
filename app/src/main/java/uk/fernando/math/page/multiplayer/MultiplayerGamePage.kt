@@ -36,7 +36,7 @@ import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
 import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.ext.noRippleClickable
+import uk.fernando.util.ext.clickableSingle
 import uk.fernando.util.ext.playAudio
 import kotlin.time.Duration.Companion.seconds
 
@@ -292,7 +292,7 @@ private fun AwaitingPlayer() {
         Modifier
             .fillMaxSize()
             .background(Color.Black.copy(0.7f))
-            .noRippleClickable { }) {
+            .clickableSingle(enabled = false) { }) {
 
         Text(
             text = stringResource(id = R.string.waiting_player),

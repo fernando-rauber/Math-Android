@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import uk.fernando.util.ext.noRippleClickable
+import uk.fernando.util.ext.clickableSingle
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -40,7 +40,7 @@ fun MyCountDown(startSoundEffect: () -> Unit, onStart: () -> Unit) {
         Box(
             Modifier
                 .fillMaxSize()
-                .noRippleClickable { }
+                .clickableSingle(enabled = false) { }
                 .background(Color.Black.copy(0.6f))
         ) {
 

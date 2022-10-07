@@ -26,7 +26,6 @@ import org.koin.androidx.compose.inject
 import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.activity.MainActivity
-import uk.fernando.math.component.OnLifecycleEvent
 import uk.fernando.math.component.game.MyCountDown
 import uk.fernando.math.component.game.MyDialogResult
 import uk.fernando.math.component.game.MyGameDialog
@@ -37,6 +36,7 @@ import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.GameViewModel
 import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.component.MyIconButton
+import uk.fernando.util.event.OnLifecycleEvent
 import uk.fernando.util.ext.playAudio
 
 @Composable
