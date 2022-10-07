@@ -24,6 +24,7 @@ import uk.fernando.math.component.creation.MyQuestionQuantity
 import uk.fernando.math.datastore.GamePrefsStore
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
+import uk.fernando.math.theme.orange
 import uk.fernando.math.viewmodel.solo.CreateGameViewModel
 import uk.fernando.util.component.MyButton
 import uk.fernando.util.ext.safeNav
@@ -144,6 +145,8 @@ private fun BoxScope.CreateGameButton(viewModel: CreateGameViewModel, onClick: (
         text = stringResource(id = R.string.start_action),
         isLoading = viewModel.loading.value,
         enabled = viewModel.isGameValid.value,
+        color = orange,
+        shape = ButtonDefaults.shape,
         onClick = onClick
     )
 }

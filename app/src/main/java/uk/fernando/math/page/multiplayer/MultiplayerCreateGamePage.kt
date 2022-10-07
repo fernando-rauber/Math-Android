@@ -4,10 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +25,7 @@ import uk.fernando.math.component.creation.MyQuestionQuantity
 import uk.fernando.math.datastore.GamePrefsStore
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
+import uk.fernando.math.theme.orange
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
 import uk.fernando.util.component.MyButton
 import uk.fernando.util.ext.safeNav
@@ -152,6 +150,8 @@ private fun BoxScope.CreateGameButton(viewModel: MultiplayerCreateGameViewModel,
         text = stringResource(id = R.string.start_action),
         isLoading = viewModel.loading.value,
         enabled = viewModel.isGameValid.value,
+        color = orange,
+        shape = ButtonDefaults.shape,
         onClick = onClick
     )
 }

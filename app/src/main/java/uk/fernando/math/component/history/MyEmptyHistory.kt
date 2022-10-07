@@ -2,6 +2,7 @@ package uk.fernando.math.component.history
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
+import uk.fernando.math.theme.orange
 import uk.fernando.util.component.MyButton
 
 @Composable
@@ -33,6 +35,8 @@ fun MyEmptyHistory(modifier: Modifier, @StringRes message: Int, onClick: () -> U
                     .padding(16.dp)
                     .defaultMinSize(minHeight = 50.dp),
                 onClick = onClick,
+                color = orange,
+                shape = ButtonDefaults.shape,
                 text = stringResource(R.string.start_new_game_action)
             )
         }

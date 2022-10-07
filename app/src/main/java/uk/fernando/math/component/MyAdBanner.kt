@@ -1,5 +1,6 @@
 package uk.fernando.math.component
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,14 +12,14 @@ import uk.fernando.advertising.component.AdBanner
 import uk.fernando.math.datastore.PrefsStore
 
 @Composable
-fun MyAdBanner(modifier: Modifier, unitId: Int) {
+fun MyAdBanner(modifier: Modifier, @StringRes unitId: Int) {
     val dataStore: PrefsStore by inject()
 
     val isPremium = dataStore.isPremium().collectAsState(true)
 
     if (!isPremium.value)
         AdBanner(
-            unitId = stringResource(unitId),
+            unitId = unitId,
             modifier = modifier.padding(bottom = 8.dp)
         )
 }

@@ -20,10 +20,7 @@ import uk.fernando.math.component.MyTextField
 import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
-import uk.fernando.math.theme.game_green
-import uk.fernando.math.theme.game_orange
-import uk.fernando.math.theme.game_purple
-import uk.fernando.math.theme.game_red
+import uk.fernando.math.theme.*
 import uk.fernando.util.component.MyButton
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -147,6 +144,8 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
 
                 textField = ""
             },
+            shape = ButtonDefaults.shape,
+            color = orange,
             text = stringResource(R.string.check_action)
         )
     }
