@@ -16,44 +16,44 @@ class QuestionGenerator {
     private var quantity = 10
 
     private val squareRootList by lazy {
-        listOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
+        listOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625)
     }
 
     private val minPlusMinus by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 1
-            MEDIUM -> 200
-            else -> 1001
+            MEDIUM -> 50
+            else -> 200
         }
     }
     private val maxPlusMinus by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 50
-            MEDIUM -> 999
-            else -> 9999
+            MEDIUM -> 200
+            else -> 500
         }
     }
 
     private val minDivTimes by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 1
-            MEDIUM -> 23
-            else -> 60
+            MEDIUM -> 10
+            else -> 25
         }
     }
     private val maxDivTimes by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> 10
-            MEDIUM -> 70
-            else -> 200
+            MEDIUM -> 25
+            else -> 50
         }
     }
 
     private val difficultSquareRootList by lazy {
         when (Difficulty.getByValue(difficulty)) {
             EASY -> squareRootList.take(quantity + 5)
-            MEDIUM -> squareRootList.take(40)
-            else -> squareRootList.takeLast(quantity + 20)
+            MEDIUM -> squareRootList.take(35)
+            else -> squareRootList.takeLast(quantity + 5)
         }.shuffled().toMutableList()
     }
 

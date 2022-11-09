@@ -131,11 +131,11 @@ private fun PlayerName(playerName: String, @StringRes label: Int, onValueChange:
             modifier = Modifier.fillMaxWidth(),
             value = player,
             onValueChange = {
-                if (player.count() < 20) {
+                if (it.length <= 20) {
                     onValueChange(it)
                     player = it
                 }
-            },
+            }
         )
     }
 }
