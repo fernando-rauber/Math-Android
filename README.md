@@ -22,6 +22,7 @@
   <li>Firebase Crashlytics</li>
   <li>Datastore</li>
   <li>Room</li>
+  <li>Material 3</li>
   <li>Pager</li>
   <li>Jetpack Navigation</li>
   <li>Koin</li>
