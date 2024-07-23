@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,8 +32,8 @@ import uk.fernando.math.ext.toFalseTrue
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.solo.SummaryViewModel
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.component.UpdateStatusBar
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.component.UpdateStatusBar
 
 @Composable
 fun SummaryPage(
@@ -74,7 +74,7 @@ fun SummaryPage(
 
                         HistoryCard(history = history.history, player = history.firstPlayer())
 
-                        Divider(Modifier.padding(vertical = 5.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 5.dp))
 
                         Text(
                             modifier = Modifier

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -141,7 +142,7 @@ fun HistoryCard(modifier: Modifier = Modifier, history: HistoryEntity, player: P
                 }
             }
 
-            Divider(Modifier.padding(end = 5.dp))
+            HorizontalDivider(Modifier.padding(end = 5.dp))
 
             Row(
                 modifier = Modifier

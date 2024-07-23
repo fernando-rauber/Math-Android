@@ -26,8 +26,8 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.theme.orange
 import uk.fernando.math.viewmodel.solo.CreateGameViewModel
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun CreateGamePage(
@@ -73,19 +73,19 @@ fun CreateGamePage(
                             viewModel.setMathOptions(it)
                         }
 
-                        Divider(Modifier.padding(vertical = 16.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 16.dp))
 
                         MyQuestionQuantity(quantity.value) { quantity ->
                             viewModel.setQuantity(quantity)
                         }
 
-                        Divider(Modifier.padding(vertical = 16.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 16.dp))
 
                         AnswerType(isMultipleChoice.value) { multipleChoice ->
                             viewModel.setTypeAnswer(multipleChoice)
                         }
 
-                        Divider(Modifier.padding(vertical = 16.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 16.dp))
 
                         MyDifficulty(difficulty.value) { difficult ->
                             viewModel.setDifficulty(difficult)
@@ -109,7 +109,11 @@ fun CreateGamePage(
 
 @Composable
 private fun AnswerType(isMultipleChoice: Boolean, onChecked: (Boolean) -> Unit) {
-    var checked by mutableStateOf(isMultipleChoice)
+    var checked by remember { mutableStateOf(isMultipleChoice) }
+
+    LaunchedEffect(isMultipleChoice) {
+        checked = isMultipleChoice
+    }
 
     Column {
 

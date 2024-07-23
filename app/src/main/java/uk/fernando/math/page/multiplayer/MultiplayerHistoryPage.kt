@@ -3,6 +3,7 @@ package uk.fernando.math.page.multiplayer
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -15,7 +16,6 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.math.R
@@ -29,7 +29,7 @@ import uk.fernando.math.component.history.NewGameButton
 import uk.fernando.math.database.entity.HistoryWithPLayers
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerHistoryViewModel
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun MultiplayerHistoryPage(
@@ -84,8 +84,7 @@ private fun HistoryList(modifier: Modifier, historyList: LazyPagingItems<History
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
         modifier = modifier
     ) {
-
-        items(historyList) { history ->
+        items(historyList.itemSnapshotList) { history ->
             history?.let {
                 HistoryCardCustom(history) {
                     onItemClick("${history.history.id}")

@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "uk.fernando.math"
         minSdk 25
-        targetSdk 33
-        versionCode 8
-        versionName "1.4"
+        targetSdk 34
+        versionCode 9
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -21,12 +21,12 @@ android {
         }
     }
 
-    kotlin.sourceSets.all {
+    kotlin.sourceSets.configureEach {
         languageSettings.optIn("kotlin.RequiresOptIn")
     }
 
     buildTypes {
-        all {
+        configureEach {
             buildConfigField "String", "BILLING_PUBLIC_KEY", '""'
         }
 
@@ -51,13 +51,14 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        compose true
+        compose = true
+        buildConfig = true
     }
     testOptions {
         unitTests.returnDefaultValues = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.14'
     }
     packagingOptions {
         resources {
@@ -68,36 +69,36 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.fernando-rauber.mylibrary:advertising:1.4.5'
-    implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.4'
-    implementation 'com.github.fernando-rauber.mylibrary:billing:1.4.3'
-    implementation 'com.github.fernando-rauber.mylibrary:snackbar:1.4.3'
-    implementation 'com.github.fernando-rauber.mylibrary:util:1.4.4'
+    implementation 'com.github.fernando-rauber:advertising:1.5.6'
+    implementation 'com.github.fernando-rauber:logger:1.5.6'
+    implementation 'com.github.fernando-rauber:billing:1.5.6'
+    implementation 'com.github.fernando-rauber:snackbar:1.5.6'
+    implementation 'com.github.fernando-rauber:uikit:1.5.6'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.5'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:19.0.3'
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation "com.android.billingclient:billing-ktx:5.1.0"
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation "com.android.billingclient:billing-ktx:7.0.0"
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
 
     // Data Store
-    implementation "androidx.datastore:datastore:1.0.0"
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.datastore:datastore:1.1.1"
+    implementation "androidx.datastore:datastore-preferences:1.1.1"
 
     // Compose
-    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation platform('androidx.compose:compose-bom:2024.06.00')
     implementation "androidx.compose.ui:ui"
     implementation 'androidx.compose.material3:material3'
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.ui:ui-tooling"
+    implementation "androidx.compose.animation:animation"
 
     // Navigation
-    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
-    implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation "androidx.navigation:navigation-compose:2.5.3"
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.24.13-rc"
+    implementation "androidx.paging:paging-compose:3.3.0"
+    implementation 'androidx.activity:activity-compose:1.9.0'
+    implementation "androidx.navigation:navigation-compose:2.7.7"
 
     // Koin
     implementation "io.insert-koin:koin-core:3.2.0"
@@ -105,19 +106,18 @@ dependencies {
     implementation "io.insert-koin:koin-androidx-compose:3.2.0"
 
     // Database
-    implementation 'androidx.room:room-runtime:2.5.0'
-    implementation 'androidx.room:room-ktx:2.5.0'
-    implementation 'androidx.room:room-paging:2.5.0'
-    kapt 'androidx.room:room-compiler:2.5.0'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    implementation 'androidx.room:room-paging:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.insert-koin:koin-test:3.2.0"
     testImplementation "io.insert-koin:koin-test-junit4:3.2.0"
     testImplementation "io.mockk:mockk:1.10.2"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
-    testImplementation "androidx.test.ext:truth:1.5.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
-
+    testImplementation "androidx.test.ext:truth:1.6.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

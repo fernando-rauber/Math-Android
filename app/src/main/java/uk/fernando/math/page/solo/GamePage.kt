@@ -34,10 +34,10 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.ext.timerFormat
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.viewmodel.solo.GameViewModel
-import uk.fernando.util.component.MyAnimatedVisibility
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.event.OnLifecycleEvent
-import uk.fernando.util.ext.playAudio
+import uk.fernando.uikit.component.MyAnimatedVisibility
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.event.OnLifecycleEvent
+import uk.fernando.uikit.ext.playAudio
 
 @Composable
 fun GamePage(

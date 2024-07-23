@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.fernando.math.R
 import uk.fernando.math.theme.red
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.component.MyDialog
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.component.MyDialog
 
 @Composable
 fun MyGameDialog(

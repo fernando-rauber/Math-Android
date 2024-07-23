@@ -3,18 +3,16 @@ package uk.fernando.math.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.inject
 import uk.fernando.math.component.BottomNavigationBar
 import uk.fernando.math.datastore.PrefsStore
@@ -24,9 +22,8 @@ import uk.fernando.math.theme.MyMathTheme
 import uk.fernando.math.theme.dark
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.theme.whiteBackGround
-import uk.fernando.util.component.UpdateStatusBar
+import uk.fernando.uikit.component.UpdateStatusBar
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +32,7 @@ class MainActivity : ComponentActivity() {
 //        MediationTestSuite.launch(this)
 
         setContent {
-            val controller = rememberAnimatedNavController()
+            val controller = rememberNavController()
             val navBackStackEntry by controller.currentBackStackEntryAsState()
 
             val dataStore: PrefsStore by inject()
@@ -62,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
 
                     Box(modifier = Modifier.padding(padding)) {
-                        AnimatedNavHost(
+                      NavHost(
                             navController = controller,
                             startDestination = Directions.splash.name
                         ) {

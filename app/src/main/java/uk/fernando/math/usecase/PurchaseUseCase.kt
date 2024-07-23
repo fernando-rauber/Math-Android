@@ -16,8 +16,8 @@ import uk.fernando.math.BuildConfig
 import uk.fernando.math.R
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.util.Resource
-import uk.fernando.util.ext.TAG
-import uk.fernando.util.ext.isNetworkAvailable
+import uk.fernando.uikit.ext.TAG
+import uk.fernando.uikit.ext.isNetworkAvailable
 
 const val PREMIUM_PRODUCT = "fun_math_premium"
 

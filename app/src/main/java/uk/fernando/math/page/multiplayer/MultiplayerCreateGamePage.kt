@@ -27,8 +27,8 @@ import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.navigation.Directions
 import uk.fernando.math.theme.orange
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerCreateGameViewModel
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun MultiplayerCreateGamePage(
@@ -79,19 +79,19 @@ fun MultiplayerCreateGamePage(
                             onValueChange = viewModel::setPlayer2
                         )
 
-                        Divider(Modifier.padding(vertical = 10.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
                         MyMathOperatorOptions(operators.value, isPremiumUser.value) {
                             viewModel.setMathOptions(it)
                         }
 
-                        Divider(Modifier.padding(vertical = 10.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
                         MyQuestionQuantity(quantity.value) { quantity ->
                             viewModel.setQuantity(quantity)
                         }
 
-                        Divider(Modifier.padding(vertical = 10.dp))
+                        HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
                         MyDifficulty(difficulty.value) { difficult ->
                             viewModel.setDifficulty(difficult)

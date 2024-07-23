@@ -1,11 +1,23 @@
 package uk.fernando.math.component.creation
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import uk.fernando.math.R
 import uk.fernando.math.theme.game_green
+import uk.fernando.uikit.ext.clickableSingle
 
 @Composable
 fun MyMathOperatorOptions(operator: List<Int>, isPremium: Boolean, onItemSelected: (Int) -> Unit) {
@@ -39,7 +52,7 @@ fun MyMathOperatorOptions(operator: List<Int>, isPremium: Boolean, onItemSelecte
 
         Row(
             modifier = Modifier
-                .padding(bottom = 10.dp)
+                .padding(vertical = 10.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -52,34 +65,44 @@ fun MyMathOperatorOptions(operator: List<Int>, isPremium: Boolean, onItemSelecte
 }
 
 @Composable
-private fun MathOperatorIcon(@DrawableRes icon: Int, hasPremium: Boolean = true, isChecked: Boolean = true, onChecked: () -> Unit) {
-    var checked by mutableStateOf(isChecked)
+private fun MathOperatorIcon(
+    @DrawableRes icon: Int,
+    hasPremium: Boolean = true,
+    isChecked: Boolean = true,
+    onChecked: () -> Unit
+) {
+    var checked by remember { mutableStateOf(isChecked) }
 
-    IconToggleButton(
-        checked = checked,
-        onCheckedChange = {
-            if (hasPremium) {
-                onChecked()
-                checked = it
-            }
-        }) {
-        Box {
+    LaunchedEffect(isChecked) {
+        checked = isChecked
+    }
+
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clickableSingle {
+                if (hasPremium) {
+                    onChecked()
+                    checked = !checked
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(id = icon),
+            tint = if (checked) game_green else LocalContentColor.current,
+            contentDescription = null
+        )
+
+        if (!hasPremium)
             Icon(
-                painterResource(id = icon),
-                tint = if (checked) game_green else LocalContentColor.current,
-                contentDescription = null
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .rotate(45f)
+                    .offset(y = (-20).dp),
+                painter = painterResource(id = R.drawable.ic_crown),
+                contentDescription = null,
+                tint = Color.Unspecified
             )
-
-            if (!hasPremium)
-                Icon(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .rotate(45f)
-                        .offset(y = (-20).dp),
-                    painter = painterResource(id = R.drawable.ic_crown),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-        }
     }
 }

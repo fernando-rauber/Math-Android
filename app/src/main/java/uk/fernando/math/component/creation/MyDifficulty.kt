@@ -14,7 +14,11 @@ import uk.fernando.math.R
 
 @Composable
 fun MyDifficulty(oldDifficulty: Int, onSelected: (Int) -> Unit) {
-    var difficulty by mutableStateOf(oldDifficulty.toFloat())
+    var difficulty by remember { mutableFloatStateOf(oldDifficulty.toFloat()) }
+
+    LaunchedEffect(oldDifficulty) {
+        difficulty = oldDifficulty.toFloat()
+    }
 
     Column {
         Text(

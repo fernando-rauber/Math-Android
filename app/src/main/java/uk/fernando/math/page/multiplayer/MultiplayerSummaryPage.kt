@@ -3,7 +3,7 @@ package uk.fernando.math.page.multiplayer
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,8 +27,8 @@ import uk.fernando.math.database.entity.firstPlayer
 import uk.fernando.math.page.solo.MathCard
 import uk.fernando.math.theme.game_green
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerSummaryViewModel
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.component.UpdateStatusBar
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.component.UpdateStatusBar
 
 @Composable
 fun MultiplayerSummaryPage(
@@ -68,7 +68,7 @@ fun MultiplayerSummaryPage(
 
                         MultiplayerHistoryCard(history = history)
 
-                        Divider(Modifier.padding(bottom = 5.dp))
+                        HorizontalDivider(Modifier.padding(bottom = 5.dp))
 
                         Text(
                             modifier = Modifier

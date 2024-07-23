@@ -34,10 +34,10 @@ import uk.fernando.math.navigation.Directions
 import uk.fernando.math.theme.game_orange
 import uk.fernando.math.theme.red
 import uk.fernando.math.viewmodel.multiplayer.MultiplayerGameViewModel
-import uk.fernando.util.component.MyAnimatedVisibility
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.ext.clickableSingle
-import uk.fernando.util.ext.playAudio
+import uk.fernando.uikit.component.MyAnimatedVisibility
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.ext.clickableSingle
+import uk.fernando.uikit.ext.playAudio
 import kotlin.time.Duration.Companion.seconds
 
 @Composable

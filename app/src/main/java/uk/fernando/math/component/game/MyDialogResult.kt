@@ -10,8 +10,8 @@ import uk.fernando.advertising.AdInterstitial
 import uk.fernando.math.R
 import uk.fernando.math.datastore.PrefsStore
 import uk.fernando.math.viewmodel.BaseGameViewModel
-import uk.fernando.util.component.MyAnimatedVisibility
-import uk.fernando.util.ext.playAudio
+import uk.fernando.uikit.component.MyAnimatedVisibility
+import uk.fernando.uikit.ext.playAudio
 
 @Composable
 fun MyDialogResult(

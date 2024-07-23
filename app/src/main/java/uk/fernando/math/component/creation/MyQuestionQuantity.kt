@@ -13,7 +13,11 @@ import uk.fernando.math.R
 
 @Composable
 fun MyQuestionQuantity(oldQuantity: Int, onSelected: (Int) -> Unit) {
-    var quantity by mutableStateOf(oldQuantity.toFloat())
+    var quantity by remember { mutableFloatStateOf(oldQuantity.toFloat()) }
+
+    LaunchedEffect(oldQuantity) {
+        quantity = oldQuantity.toFloat()
+    }
 
     Column {
         Text(

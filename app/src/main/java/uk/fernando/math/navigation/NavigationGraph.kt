@@ -1,12 +1,11 @@
 package uk.fernando.math.navigation
 
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 import uk.fernando.math.navigation.Directions.HISTORY_ID
 import uk.fernando.math.page.SettingsPage
 import uk.fernando.math.page.SplashPage
@@ -17,7 +16,6 @@ import uk.fernando.math.page.multiplayer.MultiplayerHistoryPage
 import uk.fernando.math.page.multiplayer.MultiplayerSummaryPage
 
 
-@ExperimentalAnimationApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.name) {
         SplashPage(navController)
@@ -33,14 +31,14 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         leftDirection = Directions.history.name,
         direction = Directions.multiplayerHistory.name,
         rightDirection = Directions.settings.name,
-        content = {  MultiplayerHistoryPage(navController) }
+        content = { MultiplayerHistoryPage(navController) }
     )
 
     composableSlideAnim(
         leftDirection = Directions.multiplayerHistory.name,
         direction = Directions.settings.name,
         rightDirection = null,
-        content = {  SettingsPage() }
+        content = { SettingsPage() }
     )
 
     composable(Directions.createGame.name) {
@@ -72,23 +70,45 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
 
 }
 
-@OptIn(ExperimentalAnimationApi::class)
-private fun NavGraphBuilder.composableSlideAnim(leftDirection: String?, direction: String, rightDirection: String?, content: @Composable () -> Unit) {
-    composable(direction,
+private fun NavGraphBuilder.composableSlideAnim(
+    direction: String,
+    leftDirection: String? = null,
+    rightDirection: String? = null,
+    content: @Composable () -> Unit
+) {
+    composable(
+        direction,
         enterTransition = {
             when (initialState.destination.route) {
-                rightDirection -> slideIntoContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
-                leftDirection -> slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
+                rightDirection -> slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+
+                leftDirection -> slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+
                 else -> null
             }
         },
         exitTransition = {
             when (targetState.destination.route) {
-                rightDirection -> slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
-                leftDirection -> slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
+                rightDirection -> slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+
+                leftDirection -> slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+
                 else -> null
             }
-        }) {
+        }
+    ) {
         content()
     }
 }

@@ -14,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import uk.fernando.util.ext.clickableSingle
+import uk.fernando.uikit.ext.clickableSingle
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun MyCountDown(startSoundEffect: () -> Unit, onStart: () -> Unit) {
-    var countDown by remember { mutableStateOf(3) }
+    var countDown by remember { mutableIntStateOf(3) }
 
     LaunchedEffect(Unit) {
         if (countDown == 3)

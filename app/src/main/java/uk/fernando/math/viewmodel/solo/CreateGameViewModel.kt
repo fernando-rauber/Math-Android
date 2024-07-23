@@ -9,7 +9,7 @@ import uk.fernando.math.repository.HistoryRepository
 import uk.fernando.math.usecase.GamePrefsUseCase
 import uk.fernando.math.util.QuestionGenerator
 import uk.fernando.math.viewmodel.BaseCreateGameViewModel
-import uk.fernando.util.ext.TAG
+import uk.fernando.uikit.ext.TAG
 import java.util.*
 
 

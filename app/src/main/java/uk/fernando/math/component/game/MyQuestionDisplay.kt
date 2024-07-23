@@ -21,9 +21,8 @@ import uk.fernando.math.database.entity.QuestionEntity
 import uk.fernando.math.ext.isBooleanQuestion
 import uk.fernando.math.ext.toFalseTrue
 import uk.fernando.math.theme.*
-import uk.fernando.util.component.MyButton
+import uk.fernando.uikit.component.MyButton
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMultiplayer: Boolean = false, onClick: (Int) -> Unit) {
 
@@ -35,17 +34,17 @@ fun MyQuestionDisplay(question: QuestionEntity, multipleChoice: List<Int>?, isMu
             targetState = question,
             modifier = Modifier.weight(if (isMultiplayer) 0.6f else 0.4f),
             transitionSpec = {
-                (slideInHorizontally { height -> height } + fadeIn() with
-                        slideOutHorizontally { height -> -height } + fadeOut()).using(
+                ((slideInHorizontally { height -> height } + fadeIn()).togetherWith(slideOutHorizontally { height -> -height } + fadeOut())).using(
                     SizeTransform(clip = false)
                 )
-            }
+            },
+            label = ""
         ) { quest ->
 
             if (quest.operator.isBooleanQuestion())
                 BooleanChoice(onClick = onClick)
             else {
-                if (multipleChoice != null && multipleChoice.isNotEmpty())
+                if (!multipleChoice.isNullOrEmpty())
                     MultipleChoice(multipleChoice, onClick = onClick)
             }
         }
@@ -151,7 +150,6 @@ private fun OpenAnswer(onClick: (Int) -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RowScope.AnswerCard(answer: Int, color: Color, onClick: (Int) -> Unit, isBoolean: Boolean = false) {
 
